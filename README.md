@@ -1,6 +1,6 @@
-# Yurie/TemplateLight
+# Yurie/MathForm
 
-Light paclet template.
+This paclet improves the parser of LaTeX.
 
 ## Install
 
@@ -16,30 +16,30 @@ Install from this repository:
 
 Install manually:
 
-1. download this repository;
+1. download this repository, and move it to the paclet directory `$UserBasePacletsDirectory`;
 
-2. move it to the paclet directory:
+2. rebuild the internal paclet data:
 
     ``` wl
-    $UserBasePacletsDirectory
+    PacletDataRebuild[]
     ```
 
 ## Load
 
 ``` wl
-Needs["Yurie`TemplateLight`"]
+Needs["Yurie`MathForm`"]
 ```
 
 ## Upgrade
 
 ``` wl
-PacletInstall["Yurie/TemplateLight"]
+PacletInstall["Yurie/MathForm"]
 ```
 
 ## Uninstall
 
 ``` wl
-PacletUninstall["Yurie/TemplateLight"]
+PacletUninstall["Yurie/MathForm"]
 ```
 
 ## Documentation
