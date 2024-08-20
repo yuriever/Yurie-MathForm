@@ -1,6 +1,4 @@
-
-
-(*TeXConvert.wl*)
+(* TeXConvert.wl *)
 
 texForm::usage =
 	"postprocess the string from TeXForm by the rules in $texAssoc.";
@@ -9,7 +7,7 @@ texSetMacro::usage =
 	"set the symbol as a LaTeX macro and store the rule into $texAssoc.";
 
 
-(*TeXShow.wl*)
+(* TeXShow.wl *)
 
 texShow::usage =
 	"texForm + MaTeX.";
