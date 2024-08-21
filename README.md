@@ -5,6 +5,7 @@ This paclet improves the parser of LaTeX.
 ## Documentation
 
 <https://yuriever.github.io/symbolic/Yurie__MathForm/doc/>
+
 ## Install
 
 Install from this repository:
@@ -44,4 +45,3 @@ PacletInstall["Yurie/MathForm"]
 ``` wl
 PacletUninstall["Yurie/MathForm"]
 ```
-
