@@ -3,7 +3,7 @@
 PacletObject[
   <|
     "Name" -> "Yurie/MathForm",
-    "Description" -> "This paclet improves the parser of LaTeX",
+    "Description" -> "A Mathematica paclet for improving LaTeX conversion",
     "Creator" -> "Yurie",
     "SourceControlURL" -> "https://github.com/yuriever/Yurie-MathForm",
     "License" -> "MIT",

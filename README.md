@@ -1,6 +1,6 @@
 # Yurie/MathForm
 
-This paclet improves the parser of LaTeX.
+A Mathematica paclet for improving LaTeX conversion.
 
 ## Documentation
 
