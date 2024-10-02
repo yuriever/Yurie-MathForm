@@ -18,7 +18,7 @@ labelJoin::usage =
     "join the variable and label into a symbol.";
 
 labelSplit::usage =
-	"split the symbol into a labeled variable.";
+    "split the symbol into a labeled variable.";
 
 
 labelShiftToZero::usage =
