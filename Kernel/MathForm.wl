@@ -17,6 +17,8 @@ Get["Yurie`MathForm`TeXConvert`"];
 
 Get["Yurie`MathForm`TeXShow`"];
 
+Get["Yurie`MathForm`Label`"];
+
 
 (* ::Section:: *)
 (*End*)
