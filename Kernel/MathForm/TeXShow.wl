@@ -83,8 +83,7 @@ texCS[string_String,opts:OptionsPattern[]] :=
 
 texCS[expr_,opts:OptionsPattern[]] :=
     Module[ {tex},
-        tex =
-        	texForm[expr];
+        tex = texForm[expr];
         CopyToClipboard@tex;
         MaTeX[texForm[expr],FilterRules[{opts,Options@texCS},Options@MaTeX]]
     ];
