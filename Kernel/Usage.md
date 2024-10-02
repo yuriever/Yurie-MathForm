@@ -1,8 +1,8 @@
 <!-- Label.wl -->
 
-* `#!wl labelJoin` - {x,1}->x1.
+* `#!wl labelJoin` - join the variable and label into a symbol.
 
-* `#!wl labelSplit` - x1->f[x,1].
+* `#!wl labelSplit` - split the symbol into a labeled variable.
 
 * `#!wl labelShiftToZero` - x1->0.
 

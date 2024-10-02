@@ -1,10 +1,10 @@
 (* Label.wl *)
 
 labelJoin::usage =
-	"{x,1}->x1.";
+	"join the variable and label into a symbol.";
 
 labelSplit::usage =
-	"x1->f[x,1].";
+	"split the symbol into a labeled variable.";
 
 labelShiftToZero::usage =
 	"x1->0.";
