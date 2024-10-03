@@ -11,6 +11,9 @@ PacletObject[
     "Version" -> "2.0.0",
     "WolframVersion" -> "13+",
     "PrimaryContext" -> "Yurie`MathForm`",
+    "Dependencies" -> {
+      "MaTeX" -> ">=1.7.9"
+    },
     "Extensions" -> {
       {
         "Kernel",
@@ -25,10 +28,6 @@ PacletObject[
         "Context" -> {
           "Yurie`MathForm`Info`"
         }
-      },
-      {
-        "AutoCompletionData",
-        "Root" -> "AutoCompletionData"
       },
       {
         "Asset",
