@@ -268,7 +268,7 @@ indexRulePrototype[proto_,rule_Rule,head_Symbol] :=
     proto@indexize2[head,extractIndexFromRule[rule]];
 
 
-(*extract indecies and difference of indecies from rule.*)
+(*extract indices and difference of indices from rule.*)
 (*e.g. 1->2 returns {1,2,12}.*)
 
 extractIndexFromRule[rule_Rule] :=
@@ -281,7 +281,7 @@ padSymbolToRule[heads__] :=
     Map[#->#&,{heads}];
 
 
-(*indexize symbols with indecies.*)
+(*indexize symbols with indices.*)
 
 indexize2[head_,indexList_List] :=
     Map[ToExpression[ToString@head<>indexToString@#]&,indexList];
