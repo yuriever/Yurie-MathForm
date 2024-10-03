@@ -4,7 +4,7 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`MathForm`Label`"];
+BeginPackage["Yurie`MathForm`Index`"];
 
 
 Needs["Yurie`MathForm`"];
@@ -14,26 +14,29 @@ Needs["Yurie`MathForm`"];
 (*Public*)
 
 
-labelJoin::usage =
-    "join the variable and label into a symbol.";
+indexize::usage =
+    "join the variable and index into a symbol.";
 
-labelSplit::usage =
-    "split the symbol into a labeled variable.";
+indexJoin::usage =
+    "join indexed variables into symbols in the expression.";
+
+indexSplit::usage =
+    "split symbols into indexed variables in the expression.";
 
 
-labelShiftToZero::usage =
+indexToZero::usage =
     "x1->0.";
 
-labelShiftToEqual::usage =
+indexToEqual::usage =
     "x1->x2.";
 
-labelShiftToDiff::usage =
+indexToDiff::usage =
     "x1->x12+x2.";
 
-labelShiftToDiffZero::usage =
+indexToDiffZero::usage =
     "x1->x12,x2->0.";
 
-labelShiftToDiffBack::usage =
+indexToDiffBack::usage =
     "x12->x1-x2.";
 
 
@@ -49,97 +52,158 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
-(*labelJoin*)
+(*indexize*)
 
 
 (* ::Subsubsection:: *)
 (*Main*)
 
 
-labelJoin[{head_,labels___}] :=
-    labelJoinKernel[head,labels];
+indexize[var_,index_] :=
+    ToExpression[ToString[var]<>indexToString[index]];
 
-labelJoin[head_,labels___] :=
-    labelJoinKernel[head,labels];
+indexize[{var_,index_}] :=
+    ToExpression[ToString[var]<>indexToString[index]];
 
 
 (* ::Subsubsection:: *)
 (*Helper*)
 
 
-labelJoinKernel[head_] :=
-    head//ToString//ToExpression;
-
-labelJoinKernel[head_,label_] :=
-    StringJoin[ToString@head,labelToString@label]//ToExpression
-
-labelJoinKernel[head_,labels___] :=
-    StringJoin[ToString@head,Map[labelToString,{labels}]]//ToExpression;
-
-
-labelToString[Null] :=
+indexToString[Null] :=
     "";
 
-labelToString[label_String] :=
-    label;
+indexToString[index_String] :=
+    index;
 
-labelToString[label_Symbol] :=
-    SymbolName@label;
+indexToString[index_Symbol] :=
+    SymbolName@index;
 
-labelToString[label_Integer] :=
-    ToString@label;
+indexToString[index_Integer] :=
+    ToString@index;
 
 
 (* ::Subsection:: *)
-(*labelSplit*)
+(*indexJoin|indexSplit*)
+
+
+(* ::Subsubsection:: *)
+(*Constant*)
+
+
+indexPositionP =
+    Construct|Subscript|Superscript;
+
+indexTypeP =
+    All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|_Symbol;
 
 
 (* ::Subsubsection:: *)
 (*Option*)
 
 
-labelSplitKernel//Options = {
-    "LabelPosition"->Subscript,
-    "LabelType"->Automatic
+indexJoinKernel//Options = {
+    "IndexPosition"->Construct,
+    "IndexType"->All
 };
 
-labelSplit//Options =
-    Options@labelSplitKernel;
+indexJoin//Options =
+    Options@indexJoinKernel;
+
+
+indexSplitKernel//Options = {
+    "IndexPosition"->Construct,
+    "IndexType"->All
+};
+
+indexSplit//Options =
+    Options@indexSplitKernel;
+
+
+(* ::Subsubsection:: *)
+(*Message*)
+
+
+indexJoin::optnotmatch =
+    "the input options are not supported."
+
+indexSplit::optnotmatch =
+    "the input options are not supported."
 
 
 (* ::Subsubsection:: *)
 (*Main*)
 
 
-labelSplit[heads__Symbol,opts:OptionsPattern[]][expr_] :=
-    labelSplitKernel[{heads},FilterRules[{opts,Options@labelSplit},Options@labelSplitKernel]][expr];
+indexJoin[vars__Symbol,opts:OptionsPattern[]][expr_] :=
+    indexJoinKernel[{vars},FilterRules[{opts,Options@indexJoin},Options@indexJoinKernel]][expr];
 
-labelSplit[headList:{__Symbol},opts:OptionsPattern[]][expr_] :=
-    labelSplitKernel[headList,FilterRules[{opts,Options@labelSplit},Options@labelSplitKernel]][expr];
+indexJoin[varList:{__Symbol},opts:OptionsPattern[]][expr_] :=
+    indexJoinKernel[varList,FilterRules[{opts,Options@indexJoin},Options@indexJoinKernel]][expr];
+
+
+indexJoinKernel[varList_List,OptionsPattern[]][expr_] :=
+    Module[ {varP,formatFunction,indexQFunction},
+        If[ !MatchQ[OptionValue["IndexPosition"],indexPositionP]||
+            !MatchQ[OptionValue["IndexType"],indexTypeP],
+            Message[indexJoin::optnotmatch];
+            Throw[expr]
+        ];
+        varP = Alternatives@@varList;
+        formatFunction = OptionValue["IndexPosition"];
+        indexQFunction = OptionValue["IndexType"];
+        (*kernel*)
+        Switch[formatFunction,
+            Construct,
+                expr//ReplaceAll[
+                    var_Symbol[index_]/;MatchQ[var,varP]&&AtomQ[index]&&indexQ[indexQFunction][indexToString[index]]:>
+                        indexize[var,index]
+                ],
+            Subscript,
+                expr//ReplaceAll[
+                    Subscript[var_,index_]/;MatchQ[var,varP]&&AtomQ[index]&&indexQ[indexQFunction][indexToString[index]]:>
+                        indexize[var,index]
+                ],
+            Superscript,
+                expr//ReplaceAll[
+                    Superscript[var_,index_]/;MatchQ[var,varP]&&AtomQ[index]&&indexQ[indexQFunction][indexToString[index]]:>
+                        indexize[var,index]
+                ]
+        ]
+    ]//Catch;
+
+
+indexSplit[vars__Symbol,opts:OptionsPattern[]][expr_] :=
+    indexSplitKernel[{vars},FilterRules[{opts,Options@indexSplit},Options@indexSplitKernel]][expr];
+
+indexSplit[varList:{__Symbol},opts:OptionsPattern[]][expr_] :=
+    indexSplitKernel[varList,FilterRules[{opts,Options@indexSplit},Options@indexSplitKernel]][expr];
+
+
+indexSplitKernel[varList_List,OptionsPattern[]][expr_] :=
+    Module[ {varP,formatFunction,indexQFunction},
+        If[ !MatchQ[OptionValue["IndexPosition"],indexPositionP]||
+            !MatchQ[OptionValue["IndexType"],indexTypeP],
+            Message[indexSplit::optnotmatch];
+            Throw[expr]
+        ];
+        varP = Alternatives@@Map[ToString,varList];
+        formatFunction = OptionValue["IndexPosition"];
+        indexQFunction = OptionValue["IndexType"];
+        (*kernel*)
+        expr//ReplaceAll[
+            symbol_Symbol:>
+                symbolFromStringOrStringExpression@StringReplace[
+                    ToString@symbol,
+                    StartOfString~~Shortest[var__]~~Longest[index__]~~EndOfString/;StringMatchQ[var,varP]&&indexQ[indexQFunction][index]:>
+                        formatFunction[ToExpression@var,ToExpression@index]
+                ]
+        ]
+    ]//Catch;
 
 
 (* ::Subsubsection:: *)
 (*Helper*)
-
-
-labelSplitKernel[headList_List,OptionsPattern[]][expr_] :=
-    Module[ {headPattern,formatFunction,labelQFunction},
-        headPattern =
-            Alternatives@@Map[ToString,headList];
-        formatFunction =
-            OptionValue["LabelPosition"];
-        labelQFunction =
-            OptionValue["LabelType"];
-        ReplaceAll[
-            expr,
-            symbol_Symbol:>
-                symbolFromStringOrStringExpression@StringReplace[
-                    ToString@symbol,
-                    StartOfString~~Shortest[head__]~~Longest[rest__]~~EndOfString/;StringMatchQ[head,headPattern]&&labelQ[labelQFunction][rest]:>
-                        formatFunction[ToExpression@head,ToExpression@rest]
-                ]
-        ]
-    ];
 
 
 symbolFromStringOrStringExpression[expr_] :=
@@ -150,45 +214,45 @@ symbolFromStringOrStringExpression[expr_] :=
     ];
 
 
-labelQ[Automatic][_] :=
+indexQ[All][_] :=
     True;
 
-labelQ["PositiveInteger"][str_] :=
+indexQ["PositiveInteger"][str_] :=
     StringMatchQ[str,RegularExpression["^$|[1-9]\\d*"]];
 
-labelQ["PositiveIntegerOrSingleLetter"][str_] :=
+indexQ["PositiveIntegerOrSingleLetter"][str_] :=
     StringMatchQ[str,RegularExpression["^$|[^\\W_]|[1-9]\\d*"]];
 
-labelQ[fun_][str_] :=
+indexQ[fun_Symbol][str_] :=
     fun[str];
 
 
 (* ::Subsection:: *)
-(*labelShift*)
+(*indexTo*)
 
 
 (* ::Subsubsection:: *)
 (*Main*)
 
 
-labelShiftToZero[heads__][labels__][expr_] :=
-    expr//ReplaceAll[labelShiftRulePrototype[(#[[1]]->0)&,padSymbolToRule[labels],{heads}]];
+indexToZero[heads__][indexs__][expr_] :=
+    expr//ReplaceAll[indexRulePrototype[(#[[1]]->0)&,padSymbolToRule[indexs],{heads}]];
 
 
-labelShiftToEqual[heads__][rules__Rule][expr_] :=
-    expr//ReplaceAll[labelShiftRulePrototype[(#[[1]]->#[[2]])&,{rules},{heads}]];
+indexToEqual[heads__][rules__Rule][expr_] :=
+    expr//ReplaceAll[indexRulePrototype[(#[[1]]->#[[2]])&,{rules},{heads}]];
 
 
-labelShiftToDiff[heads__][rules__Rule][expr_] :=
-    expr//ReplaceAll[labelShiftRulePrototype[(#[[1]]->#[[2]]+#[[3]])&,{rules},{heads}]];
+indexToDiff[heads__][rules__Rule][expr_] :=
+    expr//ReplaceAll[indexRulePrototype[(#[[1]]->#[[2]]+#[[3]])&,{rules},{heads}]];
 
 
-labelShiftToDiffZero[heads__][rules__Rule][expr_] :=
-    expr//ReplaceAll[labelShiftRulePrototype[{#[[1]]->#[[3]],#[[2]]->0}&,{rules},{heads}]];
+indexToDiffZero[heads__][rules__Rule][expr_] :=
+    expr//ReplaceAll[indexRulePrototype[{#[[1]]->#[[3]],#[[2]]->0}&,{rules},{heads}]];
 
 
-labelShiftToDiffBack[heads__][rules__Rule][expr_] :=
-    expr//ReplaceAll[labelShiftRulePrototype[(#[[3]]->#[[1]]-#[[2]])&,{rules},{heads}]];
+indexToDiffBack[heads__][rules__Rule][expr_] :=
+    expr//ReplaceAll[indexRulePrototype[(#[[3]]->#[[1]]-#[[2]])&,{rules},{heads}]];
 
 
 (* ::Subsubsection:: *)
@@ -197,30 +261,30 @@ labelShiftToDiffBack[heads__][rules__Rule][expr_] :=
 
 (*get rules from prototype function.*)
 
-labelShiftRulePrototype[proto_,ruleList_List,headList_List] :=
-    Flatten@Outer[labelShiftRulePrototype[proto,#1,#2]&,ruleList,headList];
+indexRulePrototype[proto_,ruleList_List,headList_List] :=
+    Flatten@Outer[indexRulePrototype[proto,#1,#2]&,ruleList,headList];
 
-labelShiftRulePrototype[proto_,rule_Rule,head_Symbol] :=
-    proto@indexize[head,extractIndexFromRule[rule]];
+indexRulePrototype[proto_,rule_Rule,head_Symbol] :=
+    proto@indexize2[head,extractIndexFromRule[rule]];
 
 
-(*extract indices and difference of indices from rule.*)
+(*extract indecies and difference of indecies from rule.*)
 (*e.g. 1->2 returns {1,2,12}.*)
 
 extractIndexFromRule[rule_Rule] :=
     {Sequence@@rule,StringExpression@@ToString/@rule};
 
 
-(*pad symbols to identical rules, used in labelShiftToZero.*)
+(*pad symbols to identical rules, used in indexToZero.*)
 
 padSymbolToRule[heads__] :=
     Map[#->#&,{heads}];
 
 
-(*indexize symbols with labels.*)
+(*indexize symbols with indecies.*)
 
-indexize[head_,labelList_List] :=
-    Map[ToExpression[ToString@head<>labelToString@#]&,labelList];
+indexize2[head_,indexList_List] :=
+    Map[ToExpression[ToString@head<>indexToString@#]&,indexList];
 
 
 (* ::Subsection:: *)

@@ -1,18 +1,20 @@
-<!-- Label.wl -->
+<!-- Index.wl -->
 
-* `#!wl labelJoin` - join the variable and label into a symbol.
+* `#!wl indexize` - join the variable and index into a symbol.
 
-* `#!wl labelSplit` - split the symbol into a labeled variable.
+* `#!wl indexJoin` - join indexed variables into symbols in the expression.
 
-* `#!wl labelShiftToZero` - x1->0.
+* `#!wl indexSplit` - split symbols into indexed variables in the expression.
 
-* `#!wl labelShiftToEqual` - x1->x2.
+* `#!wl indexToZero` - x1->0.
 
-* `#!wl labelShiftToDiff` - x1->x12+x2.
+* `#!wl indexToEqual` - x1->x2.
 
-* `#!wl labelShiftToDiffZero` - x1->x12,x2->0.
+* `#!wl indexToDiff` - x1->x12+x2.
 
-* `#!wl labelShiftToDiffBack` - x12->x1-x2.
+* `#!wl indexToDiffZero` - x1->x12,x2->0.
+
+* `#!wl indexToDiffBack` - x12->x1-x2.
 
 
 <!-- TeXConvert.wl -->

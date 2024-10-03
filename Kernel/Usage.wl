@@ -1,24 +1,27 @@
-(* Label.wl *)
+(* Index.wl *)
 
-labelJoin::usage =
-	"join the variable and label into a symbol.";
+indexize::usage =
+	"join the variable and index into a symbol.";
 
-labelSplit::usage =
-	"split the symbol into a labeled variable.";
+indexJoin::usage =
+	"join indexed variables into symbols in the expression.";
 
-labelShiftToZero::usage =
+indexSplit::usage =
+	"split symbols into indexed variables in the expression.";
+
+indexToZero::usage =
 	"x1->0.";
 
-labelShiftToEqual::usage =
+indexToEqual::usage =
 	"x1->x2.";
 
-labelShiftToDiff::usage =
+indexToDiff::usage =
 	"x1->x12+x2.";
 
-labelShiftToDiffZero::usage =
+indexToDiffZero::usage =
 	"x1->x12,x2->0.";
 
-labelShiftToDiffBack::usage =
+indexToDiffBack::usage =
 	"x12->x1-x2.";
 
 
