@@ -4,7 +4,7 @@ A Mathematica paclet for improving LaTeX conversion.
 
 ## Documentation
 
-<https://yuriever.github.io/symbolic/Yurie__MathForm/doc/>
+<https://yuriever.github.io/symbolic/Yurie-MathForm/doc/>
 
 ## Install
 
