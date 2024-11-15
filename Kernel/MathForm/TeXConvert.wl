@@ -21,6 +21,11 @@ Needs["Yurie`MathForm`Variable`"];
 texSetMacro::usage =
     "set the symbol as LaTeX macro and store the rule into $texAssoc.";
 
+Needs["Lacia`Base`"];
+
+ClearAll[texSetMacro];
+
+
 
 (* ::Section:: *)
 (*Private*)
@@ -57,6 +62,8 @@ texSetMacro[][fun_Symbol] :=
                     "\\text{"<>funString<>"}"->"\\"<>funString
                 }
             ];
+        $texRule =
+            $texAssoc//Values//Flatten;
     ];
 
 
@@ -87,6 +94,8 @@ texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[Blank][]]] :=
                     "\\text{"<>funRight<>"}"->right
                 }
             ];
+        $texRule =
+            $texAssoc//Values//Flatten;
     ];
 
 
@@ -115,6 +124,8 @@ texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[BlankNullSeque
                     "\\text{"<>funRight<>"}"->right
                 }
             ];
+        $texRule =
+            $texAssoc//Values//Flatten;
     ];
 
 
@@ -147,6 +158,8 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
                     "\\text{"<>funDelimiter<>"}"->delimiter
                 }
             ];
+        $texRule =
+            $texAssoc//Values//Flatten;
     ];
 
 
@@ -177,6 +190,8 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
                     "\\text{"<>funDelimiter<>"}"->delimiter
                 }
             ];
+        $texRule =
+            $texAssoc//Values//Flatten;
     ];
 
 

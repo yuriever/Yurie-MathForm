@@ -74,9 +74,9 @@ texForm[expr_] :=
             If[ Head[expr]===String,
                 expr,
                 (*Else*)
-                expr//TeXForm//ToString
+                expr//TeXForm//ToString//texTrim
             ];
-        string//StringReplace[$texRule]//texTrim
+        string//StringReplace[$texRule]
     ];
 
 

@@ -59,11 +59,11 @@ Begin["`Private`"];
 (*Main*)
 
 
-$macroLeftDelimiter = "Left";
+$macroLeftDelimiter = "MFLEFT";
 
-$macroRightDelimiter = "Right";
+$macroRightDelimiter = "MFRIGHT";
 
-$macroListSeparator = "ListSep";
+$macroListSeparator = "MFLISTSEP";
 
 
 $pdfLaTeX = "/Library/TeX/texbin/pdflatex";

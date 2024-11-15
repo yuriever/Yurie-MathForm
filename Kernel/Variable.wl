@@ -41,8 +41,7 @@ Begin["`Private`"];
 $texAssoc = <||>;
 
 
-$texRule :=
-    $texAssoc//Values//Flatten;
+$texRule = {};
 
 
 (* ::Subsection:: *)
