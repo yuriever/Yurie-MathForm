@@ -1,6 +1,8 @@
 # Yurie/MathForm
 
-A Mathematica paclet for improving LaTeX conversion.
+A Mathematica paclet for improving math layout.
+
+* The LaTeX template file `Source/template` comes from [MaTeX](http://szhorvat.net/mathematica/MaTeX).
 
 ## Documentation
 
