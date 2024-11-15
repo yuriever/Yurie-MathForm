@@ -64,6 +64,10 @@ texShow//Options = {
 (*texForm*)
 
 
+(* ::Subsubsection:: *)
+(*Main*)
+
+
 texForm[expr_] :=
     Module[ {string},
         string =
@@ -72,8 +76,18 @@ texForm[expr_] :=
                 (*Else*)
                 expr//TeXForm//ToString
             ];
-        string//StringReplace[$texRule]
+        string//StringReplace[$texRule]//texTrim
     ];
+
+
+(* ::Subsubsection:: *)
+(*Helper*)
+
+
+texTrim[string_String] :=
+    string//StringReplace[{
+        " _"->"_"," ^"->"^","\\left"->"","\\right"->""
+    }];
 
 
 (* ::Subsection:: *)
@@ -134,7 +148,7 @@ texShowKernel[string_String,OptionsPattern[]] :=
         importPDF[id]//First//Magnify[#,OptionValue["Magnification"]]&
     ];
 
-texShowKernel[{},OptionsPattern[]]:=
+texShowKernel[{},OptionsPattern[]] :=
     {};
 
 texShowKernel[stringList:{__String},OptionsPattern[]] :=
