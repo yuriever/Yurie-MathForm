@@ -4,10 +4,10 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`Math`Format`"];
+BeginPackage["Yurie`MathForm`Format`"];
 
 
-Needs["Yurie`Math`"];
+Needs["Yurie`MathForm`"];
 
 
 (* ::Section:: *)
@@ -15,8 +15,7 @@ Needs["Yurie`Math`"];
 
 
 interpretize::usage =
-    ".";
-
+    "make format definitions interpretable.";
 
 
 (* ::Section:: *)
@@ -31,20 +30,16 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
-(*Option*)
-
-
-
-(* ::Subsection:: *)
 (*Main*)
-
-Needs["Lacia`Base`"];
-
-ClearAll[interpretize];
 
 
 interpretize//Attributes =
     {HoldAll};
+
+
+(* ::Text:: *)
+(*MakeBoxes*)
+
 
 interpretize/:(set:TagSetDelayed|TagSet)[symbol_Symbol,Verbatim[MakeBoxes][args__],interpretize[boxdef_,interpretation_]] :=
     HoldComplete[
@@ -54,6 +49,7 @@ interpretize/:(set:TagSetDelayed|TagSet)[symbol_Symbol,Verbatim[MakeBoxes][args_
             InterpretationBox[box,interpretation]
         ]
     ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
+
 
 interpretize/:(set:TagSetDelayed|TagSet)[symbol_Symbol,Verbatim[MakeBoxes][args__],interpretize[boxdef_]] :=
     With[ {interpretation = stripPattern[First@{args},Unevaluated]},
@@ -66,6 +62,11 @@ interpretize/:(set:TagSetDelayed|TagSet)[symbol_Symbol,Verbatim[MakeBoxes][args_
         ]
     ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
 
+
+(* ::Text:: *)
+(*Format*)
+
+
 interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatdef_,interpretation_]] :=
     HoldComplete[
         Format[args],
@@ -73,6 +74,7 @@ interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatd
             Interpretation[format,interpretation]
         ]
     ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
+
 
 interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatdef_]] :=
     With[ {interpretation = stripPattern[First@{args},Unevaluated]},
@@ -89,6 +91,11 @@ interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatd
 (*Helper*)
 
 
+stripPattern//Attributes =
+    {HoldAll};
+
+stripPattern[expr_,head_:Defer] :=
+    head[expr]//ReplaceRepeated[(Verbatim[Pattern]|Verbatim[Optional]|Verbatim[PatternTest]|Verbatim[Condition])[pattern_,_]:>pattern];
 
 
 (* ::Subsection:: *)

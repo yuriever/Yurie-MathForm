@@ -4,10 +4,12 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`Index`Index`"];
+BeginPackage["Yurie`MathForm`Index`"];
 
 
-Needs["Yurie`Index`"];
+Needs["Yurie`MathForm`"];
+
+Needs["Yurie`MathForm`Constant`"];
 
 
 (* ::Section:: *)
@@ -88,17 +90,6 @@ indexToString[index_Integer] :=
 
 
 (* ::Subsubsection:: *)
-(*Constant*)
-
-
-indexPositionP =
-    Construct|Subscript|Superscript;
-
-indexTypeP =
-    All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|_Symbol;
-
-
-(* ::Subsubsection:: *)
 (*Option*)
 
 
@@ -144,8 +135,8 @@ indexJoin[varList:{__Symbol},opts:OptionsPattern[]][expr_] :=
 
 indexJoinKernel[varList_List,OptionsPattern[]][expr_] :=
     Module[ {varP,formatFunction,indexQFunction},
-        If[ !MatchQ[OptionValue["IndexPosition"],indexPositionP]||
-            !MatchQ[OptionValue["IndexType"],indexTypeP],
+        If[ !MatchQ[OptionValue["IndexPosition"],$indexPositionP]||
+            !MatchQ[OptionValue["IndexType"],$indexTypeP],
             Message[indexJoin::optnotmatch];
             Throw[expr]
         ];
@@ -182,8 +173,8 @@ indexSplit[varList:{__Symbol},opts:OptionsPattern[]][expr_] :=
 
 indexSplitKernel[varList_List,OptionsPattern[]][expr_] :=
     Module[ {varP,formatFunction,indexQFunction},
-        If[ !MatchQ[OptionValue["IndexPosition"],indexPositionP]||
-            !MatchQ[OptionValue["IndexType"],indexTypeP],
+        If[ !MatchQ[OptionValue["IndexPosition"],$indexPositionP]||
+            !MatchQ[OptionValue["IndexType"],$indexTypeP],
             Message[indexSplit::optnotmatch];
             Throw[expr]
         ];

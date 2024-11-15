@@ -33,9 +33,15 @@ $Ghostscript::usage =
 $temporaryDir::usage =
     "temporary directory."
 
-
 $texTemplate::usage =
     "tex template.";
+
+
+$indexPositionP::usage =
+    "pattern of index positions.";
+
+$indexTypeP::usage =
+    "pattern of index types.";
 
 
 (* ::Section:: *)
@@ -66,7 +72,6 @@ $Ghostscript = "/usr/local/bin/gs";
 
 $temporaryDir = FileNameJoin[$TemporaryDirectory,"Yurie__MathForm"];
 
-
 $texTemplate :=
     $texTemplate =
         StringTemplate@Import[
@@ -74,6 +79,13 @@ $texTemplate :=
             "Text",
             CharacterEncoding->"UTF-8"
         ];
+
+
+$indexPositionP =
+    Construct|Subscript|Superscript;
+
+$indexTypeP =
+    All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|_Symbol;
 
 
 (* ::Subsection:: *)

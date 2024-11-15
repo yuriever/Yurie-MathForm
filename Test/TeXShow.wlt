@@ -1,6 +1,6 @@
 
 
-(*TeXShow.nb*)
+(*texShow.nb*)
 
 VerificationTest[
 	Begin["Global`"];
@@ -8,7 +8,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"0-TeXShow.nb"
+	TestID->"0-texShow.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"1-TeXShow.nb"
+	TestID->"1-texShow.nb"
 ]
 
 VerificationTest[
@@ -24,7 +24,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"2-TeXShow.nb"
+	TestID->"2-texShow.nb"
 ]
 
 VerificationTest[
@@ -32,7 +32,7 @@ VerificationTest[
 	,
 	{a, b}
 	,
-	TestID->"3-TeXShow.nb"
+	TestID->"3-texShow.nb"
 ]
 
 VerificationTest[
@@ -40,7 +40,7 @@ VerificationTest[
 	,
 	"\\{a,b\\}"
 	,
-	TestID->"4-TeXShow.nb"
+	TestID->"4-texShow.nb"
 ]
 
 VerificationTest[
@@ -48,7 +48,7 @@ VerificationTest[
 	,
 	"\\{a,b\\}"
 	,
-	TestID->"5-TeXShow.nb"
+	TestID->"5-texShow.nb"
 ]
 
 VerificationTest[
@@ -56,7 +56,7 @@ VerificationTest[
 	,
 	"7741539260952591760-Multiple"
 	,
-	TestID->"6-TeXShow.nb"
+	TestID->"6-texShow.nb"
 ]
 
 VerificationTest[
@@ -64,7 +64,31 @@ VerificationTest[
 	,
 	"5096232467966650635-Single"
 	,
-	TestID->"7-TeXShow.nb"
+	TestID->"7-texShow.nb"
+]
+
+VerificationTest[
+	texShowBlockGraphics[""]
+	,
+	"7711654075342081847-Single"
+	,
+	TestID->"8-texShow.nb"
+]
+
+VerificationTest[
+	texShowBlockGraphics[{}, "Listable" -> True]
+	,
+	{}
+	,
+	TestID->"9-texShow.nb"
+]
+
+VerificationTest[
+	texShowBlockGraphics[{}, "Listable" -> False]
+	,
+	"7171960276681927965-Single"
+	,
+	TestID->"10-texShow.nb"
 ]
 
 VerificationTest[
@@ -72,7 +96,7 @@ VerificationTest[
 	,
 	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
-	TestID->"8-TeXShow.nb"
+	TestID->"11-texShow.nb"
 ]
 
 VerificationTest[
@@ -80,7 +104,7 @@ VerificationTest[
 	,
 	"5096232467966650635-Single"
 	,
-	TestID->"9-TeXShow.nb"
+	TestID->"12-texShow.nb"
 ]
 
 VerificationTest[
@@ -88,23 +112,23 @@ VerificationTest[
 	,
 	"5096232467966650635-Single"
 	,
-	TestID->"10-TeXShow.nb"
+	TestID->"13-texShow.nb"
 ]
 
 VerificationTest[
-	SetOptions[texShow, "CopyToClipboard" -> False]
+	SetOptions[texShow, "FontSize" -> 10]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> False, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
-	TestID->"11-TeXShow.nb"
+	TestID->"14-texShow.nb"
 ]
 
 VerificationTest[
 	texShowBlockGraphics[a]
 	,
-	"3827774349118199498-Single"
+	"9181961723921148291-Single"
 	,
-	TestID->"12-TeXShow.nb"
+	TestID->"15-texShow.nb"
 ]
 
 VerificationTest[
@@ -113,5 +137,5 @@ VerificationTest[
 	,
 	"Global`"
 	,
-	TestID->"∞-TeXShow.nb"
+	TestID->"∞-texShow.nb"
 ]

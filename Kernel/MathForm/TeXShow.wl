@@ -43,12 +43,6 @@ Begin["`Private`"];
 (*Option*)
 
 
-Needs["Lacia`Base`"];
-
-ClearAll[texShow];
-
-
-
 texForm//Options = {};
 
 texShowKernel//Options = {
@@ -139,6 +133,9 @@ texShowKernel[string_String,OptionsPattern[]] :=
         ];
         importPDF[id]//First//Magnify[#,OptionValue["Magnification"]]&
     ];
+
+texShowKernel[{},OptionsPattern[]]:=
+    {};
 
 texShowKernel[stringList:{__String},OptionsPattern[]] :=
     Module[ {id,texData},
