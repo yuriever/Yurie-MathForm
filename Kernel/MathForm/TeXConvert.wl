@@ -19,7 +19,7 @@ Needs["Yurie`MathForm`Variable`"];
 
 
 texSetMacro::usage =
-    "set the symbol as a LaTeX macro and store the rule into $texAssoc.";
+    "set the symbol as LaTeX macro and store the rule into $texAssoc.";
 
 
 (* ::Section:: *)

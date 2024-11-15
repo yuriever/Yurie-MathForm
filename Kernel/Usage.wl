@@ -1,19 +1,7 @@
 (* TeXConvert.wl *)
 
 texSetMacro::usage =
-	"set the symbol as a LaTeX macro and store the rule into $texAssoc.";
-
-
-(* TeXShow_Old.wl *)
-
-texShow::usage =
-	"texForm + MaTeX.";
-
-texCopy::usage =
-	"texForm + CopyToClipboard.";
-
-texCS::usage =
-	"texForm + CopyToClipboard + MaTeX.";
+	"set the symbol as LaTeX macro and store the rule into $texAssoc.";
 
 
 (* TeXShow.wl *)

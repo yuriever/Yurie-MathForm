@@ -1,15 +1,6 @@
 <!-- TeXConvert.wl -->
 
-* `#!wl texSetMacro` - set the symbol as a LaTeX macro and store the rule into $texAssoc.
-
-
-<!-- TeXShow_Old.wl -->
-
-* `#!wl texShow` - texForm + MaTeX.
-
-* `#!wl texCopy` - texForm + CopyToClipboard.
-
-* `#!wl texCS` - texForm + CopyToClipboard + MaTeX.
+* `#!wl texSetMacro` - set the symbol as LaTeX macro and store the rule into $texAssoc.
 
 
 <!-- TeXShow.wl -->
