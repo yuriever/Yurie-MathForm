@@ -23,16 +23,6 @@ $texRule::usage =
     "list of predefined rules derived from $texAssoc.";
 
 
-$macroLeftDelimiter::usage =
-    "left delimiter.";
-
-$macroRightDelimiter::usage =
-    "right delimiter.";
-
-$macroListSeparator::usage =
-    "list separator.";
-
-
 (* ::Section:: *)
 (*Private*)
 
@@ -51,17 +41,8 @@ Begin["`Private`"];
 $texAssoc = <||>;
 
 
-(*$texRule can be made static for efficiency, and the update should be triggered by texSetMacro.*)
-
 $texRule :=
     $texAssoc//Values//Flatten;
-
-
-$macroLeftDelimiter = "Left";
-
-$macroRightDelimiter = "Right";
-
-$macroListSeparator = "ListSep";
 
 
 (* ::Subsection:: *)

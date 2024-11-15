@@ -1,0 +1,17 @@
+% This template file comes from http://szhorvat.net/mathematica/MaTeX.
+% Thanks to David Carlisle and Tom Hejda for their help with the LaTeX code here.
+\documentclass[12pt,border=1pt,multi]{standalone}
+\newenvironment{yuriemathform}{\ignorespaces}{\ignorespacesafterend}
+\standaloneenv{yuriemathform}
+\newbox\YurieMathFormbox
+\newcommand{\YurieMathForm}[1]{
+    \begin{yuriemathform}
+        \setbox\YurieMathFormbox\hbox{\(\displaystyle #1 \)}%
+        \unhbox\YurieMathFormbox%
+    \end{yuriemathform}
+}
+`Preamble`
+\begin{document}
+\fontsize{`FontSize`pt}{`SkipSize`pt}\selectfont
+`Document`
+\end{document}

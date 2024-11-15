@@ -9,6 +9,8 @@ BeginPackage["Yurie`MathForm`TeXShow`"];
 
 Needs["Yurie`MathForm`"];
 
+Needs["Yurie`MathForm`Constant`"];
+
 Needs["Yurie`MathForm`Variable`"];
 
 

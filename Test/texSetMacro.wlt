@@ -1,6 +1,6 @@
 
 
-(*TeXConvert.nb*)
+(*texSetMacro.nb*)
 
 VerificationTest[
 	Begin["Global`"];
@@ -8,7 +8,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"0-TeXConvert.nb"
+	TestID->"0-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"1-TeXConvert.nb"
+	TestID->"1-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -25,7 +25,7 @@ VerificationTest[
 	,
 	"\\head"
 	,
-	TestID->"2-TeXConvert.nb"
+	TestID->"2-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -34,7 +34,7 @@ VerificationTest[
 	,
 	"\\fun{a}"
 	,
-	TestID->"3-TeXConvert.nb"
+	TestID->"3-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -43,7 +43,7 @@ VerificationTest[
 	,
 	"\\funWithMultiArg{a}{b}"
 	,
-	TestID->"4-TeXConvert.nb"
+	TestID->"4-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -52,7 +52,7 @@ VerificationTest[
 	,
 	"\\funWithListArg{\n\ta,\n\tb\n}"
 	,
-	TestID->"5-TeXConvert.nb"
+	TestID->"5-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -61,7 +61,7 @@ VerificationTest[
 	,
 	"\\funWithMultiListArg{\n\ta,\n\tb\n}{\n\tc,\n\td\n}"
 	,
-	TestID->"6-TeXConvert.nb"
+	TestID->"6-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -70,7 +70,7 @@ VerificationTest[
 	,
 	"\\fun\\left{a\\right}"
 	,
-	TestID->"7-TeXConvert.nb"
+	TestID->"7-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -79,7 +79,7 @@ VerificationTest[
 	,
 	"\\funWithMultiArg\\left{a\\right}\\left{b\\right}"
 	,
-	TestID->"8-TeXConvert.nb"
+	TestID->"8-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -88,7 +88,7 @@ VerificationTest[
 	,
 	"\\funWithListArg{a;b}"
 	,
-	TestID->"9-TeXConvert.nb"
+	TestID->"9-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -97,7 +97,7 @@ VerificationTest[
 	,
 	"\\funWithMultiListArg{a;b}{c;d}"
 	,
-	TestID->"10-TeXConvert.nb"
+	TestID->"10-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -108,7 +108,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"11-TeXConvert.nb"
+	TestID->"11-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -116,7 +116,7 @@ VerificationTest[
 	,
 	"\\funWithListArg{\n\t\\fun{a},\n\t\\fun{b}\n}"
 	,
-	TestID->"12-TeXConvert.nb"
+	TestID->"12-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -124,7 +124,7 @@ VerificationTest[
 	,
 	"\\funWithMultiListArg{\n\t\\fun{a},\n\t\\fun{b}\n}{\n\t\\funWithMultiArg{c}{d}\n}"
 	,
-	TestID->"13-TeXConvert.nb"
+	TestID->"13-texSetMacro.nb"
 ]
 
 VerificationTest[
@@ -133,5 +133,5 @@ VerificationTest[
 	,
 	"Global`"
 	,
-	TestID->"∞-TeXConvert.nb"
+	TestID->"∞-texSetMacro.nb"
 ]

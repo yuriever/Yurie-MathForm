@@ -1,13 +1,10 @@
 (* TeXConvert.wl *)
 
-texForm::usage =
-	"postprocess the string from TeXForm by the rules in $texAssoc.";
-
 texSetMacro::usage =
 	"set the symbol as a LaTeX macro and store the rule into $texAssoc.";
 
 
-(* TeXShow.wl *)
+(* TeXShow_Old.wl *)
 
 texShow::usage =
 	"texForm + MaTeX.";
@@ -17,3 +14,15 @@ texCopy::usage =
 
 texCS::usage =
 	"texForm + CopyToClipboard + MaTeX.";
+
+
+(* TeXShow.wl *)
+
+texForm::usage =
+	"refine the string from TeXForm.";
+
+texCopy::usage =
+	"copy the string from texForm and return the expression.";
+
+texShow::usage =
+	"show the LaTeX of the expression.";

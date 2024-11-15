@@ -9,15 +9,14 @@ BeginPackage["Yurie`MathForm`TeXConvert`"];
 
 Needs["Yurie`MathForm`"];
 
+Needs["Yurie`MathForm`Constant`"];
+
 Needs["Yurie`MathForm`Variable`"];
 
 
 (* ::Section:: *)
 (*Public*)
 
-
-texForm::usage =
-    "postprocess the string from TeXForm by the rules in $texAssoc.";
 
 texSetMacro::usage =
     "set the symbol as a LaTeX macro and store the rule into $texAssoc.";
@@ -32,17 +31,6 @@ texSetMacro::usage =
 
 
 Begin["`Private`"];
-
-
-(* ::Subsection:: *)
-(*texForm*)
-
-
-texForm[string_String] :=
-    string//StringReplace[$texRule];
-
-texForm[expr_] :=
-    expr//TeXForm//ToString//StringReplace[$texRule];
 
 
 (* ::Subsection:: *)
@@ -197,6 +185,7 @@ makeBoxes//Attributes =
 
 makeBoxes[expr_] :=
     MakeBoxes[expr,TraditionalForm];
+
 
 (* ::Subsection:: *)
 (*End*)
