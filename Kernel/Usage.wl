@@ -42,8 +42,8 @@ MFDefine::usage =
 MFString::usage =
 	"refine the string from TeXForm.";
 
-MFStringCopy::usage =
-	"copy the string from MFString and return the expression.";
+MFCopy::usage =
+	"copy the string from MFString and return the original expression.";
 
 MF::usage =
 	"show the LaTeX of the expression.";

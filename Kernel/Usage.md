@@ -31,6 +31,6 @@
 
 * `#!wl MFString` - refine the string from TeXForm.
 
-* `#!wl MFStringCopy` - copy the string from MFString and return the expression.
+* `#!wl MFCopy` - copy the string from MFString and return the original expression.
 
 * `#!wl MF` - show the LaTeX of the expression.

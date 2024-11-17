@@ -1,6 +1,6 @@
 
 
-(*texShow.nb*)
+(*MF.nb*)
 
 VerificationTest[
 	Begin["Global`"];
@@ -8,7 +8,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"0-texShow.nb"
+	TestID->"0-MF.nb"
 ]
 
 VerificationTest[
@@ -16,15 +16,15 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"1-texShow.nb"
+	TestID->"1-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[args___] := (StringDrop[#1, 1] & )[StringDelete[DatePattern[{"Year", "Month", "Day"}, "-"]][Catch[Block[{Yurie`MathForm`TeXShow`Private`importPDF}, Yurie`MathForm`TeXShow`Private`importPDF[id_] := Throw[id]; texShow[args]]]]]; 
+	MFBlockGraphics[args___] := (StringDrop[#1, 1] & )[StringDelete[DatePattern[{"Year", "Month", "Day"}, "-"]][Catch[Block[{Yurie`MathForm`MF`Private`importPDF}, Yurie`MathForm`MF`Private`importPDF[id_] := Throw[id]; MF[args]]]]]; 
 	,
 	Null
 	,
-	TestID->"2-texShow.nb"
+	TestID->"2-MF.nb"
 ]
 
 VerificationTest[
@@ -32,103 +32,103 @@ VerificationTest[
 	,
 	{a, b}
 	,
-	TestID->"3-texShow.nb"
+	TestID->"3-MF.nb"
 ]
 
 VerificationTest[
-	texForm[expr]
+	MFString[expr]
 	,
 	"\\{a,b\\}"
 	,
-	TestID->"4-texShow.nb"
+	TestID->"4-MF.nb"
 ]
 
 VerificationTest[
-	string = texForm[expr]
+	string = MFString[expr]
 	,
 	"\\{a,b\\}"
 	,
-	TestID->"5-texShow.nb"
+	TestID->"5-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[expr]
+	MFBlockGraphics[expr]
 	,
 	"7741539260952591760-Multiple"
 	,
-	TestID->"6-texShow.nb"
+	TestID->"6-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[string]
+	MFBlockGraphics[string]
 	,
 	"5096232467966650635-Single"
 	,
-	TestID->"7-texShow.nb"
+	TestID->"7-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[""]
+	MFBlockGraphics[""]
 	,
 	"7711654075342081847-Single"
 	,
-	TestID->"8-texShow.nb"
+	TestID->"8-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[{}, "Listable" -> True]
+	MFBlockGraphics[{}, "Listable" -> True]
 	,
 	{}
 	,
-	TestID->"9-texShow.nb"
+	TestID->"9-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[{}, "Listable" -> False]
+	MFBlockGraphics[{}, "Listable" -> False]
 	,
 	"7171960276681927965-Single"
 	,
-	TestID->"10-texShow.nb"
+	TestID->"10-MF.nb"
 ]
 
 VerificationTest[
-	SetOptions[texShow, "Listable" -> False]
+	SetOptions[MF, "Listable" -> False]
 	,
 	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
-	TestID->"11-texShow.nb"
+	TestID->"11-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[expr]
+	MFBlockGraphics[expr]
 	,
 	"5096232467966650635-Single"
 	,
-	TestID->"12-texShow.nb"
+	TestID->"12-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[string]
+	MFBlockGraphics[string]
 	,
 	"5096232467966650635-Single"
 	,
-	TestID->"13-texShow.nb"
+	TestID->"13-MF.nb"
 ]
 
 VerificationTest[
-	SetOptions[texShow, "FontSize" -> 10]
+	SetOptions[MF, "FontSize" -> 10]
 	,
 	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
-	TestID->"14-texShow.nb"
+	TestID->"14-MF.nb"
 ]
 
 VerificationTest[
-	texShowBlockGraphics[a]
+	MFBlockGraphics[a]
 	,
 	"9181961723921148291-Single"
 	,
-	TestID->"15-texShow.nb"
+	TestID->"15-MF.nb"
 ]
 
 VerificationTest[
@@ -137,5 +137,5 @@ VerificationTest[
 	,
 	"Global`"
 	,
-	TestID->"∞-texShow.nb"
+	TestID->"∞-MF.nb"
 ]

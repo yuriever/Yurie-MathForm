@@ -21,8 +21,8 @@ Needs["Yurie`MathForm`Variable`"];
 MFString::usage =
     "refine the string from TeXForm.";
 
-MFStringCopy::usage =
-    "copy the string from MFString and return the expression.";
+MFCopy::usage =
+    "copy the string from MFString and return the original expression.";
 
 MF::usage =
     "show the LaTeX of the expression.";
@@ -94,7 +94,7 @@ texTrim[string_String] :=
 (*texCopy*)
 
 
-MFStringCopy[expr_] :=
+MFCopy[expr_] :=
     (
         CopyToClipboard@MFString@expr;
         expr

@@ -21,11 +21,6 @@ Needs["Yurie`MathForm`Variable`"];
 MFDefine::usage =
     "define LaTeX macro for the symbol and store the rule into $MFAssoc.";
 
-Needs["Lacia`Base`"];
-
-ClearAll[MFDefine];
-
-
 
 (* ::Section:: *)
 (*Private*)
@@ -39,166 +34,227 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
-(*texSetMacro*)
-
-
-MFDefine[args___][funList_List] :=
-    Scan[MFDefine[args],funList];
+(*Constant*)
 
 
 (* ::Text:: *)
-(*f*)
-(*\f*)
+(*In MFDefineKernel, when evaluating MakeBoxes, the local variable arg will be renamed as arg$, which enters into the format value.*)
+(*The function clearFormat needs to match this format value from MFDefineKernel, hence we need use arg$.*)
 
 
-MFDefine[][fun_Symbol] :=
-    With[ {funString = ToString[fun]},
+arg$;
+
+
+(* ::Subsection:: *)
+(*Message*)
+
+
+MFDefine::notsupported =
+    "the pattern `` is not supported.";
+
+MFDefine::clearformat =
+    "the existing format values of the symbol `` are cleared.";
+
+
+(* ::Subsection:: *)
+(*Main*)
+
+
+MFDefine[args___][list_List] :=
+    Scan[MFDefineKernel2[args],list]//Catch;
+
+
+MFDefineKernel2[args___][Verbatim[Rule][funPattern_,funString_String]] :=
+    MFDefineKernel[{funPattern,funString},args];
+
+MFDefineKernel2[args___][funPattern_] :=
+    MFDefineKernel[{funPattern,stripFunPattern[funPattern]},args];
+
+
+(* ::Subsubsection:: *)
+(*MFDefineKernel*)
+
+
+MFDefineKernel[args___] :=
+    (
+        Message[MFDefine::notsupported,{args}[[1,1]]];
+        Throw[Null];
+    );
+
+
+(* ::Text:: *)
+(*f->\f*)
+
+
+MFDefineKernel[{fun_Symbol,funString_String}] :=
+    With[ {funPlaceholder = ToString[fun]},
+        clearFormat[fun,fun];
         fun/:MakeBoxes[fun,TraditionalForm] :=
-            funString;
-        $MFAssoc =
-            Association[
-                $MFAssoc,
-                funString->{
-                    "\\text{"<>funString<>"}"->"\\"<>funString
-                }
-            ];
-        $MFRule =
-            $MFAssoc//Values//Flatten;
+            funPlaceholder;
+        updateMFData[
+            funPlaceholder->{
+                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString
+            }
+        ]
     ];
 
 
 (* ::Text:: *)
-(*f[x]*)
-(*\f{x}*)
+(*f[x]->\f{x}*)
 
 
-MFDefine[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[Blank][]]] :=
+MFDefineKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:"{",right_String:"}"] :=
     With[ {
-            funString = ToString[fun],
+            funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter
         },
-        fun/:MakeBoxes[fun[x_],TraditionalForm] :=
+        clearFormat[fun,fun[arg$_]];
+        fun/:MakeBoxes[fun[arg_],TraditionalForm] :=
             RowBox@{
-                funString,
+                funPlaceholder,
                 funLeft,
-                makeBoxes[x],
+                makeTraditionalBoxes[arg],
                 funRight
             };
-        $MFAssoc =
-            Association[
-                $MFAssoc,
-                funString->{
-                    "\\text{"<>funString<>"}"->"\\"<>funString,
-                    "\\text{"<>funLeft<>"}"->left,
-                    "\\text{"<>funRight<>"}"->right
-                }
-            ];
-        $MFRule =
-            $MFAssoc//Values//Flatten;
+        updateMFData[
+            funPlaceholder->{
+                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}"->right
+            }
+        ]
     ];
 
 
 (* ::Text:: *)
-(*f[x,y,...]*)
-(*f{x}{y}...*)
+(*f[x,y,...]->f{x}{y}...*)
 
 
-MFDefine[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[BlankNullSequence][]]] :=
+MFDefineKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},left_String:"{",right_String:"}"] :=
     With[ {
-            funString = ToString[fun],
+            funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter
         },
-        fun/:MakeBoxes[fun[x___],TraditionalForm] :=
+        clearFormat[fun,fun[arg$___]];
+        fun/:MakeBoxes[fun[arg___],TraditionalForm] :=
             RowBox@{
-                funString,
-                Sequence@@Flatten@Map[{funLeft,makeBoxes[#],funRight}&,{x}]
+                funPlaceholder,
+                Sequence@@Flatten@Map[{funLeft,makeTraditionalBoxes[#],funRight}&,{arg}]
             };
-        $MFAssoc =
-            Association[
-                $MFAssoc,
-                funString->{
-                    "\\text{"<>funString<>"}"->"\\"<>funString,
-                    "\\text{"<>funLeft<>"}"->left,
-                    "\\text{"<>funRight<>"}"->right
-                }
-            ];
-        $MFRule =
-            $MFAssoc//Values//Flatten;
+        updateMFData[
+            funPlaceholder->{
+                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}"->right
+            }
+        ];
     ];
 
 
 (* ::Text:: *)
-(*f[{x,y,...}]*)
-(*f{x,y,...}*)
+(*f[{x,y,...}]->f{x,y,...}*)
 
 
-MFDefine[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun_Symbol[Verbatim[Blank][List]]] :=
+MFDefineKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
     With[ {
-            funString = ToString[fun],
+            funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter,
             funDelimiter = ToString[fun]<>$macroListSeparator
         },
-        fun/:MakeBoxes[fun[x_List],TraditionalForm] :=
+        clearFormat[fun,fun[arg$_List]];
+        fun/:MakeBoxes[fun[arg_List],TraditionalForm] :=
             RowBox@{
-                funString,
+                funPlaceholder,
                 funLeft,
-                Sequence@@Riffle[Map[makeBoxes,x],funDelimiter],
+                Sequence@@Riffle[Map[makeTraditionalBoxes,arg],funDelimiter],
                 funRight
             };
-        $MFAssoc =
-            Association[
-                $MFAssoc,
-                funString->{
-                    "\\text{"<>funString<>"}"->"\\"<>funString,
-                    "\\text{"<>funLeft<>"}"->left,
-                    "\\text{"<>funRight<>"}"->right,
-                    "\\text{"<>funDelimiter<>"}"->delimiter
-                }
-            ];
-        $MFRule =
-            $MFAssoc//Values//Flatten;
+        updateMFData[
+            funPlaceholder->{
+                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}"->right,
+                "\\text{"<>funDelimiter<>"}"->delimiter
+            }
+        ]
     ];
 
 
 (* ::Text:: *)
-(*f[{x,...},{y,...},...]*)
-(*f{x,...}{y,...}...*)
+(*f[{x,...},{y,...},...]->f{x,...}{y,...}...*)
 
 
-MFDefine[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun_Symbol[Verbatim[BlankNullSequence][List]]] :=
+MFDefineKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
     With[ {
-            funString = ToString[fun],
+            funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter,
             funDelimiter = ToString[fun]<>$macroListSeparator
         },
-        fun/:MakeBoxes[fun[x___List],TraditionalForm] :=
+        clearFormat[fun,fun[arg$___List]];
+        fun/:MakeBoxes[fun[arg___List],TraditionalForm] :=
             RowBox@{
-                funString,
-                Sequence@@Flatten@Map[{funLeft,Riffle[Map[makeBoxes,#],funDelimiter],funRight}&,{x}]
+                funPlaceholder,
+                Sequence@@Flatten@Map[{funLeft,Riffle[Map[makeTraditionalBoxes,#],funDelimiter],funRight}&,{arg}]
             };
-        $MFAssoc =
-            Association[
-                $MFAssoc,
-                funString->{
-                    "\\text{"<>funString<>"}"->"\\"<>funString,
-                    "\\text{"<>funLeft<>"}"->left,
-                    "\\text{"<>funRight<>"}"->right,
-                    "\\text{"<>funDelimiter<>"}"->delimiter
-                }
-            ];
-        $MFRule =
-            $MFAssoc//Values//Flatten;
+        updateMFData[
+            funPlaceholder->{
+                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}"->right,
+                "\\text{"<>funDelimiter<>"}"->delimiter
+            }
+        ];
     ];
 
 
-makeBoxes//Attributes =
+(* ::Subsection:: *)
+(*Helper*)
+
+
+stripFunPattern[
+    fun_Symbol|
+    fun_Symbol[Verbatim[Blank][]]|
+    fun_Symbol[Verbatim[BlankNullSequence][]]|
+    fun_Symbol[Verbatim[Blank][List]]|
+    fun_Symbol[Verbatim[BlankNullSequence][List]]
+] :=
+    ToString[fun];
+
+
+updateMFData[data_] :=
+    (
+        $MFAssoc =
+            Association[$MFAssoc,data];
+        $MFRule =
+            $MFAssoc//Values//Flatten;
+    );
+
+
+clearFormat//Attributes =
     {HoldAllComplete};
 
-makeBoxes[expr_] :=
+clearFormat[fun_Symbol,pattern_] :=
+    Module[ {notFromMFDefine},
+        notFromMFDefine =
+            DeleteCases[
+                FormatValues@fun,
+                Verbatim[HoldPattern[MakeBoxes[pattern,TraditionalForm]]]:>_
+            ];
+        If[ notFromMFDefine=!={},
+            Message[MFDefine::clearformat,fun]
+        ];
+        FormatValues[fun] = {};
+    ];
+
+
+makeTraditionalBoxes//Attributes =
+    {HoldAllComplete};
+
+makeTraditionalBoxes[expr_] :=
     MakeBoxes[expr,TraditionalForm];
 
 
