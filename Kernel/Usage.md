@@ -1,8 +1,3 @@
-<!-- Format.wl -->
-
-* `#!wl interpretize` - make format definitions interpretable.
-
-
 <!-- Index.wl -->
 
 * `#!wl indexize` - join the variable and index into a symbol.
@@ -22,9 +17,14 @@
 * `#!wl indexToDiffBack` - x12->x1-x2.
 
 
-<!-- MFDefine.wl -->
+<!-- MFArgConvert.wl -->
 
-* `#!wl MFDefine` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
+* `#!wl MFArgConvert` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
+
+
+<!-- MFInterpret.wl -->
+
+* `#!wl interpretize` - make format definitions interpretable.
 
 
 <!-- MF.wl -->

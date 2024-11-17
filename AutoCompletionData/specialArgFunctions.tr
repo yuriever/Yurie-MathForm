@@ -1,4 +1,6 @@
-{"MF" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
-    "CopyToClipboard", "ClearCache", "Listable"}}, 
+{"MFString" -> {0, {"RemoveLaTeXLRPair"}}, 
+ "MFCopy" -> {0, {"RemoveLaTeXLRPair"}}, 
+ "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
+    "RemoveLaTeXLRPair", "CopyToClipboard", "ClearCache", "Listable"}}, 
  "indexJoin" -> {0, {"IndexPosition", "IndexType"}}, 
  "indexSplit" -> {0, {"IndexPosition", "IndexType"}}}

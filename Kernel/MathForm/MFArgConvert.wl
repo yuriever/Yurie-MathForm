@@ -4,7 +4,7 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`MathForm`MFDefine`"];
+BeginPackage["Yurie`MathForm`MFArgConvert`"];
 
 
 Needs["Yurie`MathForm`"];
@@ -18,7 +18,7 @@ Needs["Yurie`MathForm`Variable`"];
 (*Public*)
 
 
-MFDefine::usage =
+MFArgConvert::usage =
     "define LaTeX macro for the symbol and store the rule into $MFAssoc.";
 
 
@@ -38,8 +38,8 @@ Begin["`Private`"];
 
 
 (* ::Text:: *)
-(*In MFDefineKernel, when evaluating MakeBoxes, the local variable arg will be renamed as arg$, which enters into the format value.*)
-(*The function clearFormat needs to match this format value from MFDefineKernel, hence we need use arg$.*)
+(*In MFArgConvertKernel, when evaluating MakeBoxes, the local variable arg will be renamed as arg$, which enters into the format value.*)
+(*The function clearFormat needs to match this format value from MFArgConvertKernel, hence we need use arg$.*)
 
 
 arg$;
@@ -49,10 +49,10 @@ arg$;
 (*Message*)
 
 
-MFDefine::notsupported =
+MFArgConvert::notsupported =
     "the pattern `` is not supported.";
 
-MFDefine::clearformat =
+MFArgConvert::clearformat =
     "the existing format values of the symbol `` are cleared.";
 
 
@@ -60,24 +60,24 @@ MFDefine::clearformat =
 (*Main*)
 
 
-MFDefine[args___][list_List] :=
-    Scan[MFDefineKernel2[args],list]//Catch;
+MFArgConvert[args___][list_List] :=
+    Scan[MFArgConvertKernel2[args],list]//Catch;
 
 
-MFDefineKernel2[args___][Verbatim[Rule][funPattern_,funString_String]] :=
-    MFDefineKernel[{funPattern,funString},args];
+MFArgConvertKernel2[args___][Verbatim[Rule][funPattern_,funString_String]] :=
+    MFArgConvertKernel[{funPattern,funString},args];
 
-MFDefineKernel2[args___][funPattern_] :=
-    MFDefineKernel[{funPattern,stripFunPattern[funPattern]},args];
+MFArgConvertKernel2[args___][funPattern_] :=
+    MFArgConvertKernel[{funPattern,stripFunPattern[funPattern]},args];
 
 
 (* ::Subsubsection:: *)
-(*MFDefineKernel*)
+(*MFArgConvertKernel*)
 
 
-MFDefineKernel[args___] :=
+MFArgConvertKernel[args___] :=
     (
-        Message[MFDefine::notsupported,{args}[[1,1]]];
+        Message[MFArgConvert::notsupported,{args}[[1,1]]];
         Throw[Null];
     );
 
@@ -86,7 +86,7 @@ MFDefineKernel[args___] :=
 (*f->\f*)
 
 
-MFDefineKernel[{fun_Symbol,funString_String}] :=
+MFArgConvertKernel[{fun_Symbol,funString_String}] :=
     With[ {funPlaceholder = ToString[fun]},
         clearFormat[fun,fun];
         fun/:MakeBoxes[fun,TraditionalForm] :=
@@ -103,7 +103,7 @@ MFDefineKernel[{fun_Symbol,funString_String}] :=
 (*f[x]->\f{x}*)
 
 
-MFDefineKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:"{",right_String:"}"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:"{",right_String:"}"] :=
     With[ {
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -131,7 +131,7 @@ MFDefineKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:"{",
 (*f[x,y,...]->f{x}{y}...*)
 
 
-MFDefineKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},left_String:"{",right_String:"}"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},left_String:"{",right_String:"}"] :=
     With[ {
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -157,7 +157,7 @@ MFDefineKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},left
 (*f[{x,y,...}]->f{x,y,...}*)
 
 
-MFDefineKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
     With[ {
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -187,7 +187,7 @@ MFDefineKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_String:
 (*f[{x,...},{y,...},...]->f{x,...}{y,...}...*)
 
 
-MFDefineKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
     With[ {
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -238,14 +238,14 @@ clearFormat//Attributes =
     {HoldAllComplete};
 
 clearFormat[fun_Symbol,pattern_] :=
-    Module[ {notFromMFDefine},
-        notFromMFDefine =
+    Module[ {notFromMFArgConvert},
+        notFromMFArgConvert =
             DeleteCases[
                 FormatValues@fun,
                 Verbatim[HoldPattern[MakeBoxes[pattern,TraditionalForm]]]:>_
             ];
-        If[ notFromMFDefine=!={},
-            Message[MFDefine::clearformat,fun]
+        If[ notFromMFArgConvert=!={},
+            Message[MFArgConvert::clearformat,fun]
         ];
         FormatValues[fun] = {};
     ];

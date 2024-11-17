@@ -4,7 +4,7 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`MathForm`Format`"];
+BeginPackage["Yurie`MathForm`MFInterpret`"];
 
 
 Needs["Yurie`MathForm`"];

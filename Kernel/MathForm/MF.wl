@@ -43,7 +43,13 @@ Begin["`Private`"];
 (*Option*)
 
 
-MFString//Options = {};
+MFString//Options = {
+    "RemoveLaTeXLRPair"->True
+};
+
+MFCopy//Options = {
+    Splice@Options@MFString
+};
 
 MFKernel//Options = {
     "Preamble"->{"\\usepackage{amsmath,amssymb}"},
@@ -54,6 +60,7 @@ MFKernel//Options = {
 
 MF//Options = {
     Splice@Options@MFKernel,
+    Splice@Options@MFString,
     "CopyToClipboard"->True,
     "ClearCache"->False,
     "Listable"->True
@@ -68,13 +75,13 @@ MF//Options = {
 (*Main*)
 
 
-MFString[expr_] :=
+MFString[expr_,OptionsPattern[]] :=
     Module[ {string},
         string =
             If[ Head[expr]===String,
                 expr,
                 (*Else*)
-                expr//TeXForm//ToString//texTrim
+                expr//TeXForm//ToString//texTrim//ifRemoveLeftRight[OptionValue["RemoveLaTeXLRPair"]]
             ];
         string//StringReplace[$MFRule]
     ];
@@ -86,17 +93,26 @@ MFString[expr_] :=
 
 texTrim[string_String] :=
     string//StringReplace[{
-        " _"->"_"," ^"->"^","\\left"->"","\\right"->""
+        " _"->"_"," ^"->"^"
     }];
+
+
+ifRemoveLeftRight[True][string_String] :=
+    string//StringReplace[{
+        "\\left"->"","\\right"->""
+    }];
+
+ifRemoveLeftRight[False][string_String] :=
+    string;
 
 
 (* ::Subsection:: *)
 (*texCopy*)
 
 
-MFCopy[expr_] :=
+MFCopy[expr_,opts:OptionsPattern[]] :=
     (
-        CopyToClipboard@MFString@expr;
+        CopyToClipboard@MFString[expr,FilterRules[{opts,Options@MFCopy},Options@MFString]];
         expr
     );
 
@@ -110,19 +126,28 @@ MFCopy[expr_] :=
 
 
 MF[expr_,opts:OptionsPattern[]] :=
-    Module[ {string},
-        string = MFString[expr];
+    Module[ {string,fopts1,fopts2},
+        fopts1 =
+            FilterRules[{opts,Options@MF},Options@MFKernel];
+        fopts2 =
+            FilterRules[{opts,Options@MF},Options@MFString];
+        string =
+            MFString[expr,fopts2];
         If[ OptionValue["CopyToClipboard"],
             CopyToClipboard@string
         ];
         If[ OptionValue["ClearCache"],
             DeleteDirectory[$temporaryDir,DeleteContents->True]
         ];
-        (*if the expression is a list, and the option Listable is True, then texify the expr directly.*)
+        (*If the expression is a list, and the option Listable is True, then LaTeXify each element of the list separately.*)
+        (*Otherwise, treat the list head as part of the LaTeX.*)
         If[ OptionValue["Listable"]&&Head[expr]===List,
-            MFKernel[Map[MFString,expr],FilterRules[{opts,Options@MF},Options@MFKernel]],
+            MFKernel[
+                Map[MFString[#,fopts2]&,expr],
+                fopts1
+            ],
             (*Else*)
-            MFKernel[string,FilterRules[{opts,Options@MF},Options@MFKernel]]
+            MFKernel[string,fopts1]
         ]
     ];
 

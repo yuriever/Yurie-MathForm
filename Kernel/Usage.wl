@@ -1,9 +1,3 @@
-(* Format.wl *)
-
-interpretize::usage =
-	"make format definitions interpretable.";
-
-
 (* Index.wl *)
 
 indexize::usage =
@@ -31,10 +25,16 @@ indexToDiffBack::usage =
 	"x12->x1-x2.";
 
 
-(* MFDefine.wl *)
+(* MFArgConvert.wl *)
 
-MFDefine::usage =
+MFArgConvert::usage =
 	"define LaTeX macro for the symbol and store the rule into $MFAssoc.";
+
+
+(* MFInterpret.wl *)
+
+interpretize::usage =
+	"make format definitions interpretable.";
 
 
 (* MF.wl *)
