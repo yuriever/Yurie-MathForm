@@ -1,4 +1,4 @@
-{"texShow" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
+{"MF" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
     "CopyToClipboard", "ClearCache", "Listable"}}, 
  "indexJoin" -> {0, {"IndexPosition", "IndexType"}}, 
  "indexSplit" -> {0, {"IndexPosition", "IndexType"}}}

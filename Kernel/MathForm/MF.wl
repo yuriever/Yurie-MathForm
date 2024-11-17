@@ -4,7 +4,7 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`MathForm`TeXShow`"];
+BeginPackage["Yurie`MathForm`MF`"];
 
 
 Needs["Yurie`MathForm`"];
@@ -18,13 +18,13 @@ Needs["Yurie`MathForm`Variable`"];
 (*Public*)
 
 
-texForm::usage =
+MFString::usage =
     "refine the string from TeXForm.";
 
-texCopy::usage =
-    "copy the string from texForm and return the expression.";
+MFStringCopy::usage =
+    "copy the string from MFString and return the expression.";
 
-texShow::usage =
+MF::usage =
     "show the LaTeX of the expression.";
 
 
@@ -43,17 +43,17 @@ Begin["`Private`"];
 (*Option*)
 
 
-texForm//Options = {};
+MFString//Options = {};
 
-texShowKernel//Options = {
+MFKernel//Options = {
     "Preamble"->{"\\usepackage{amsmath,amssymb}"},
     "FontSize"->12,
     "LineSpacing"->{1.2,0},
     "Magnification"->1.5
 };
 
-texShow//Options = {
-    Splice@Options@texShowKernel,
+MF//Options = {
+    Splice@Options@MFKernel,
     "CopyToClipboard"->True,
     "ClearCache"->False,
     "Listable"->True
@@ -68,7 +68,7 @@ texShow//Options = {
 (*Main*)
 
 
-texForm[expr_] :=
+MFString[expr_] :=
     Module[ {string},
         string =
             If[ Head[expr]===String,
@@ -76,7 +76,7 @@ texForm[expr_] :=
                 (*Else*)
                 expr//TeXForm//ToString//texTrim
             ];
-        string//StringReplace[$texRule]
+        string//StringReplace[$MFRule]
     ];
 
 
@@ -94,9 +94,9 @@ texTrim[string_String] :=
 (*texCopy*)
 
 
-texCopy[expr_] :=
+MFStringCopy[expr_] :=
     (
-        CopyToClipboard@texForm@expr;
+        CopyToClipboard@MFString@expr;
         expr
     );
 
@@ -109,9 +109,9 @@ texCopy[expr_] :=
 (*Main*)
 
 
-texShow[expr_,opts:OptionsPattern[]] :=
+MF[expr_,opts:OptionsPattern[]] :=
     Module[ {string},
-        string = texForm[expr];
+        string = MFString[expr];
         If[ OptionValue["CopyToClipboard"],
             CopyToClipboard@string
         ];
@@ -120,14 +120,14 @@ texShow[expr_,opts:OptionsPattern[]] :=
         ];
         (*if the expression is a list, and the option Listable is True, then texify the expr directly.*)
         If[ OptionValue["Listable"]&&Head[expr]===List,
-            texShowKernel[Map[texForm,expr],FilterRules[{opts,Options@texShow},Options@texShowKernel]],
+            MFKernel[Map[MFString,expr],FilterRules[{opts,Options@MF},Options@MFKernel]],
             (*Else*)
-            texShowKernel[string,FilterRules[{opts,Options@texShow},Options@texShowKernel]]
+            MFKernel[string,FilterRules[{opts,Options@MF},Options@MFKernel]]
         ]
     ];
 
 
-texShowKernel[string_String,OptionsPattern[]] :=
+MFKernel[string_String,OptionsPattern[]] :=
     Module[ {id,texData},
         texData = {
             string,
@@ -148,10 +148,10 @@ texShowKernel[string_String,OptionsPattern[]] :=
         importPDF[id]//First//Magnify[#,OptionValue["Magnification"]]&
     ];
 
-texShowKernel[{},OptionsPattern[]] :=
+MFKernel[{},OptionsPattern[]] :=
     {};
 
-texShowKernel[stringList:{__String},OptionsPattern[]] :=
+MFKernel[stringList:{__String},OptionsPattern[]] :=
     Module[ {id,texData},
         texData = {
             stringList,

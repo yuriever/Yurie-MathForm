@@ -31,19 +31,19 @@ indexToDiffBack::usage =
 	"x12->x1-x2.";
 
 
-(* TeXConvert.wl *)
+(* MFDefine.wl *)
 
-texSetMacro::usage =
-	"set the symbol as LaTeX macro and store the rule into $texAssoc.";
+MFDefine::usage =
+	"define LaTeX macro for the symbol and store the rule into $MFAssoc.";
 
 
-(* TeXShow.wl *)
+(* MF.wl *)
 
-texForm::usage =
+MFString::usage =
 	"refine the string from TeXForm.";
 
-texCopy::usage =
-	"copy the string from texForm and return the expression.";
+MFStringCopy::usage =
+	"copy the string from MFString and return the expression.";
 
-texShow::usage =
+MF::usage =
 	"show the LaTeX of the expression.";

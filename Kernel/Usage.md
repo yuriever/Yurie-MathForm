@@ -22,15 +22,15 @@
 * `#!wl indexToDiffBack` - x12->x1-x2.
 
 
-<!-- TeXConvert.wl -->
+<!-- MFDefine.wl -->
 
-* `#!wl texSetMacro` - set the symbol as LaTeX macro and store the rule into $texAssoc.
+* `#!wl MFDefine` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
 
 
-<!-- TeXShow.wl -->
+<!-- MF.wl -->
 
-* `#!wl texForm` - refine the string from TeXForm.
+* `#!wl MFString` - refine the string from TeXForm.
 
-* `#!wl texCopy` - copy the string from texForm and return the expression.
+* `#!wl MFStringCopy` - copy the string from MFString and return the expression.
 
-* `#!wl texShow` - show the LaTeX of the expression.
+* `#!wl MF` - show the LaTeX of the expression.

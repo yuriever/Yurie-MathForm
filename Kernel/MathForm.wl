@@ -15,9 +15,9 @@ Get["Yurie`MathForm`Constant`"];
 Get["Yurie`MathForm`Variable`"];
 
 
-Get["Yurie`MathForm`TeXConvert`"];
+Get["Yurie`MathForm`MFDefine`"];
 
-Get["Yurie`MathForm`TeXShow`"];
+Get["Yurie`MathForm`MF`"];
 
 Get["Yurie`MathForm`Index`"];
 

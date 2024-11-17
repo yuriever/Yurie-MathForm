@@ -15,12 +15,12 @@ ClearAll["`*"];
 (*Public*)
 
 
-$texAssoc::usage =
+$MFAssoc::usage =
     "association of predefined rules.";
 
 
-$texRule::usage =
-    "list of predefined rules derived from $texAssoc.";
+$MFRule::usage =
+    "list of predefined rules derived from $MFAssoc.";
 
 
 (* ::Section:: *)
@@ -38,10 +38,10 @@ Begin["`Private`"];
 (*Main*)
 
 
-$texAssoc = <||>;
+$MFAssoc = <||>;
 
 
-$texRule = {};
+$MFRule = {};
 
 
 (* ::Subsection:: *)

@@ -4,7 +4,7 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`MathForm`TeXConvert`"];
+BeginPackage["Yurie`MathForm`MFDefine`"];
 
 
 Needs["Yurie`MathForm`"];
@@ -18,12 +18,12 @@ Needs["Yurie`MathForm`Variable`"];
 (*Public*)
 
 
-texSetMacro::usage =
-    "set the symbol as LaTeX macro and store the rule into $texAssoc.";
+MFDefine::usage =
+    "define LaTeX macro for the symbol and store the rule into $MFAssoc.";
 
 Needs["Lacia`Base`"];
 
-ClearAll[texSetMacro];
+ClearAll[MFDefine];
 
 
 
@@ -42,8 +42,8 @@ Begin["`Private`"];
 (*texSetMacro*)
 
 
-texSetMacro[args___][funList_List] :=
-    Scan[texSetMacro[args],funList];
+MFDefine[args___][funList_List] :=
+    Scan[MFDefine[args],funList];
 
 
 (* ::Text:: *)
@@ -51,19 +51,19 @@ texSetMacro[args___][funList_List] :=
 (*\f*)
 
 
-texSetMacro[][fun_Symbol] :=
+MFDefine[][fun_Symbol] :=
     With[ {funString = ToString[fun]},
         fun/:MakeBoxes[fun,TraditionalForm] :=
             funString;
-        $texAssoc =
+        $MFAssoc =
             Association[
-                $texAssoc,
+                $MFAssoc,
                 funString->{
                     "\\text{"<>funString<>"}"->"\\"<>funString
                 }
             ];
-        $texRule =
-            $texAssoc//Values//Flatten;
+        $MFRule =
+            $MFAssoc//Values//Flatten;
     ];
 
 
@@ -72,7 +72,7 @@ texSetMacro[][fun_Symbol] :=
 (*\f{x}*)
 
 
-texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[Blank][]]] :=
+MFDefine[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[Blank][]]] :=
     With[ {
             funString = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -85,17 +85,17 @@ texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[Blank][]]] :=
                 makeBoxes[x],
                 funRight
             };
-        $texAssoc =
+        $MFAssoc =
             Association[
-                $texAssoc,
+                $MFAssoc,
                 funString->{
                     "\\text{"<>funString<>"}"->"\\"<>funString,
                     "\\text{"<>funLeft<>"}"->left,
                     "\\text{"<>funRight<>"}"->right
                 }
             ];
-        $texRule =
-            $texAssoc//Values//Flatten;
+        $MFRule =
+            $MFAssoc//Values//Flatten;
     ];
 
 
@@ -104,7 +104,7 @@ texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[Blank][]]] :=
 (*f{x}{y}...*)
 
 
-texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[BlankNullSequence][]]] :=
+MFDefine[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[BlankNullSequence][]]] :=
     With[ {
             funString = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -115,17 +115,17 @@ texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[BlankNullSeque
                 funString,
                 Sequence@@Flatten@Map[{funLeft,makeBoxes[#],funRight}&,{x}]
             };
-        $texAssoc =
+        $MFAssoc =
             Association[
-                $texAssoc,
+                $MFAssoc,
                 funString->{
                     "\\text{"<>funString<>"}"->"\\"<>funString,
                     "\\text{"<>funLeft<>"}"->left,
                     "\\text{"<>funRight<>"}"->right
                 }
             ];
-        $texRule =
-            $texAssoc//Values//Flatten;
+        $MFRule =
+            $MFAssoc//Values//Flatten;
     ];
 
 
@@ -134,7 +134,7 @@ texSetMacro[left_String:"{",right_String:"}"][fun_Symbol[Verbatim[BlankNullSeque
 (*f{x,y,...}*)
 
 
-texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun_Symbol[Verbatim[Blank][List]]] :=
+MFDefine[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun_Symbol[Verbatim[Blank][List]]] :=
     With[ {
             funString = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -148,9 +148,9 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
                 Sequence@@Riffle[Map[makeBoxes,x],funDelimiter],
                 funRight
             };
-        $texAssoc =
+        $MFAssoc =
             Association[
-                $texAssoc,
+                $MFAssoc,
                 funString->{
                     "\\text{"<>funString<>"}"->"\\"<>funString,
                     "\\text{"<>funLeft<>"}"->left,
@@ -158,8 +158,8 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
                     "\\text{"<>funDelimiter<>"}"->delimiter
                 }
             ];
-        $texRule =
-            $texAssoc//Values//Flatten;
+        $MFRule =
+            $MFAssoc//Values//Flatten;
     ];
 
 
@@ -168,7 +168,7 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
 (*f{x,...}{y,...}...*)
 
 
-texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun_Symbol[Verbatim[BlankNullSequence][List]]] :=
+MFDefine[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun_Symbol[Verbatim[BlankNullSequence][List]]] :=
     With[ {
             funString = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -180,9 +180,9 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
                 funString,
                 Sequence@@Flatten@Map[{funLeft,Riffle[Map[makeBoxes,#],funDelimiter],funRight}&,{x}]
             };
-        $texAssoc =
+        $MFAssoc =
             Association[
-                $texAssoc,
+                $MFAssoc,
                 funString->{
                     "\\text{"<>funString<>"}"->"\\"<>funString,
                     "\\text{"<>funLeft<>"}"->left,
@@ -190,8 +190,8 @@ texSetMacro[left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"][fun
                     "\\text{"<>funDelimiter<>"}"->delimiter
                 }
             ];
-        $texRule =
-            $texAssoc//Values//Flatten;
+        $MFRule =
+            $MFAssoc//Values//Flatten;
     ];
 
 
