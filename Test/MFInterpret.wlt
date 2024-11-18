@@ -235,7 +235,7 @@ VerificationTest[
 ]
 
 VerificationTest[
-	MFClear[]
+	MFClear[g]
 	,
 	Null
 	,

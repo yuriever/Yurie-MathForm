@@ -9,6 +9,8 @@ BeginPackage["Yurie`MathForm`MFClear`"];
 
 Needs["Yurie`MathForm`"];
 
+Needs["Yurie`MathForm`Constant`"];
+
 Needs["Yurie`MathForm`Variable`"];
 
 
@@ -45,7 +47,10 @@ MFClear[(args:(_String|_Symbol)..)|{args:(_String|_Symbol)..}] :=
     ];
 
 MFClear[] :=
-    MFClear["Global`"];
+    (
+	    MFClear["Global`"];
+	    DeleteDirectory[$temporaryDir,DeleteContents->True];
+    );
 
 
 MFClearKernel//Attributes = {
@@ -62,7 +67,8 @@ MFClearKernel[symbolName_String] :=
     );
 
 MFClearKernel[symbol_Symbol] :=
-    With[ {symbolName = Function[Null,ToString@Unevaluated[#],HoldAllComplete]@symbol},
+    With[ {symbolName = Function[Null,ToString[Unevaluated[#],InputForm],HoldAllComplete]@symbol},
+        symbolName;
         MFClearKernel[symbolName];
     ];
 
