@@ -41,7 +41,7 @@ MFClear//Attributes =
 MFClear[(args:(_String|_Symbol)..)|{args:(_String|_Symbol)..}] :=
     Scan[
         MFClearKernel,
-        {args}
+        Unevaluated@{args}
     ];
 
 MFClear[] :=

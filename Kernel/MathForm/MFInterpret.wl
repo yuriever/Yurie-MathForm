@@ -40,7 +40,7 @@ MFInterpret//Attributes =
 MFInterpret[args__,list:{___List}] :=
     Scan[
         Function[{element},MFInterpret[args,element],HoldAllComplete],
-        list
+        Unevaluated@list
     ];
 
 

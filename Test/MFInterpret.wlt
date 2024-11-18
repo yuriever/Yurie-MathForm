@@ -96,7 +96,7 @@ VerificationTest[
 
 VerificationTest[
 	MFClear[dot]; 
-	MFInterpret[MakeBoxes, format_, {dot[x_, y_], RowBox[{MakeBoxes[x, format], "·", MakeBoxes[y, format]}]}]
+	MFInterpret[MakeBoxes, {{dot[x_, y_], RowBox[{MakeBoxes[x], "·", MakeBoxes[y]}]}}]
 	,
 	Null
 	,
@@ -121,7 +121,7 @@ VerificationTest[
 
 VerificationTest[
 	MFClear[dot]; 
-	MFInterpret[Format, {dot[x_, y_], x · y, h[x, y]}]
+	MFInterpret[MakeBoxes, format_, {dot[x_, y_], RowBox[{MakeBoxes[x, format], "·", MakeBoxes[y, format]}]}]
 	,
 	Null
 	,
@@ -129,11 +129,36 @@ VerificationTest[
 ]
 
 VerificationTest[
+	MFString[dot[a, b]]
+	,
+	"a\\cdot b"
+	,
+	TestID->"15-MFInterpret.nb"
+]
+
+VerificationTest[
+	FullForm[MakeBoxes[dot[a, b]]]
+	,
+	FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
+	,
+	TestID->"16-MFInterpret.nb"
+]
+
+VerificationTest[
+	MFClear[dot]; 
+	MFInterpret[Format, {dot[x_, y_], x · y, h[x, y]}]
+	,
+	Null
+	,
+	TestID->"17-MFInterpret.nb"
+]
+
+VerificationTest[
 	FullForm[MakeBoxes[dot[a, b]]]
 	,
 	FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
 	,
-	TestID->"15-MFInterpret.nb"
+	TestID->"18-MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -142,7 +167,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"16-MFInterpret.nb"
+	TestID->"19-MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -150,7 +175,7 @@ VerificationTest[
 	,
 	FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
 	,
-	TestID->"17-MFInterpret.nb"
+	TestID->"20-MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -158,7 +183,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"18-MFInterpret.nb"
+	TestID->"21-MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -166,37 +191,13 @@ VerificationTest[
 	,
 	"\\{f_a,g_a\\}"
 	,
-	TestID->"19-MFInterpret.nb"
+	TestID->"22-MFInterpret.nb"
 ]
 
 VerificationTest[
 	FullForm[MakeBoxes[f[a]]]
 	,
 	FullForm[InterpretationBox[SubscriptBox["f", "a"], f[a]]]
-	,
-	TestID->"20-MFInterpret.nb"
-]
-
-VerificationTest[
-	FullForm[MakeBoxes[g[a]]]
-	,
-	FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
-	,
-	TestID->"21-MFInterpret.nb"
-]
-
-VerificationTest[
-	MFClear[f]
-	,
-	Null
-	,
-	TestID->"22-MFInterpret.nb"
-]
-
-VerificationTest[
-	f[a]
-	,
-	f[a]
 	,
 	TestID->"23-MFInterpret.nb"
 ]
@@ -210,7 +211,7 @@ VerificationTest[
 ]
 
 VerificationTest[
-	MFClear[]
+	MFClear[f]
 	,
 	Null
 	,
@@ -218,11 +219,35 @@ VerificationTest[
 ]
 
 VerificationTest[
-	{f[x], g[x]}
+	f[a]
 	,
-	{f[x], g[x]}
+	f[a]
 	,
 	TestID->"26-MFInterpret.nb"
+]
+
+VerificationTest[
+	FullForm[MakeBoxes[g[a]]]
+	,
+	FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
+	,
+	TestID->"27-MFInterpret.nb"
+]
+
+VerificationTest[
+	MFClear[]
+	,
+	Null
+	,
+	TestID->"28-MFInterpret.nb"
+]
+
+VerificationTest[
+	{f[x], g[x]}
+	,
+	{f[x], g[x]}
+	,
+	TestID->"29-MFInterpret.nb"
 ]
 
 VerificationTest[
