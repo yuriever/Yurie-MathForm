@@ -68,7 +68,7 @@ MF//Options = {
 
 
 (* ::Subsection:: *)
-(*texForm*)
+(*MFString*)
 
 
 (* ::Subsubsection:: *)
@@ -107,7 +107,7 @@ ifRemoveLeftRight[False][string_String] :=
 
 
 (* ::Subsection:: *)
-(*texCopy*)
+(*MFCopy*)
 
 
 MFCopy[expr_,opts:OptionsPattern[]] :=
@@ -118,7 +118,7 @@ MFCopy[expr_,opts:OptionsPattern[]] :=
 
 
 (* ::Subsection:: *)
-(*texShow*)
+(*MF*)
 
 
 (* ::Subsubsection:: *)

@@ -2,7 +2,7 @@
 
 A Mathematica paclet for improving math layout.
 
-* The LaTeX template file `Source/template` comes from [MaTeX](http://szhorvat.net/mathematica/MaTeX).
+* The LaTeX template file `Source/template` is from [MaTeX](http://szhorvat.net/mathematica/MaTeX).
 
 ## Documentation
 

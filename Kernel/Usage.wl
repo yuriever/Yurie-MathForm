@@ -31,10 +31,16 @@ MFArgConvert::usage =
 	"define LaTeX macro for the symbol and store the rule into $MFAssoc.";
 
 
+(* MFClear.wl *)
+
+MFClear::usage =
+	"clear format values and rules in $MFAssoc of the symbol, or all symbols under the context.";
+
+
 (* MFInterpret.wl *)
 
-interpretize::usage =
-	"make format definitions interpretable.";
+MFInterpret::usage =
+	"set interpretable format values.";
 
 
 (* MF.wl *)

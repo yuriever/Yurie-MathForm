@@ -42,6 +42,8 @@ Begin["`Private`"];
 (*The function clearFormat needs to match this format value from MFArgConvertKernel, hence we need use arg$.*)
 
 
+arg;
+
 arg$;
 
 

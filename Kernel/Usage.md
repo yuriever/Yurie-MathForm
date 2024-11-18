@@ -22,9 +22,14 @@
 * `#!wl MFArgConvert` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
 
 
+<!-- MFClear.wl -->
+
+* `#!wl MFClear` - clear format values and rules in $MFAssoc of the symbol, or all symbols under the context.
+
+
 <!-- MFInterpret.wl -->
 
-* `#!wl interpretize` - make format definitions interpretable.
+* `#!wl MFInterpret` - set interpretable format values.
 
 
 <!-- MF.wl -->

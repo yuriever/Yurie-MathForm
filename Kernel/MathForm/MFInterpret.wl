@@ -14,8 +14,8 @@ Needs["Yurie`MathForm`"];
 (*Public*)
 
 
-interpretize::usage =
-    "make format definitions interpretable.";
+MFInterpret::usage =
+    "set interpretable format values.";
 
 
 (* ::Section:: *)
@@ -33,58 +33,88 @@ Begin["`Private`"];
 (*Main*)
 
 
-interpretize//Attributes =
-    {HoldAll};
+MFInterpret//Attributes =
+    {HoldAllComplete};
 
 
-(* ::Text:: *)
-(*MakeBoxes*)
+MFInterpret[args__,list:{___List}] :=
+    Scan[
+        Function[{element},MFInterpret[args,element],HoldAllComplete],
+        list
+    ];
 
 
-interpretize/:(set:TagSetDelayed|TagSet)[symbol_Symbol,Verbatim[MakeBoxes][args__],interpretize[boxdef_,interpretation_]] :=
+MFInterpret[Format,{pattern_,definition_,interpretation_}] :=
+    MFInterpretKernel[Format,pattern,definition,interpretation];
+
+MFInterpret[Format,format_,{pattern_,definition_,interpretation_}]/;validFormatQ[Format,format] :=
+    MFInterpretKernel[Format,pattern,definition,interpretation,format];
+
+MFInterpret[Format,{pattern_,definition_}] :=
+    With[ {interpretation = stripPattern[pattern,Unevaluated]},
+        MFInterpretKernel[Format,pattern,definition,interpretation];
+    ];
+
+MFInterpret[Format,format_,{pattern_,definition_}]/;validFormatQ[Format,format] :=
+    With[ {interpretation = stripPattern[pattern,Unevaluated]},
+        MFInterpretKernel[Format,pattern,definition,interpretation,format];
+    ];
+
+
+MFInterpret[MakeBoxes,{pattern_,definition_,interpretation_}] :=
+    With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
+        MFInterpretKernel[MakeBoxes,pattern,definition,interpretation,_,symbol]
+    ];
+
+MFInterpret[MakeBoxes,format_,{pattern_,definition_,interpretation_}]/;validFormatQ[MakeBoxes,format] :=
+    With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
+        MFInterpretKernel[MakeBoxes,pattern,definition,interpretation,format,symbol]
+    ];
+
+MFInterpret[MakeBoxes,{pattern_,definition_}] :=
+    With[ {
+            symbol = getHeadFromPattern[pattern,Unevaluated],
+            interpretation = stripPattern[pattern,Unevaluated]
+        },
+        MFInterpretKernel[MakeBoxes,pattern,definition,interpretation,_,symbol]
+    ];
+
+MFInterpret[MakeBoxes,format_,{pattern_,definition_}]/;validFormatQ[MakeBoxes,format] :=
+    With[ {
+            symbol = getHeadFromPattern[pattern,Unevaluated],
+            interpretation = stripPattern[pattern,Unevaluated]
+        },
+        MFInterpretKernel[MakeBoxes,pattern,definition,interpretation,format,symbol]
+    ];
+
+
+MFInterpretKernel//Attributes =
+    {HoldAllComplete};
+
+MFInterpretKernel[Format,pattern_,definition_,interpretation_] :=
+    HoldComplete[
+        Format[pattern],
+        With[ {def = definition},
+            Interpretation[def,interpretation]
+        ]
+    ]//ReplaceAll[HoldComplete[args__]:>SetDelayed[args]];
+
+MFInterpretKernel[Format,pattern_,definition_,interpretation_,format_] :=
+    HoldComplete[
+        Format[pattern,format],
+        With[ {def = definition},
+            Interpretation[def,interpretation]
+        ]
+    ]//ReplaceAll[HoldComplete[args__]:>SetDelayed[args]];
+
+MFInterpretKernel[MakeBoxes,pattern_,definition_,interpretation_,format_,symbol_] :=
     HoldComplete[
         symbol,
-        MakeBoxes[args],
-        With[ {box = boxdef},
-            InterpretationBox[box,interpretation]
+        MakeBoxes[pattern,format],
+        With[ {def = definition},
+            InterpretationBox[def,interpretation]
         ]
-    ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
-
-
-interpretize/:(set:TagSetDelayed|TagSet)[symbol_Symbol,Verbatim[MakeBoxes][args__],interpretize[boxdef_]] :=
-    With[ {interpretation = stripPattern[First@{args},Unevaluated]},
-        HoldComplete[
-            symbol,
-            MakeBoxes[args],
-            With[ {box = boxdef},
-                InterpretationBox[box,interpretation]
-            ]
-        ]
-    ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
-
-
-(* ::Text:: *)
-(*Format*)
-
-
-interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatdef_,interpretation_]] :=
-    HoldComplete[
-        Format[args],
-        With[ {format = formatdef},
-            Interpretation[format,interpretation]
-        ]
-    ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
-
-
-interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatdef_]] :=
-    With[ {interpretation = stripPattern[First@{args},Unevaluated]},
-        HoldComplete[
-            Format[args],
-            With[ {format = formatdef},
-                Interpretation[format,interpretation]
-            ]
-        ]
-    ]//ReplaceAll[HoldComplete[args1__]:>set[args1]];
+    ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
 
 (* ::Subsection:: *)
@@ -92,10 +122,35 @@ interpretize/:(set:SetDelayed|Set)[Verbatim[Format][args__],interpretize[formatd
 
 
 stripPattern//Attributes =
-    {HoldAll};
+    {HoldAllComplete};
 
-stripPattern[expr_,head_:Defer] :=
-    head[expr]//ReplaceRepeated[(Verbatim[Pattern]|Verbatim[Optional]|Verbatim[PatternTest]|Verbatim[Condition])[pattern_,_]:>pattern];
+stripPattern[expr_,hold_] :=
+    hold[expr]//ReplaceRepeated[(Verbatim[Pattern]|Verbatim[Optional]|Verbatim[PatternTest]|Verbatim[Condition])[pattern_,_]:>pattern];
+
+
+getHeadFromPattern//Attributes =
+    {HoldAllComplete};
+
+getHeadFromPattern[expr_Symbol,hold_] :=
+    hold[expr];
+
+getHeadFromPattern[expr_,hold_] :=
+    With[ {head = Head@Unevaluated@expr},
+        hold[head]
+    ];
+
+
+validFormatQ//Attributes =
+    {HoldAllComplete};
+
+validFormatQ[Format,format_] :=
+    MatchQ[format,StandardForm|TraditionalForm];
+
+validFormatQ[MakeBoxes,format_] :=
+    MatchQ[format,StandardForm|TraditionalForm]||Internal`PatternPresentQ[format];
+
+validFormatQ[_,_] :=
+    False;
 
 
 (* ::Subsection:: *)

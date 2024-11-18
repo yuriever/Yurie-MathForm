@@ -94,7 +94,7 @@ VerificationTest[
 VerificationTest[
 	SetOptions[MF, "Listable" -> False]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLaTeXLRPair" -> True, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
 	TestID->"11-MF.nb"
 ]
@@ -118,7 +118,7 @@ VerificationTest[
 VerificationTest[
 	SetOptions[MF, "FontSize" -> 10]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLaTeXLRPair" -> True, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
 	TestID->"14-MF.nb"
 ]
