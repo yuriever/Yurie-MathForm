@@ -73,6 +73,10 @@ MF//Options = {
 };
 
 
+(* ::Subsection:: *)
+(*Message*)
+
+
 MF::LaTeXFailed=
     "LaTeX compilation failed, please check the LaTeX file below.";
 
