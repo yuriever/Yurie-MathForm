@@ -44,6 +44,13 @@ $indexTypeP::usage =
     "pattern of index types.";
 
 
+$breakPlus::usage =
+    "head of Plus used by the MFString option BreakPlusTimes.";
+
+$breakTimes::usage =
+    "head of Times used by the MFString option BreakPlusTimes.";
+
+
 (* ::Section:: *)
 (*Private*)
 
@@ -86,6 +93,30 @@ $indexPositionP =
 
 $indexTypeP =
     All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|_Symbol;
+
+
+$breakPlus/:MakeBoxes[$breakPlus[arg___],TraditionalForm]:=
+    RowBox@{
+        "MFPlusLeft",
+        Sequence@@Riffle[Map[MakeBoxes[#,TraditionalForm]&,{arg}],"MFPlusSep"],
+        "MFPlusRight"
+    };
+
+
+$breakTimes/:MakeBoxes[$breakTimes[arg___],TraditionalForm]:=
+    RowBox@{
+        "MFTimesLeft",
+        Sequence@@Riffle[Map[MakeBoxes[#,TraditionalForm]&,{arg}],"MFTimesSep"],
+        "MFTimesRight"
+    };
+
+$breakTimes/:MakeBoxes[$breakTimes[-1,arg___],TraditionalForm]:=
+    RowBox@{
+        "MFTimesLeft",
+        "-",
+        Sequence@@Riffle[Map[MakeBoxes[#,TraditionalForm]&,{arg}],"MFTimesSep"],
+        "MFTimesRight"
+    };
 
 
 (* ::Subsection:: *)

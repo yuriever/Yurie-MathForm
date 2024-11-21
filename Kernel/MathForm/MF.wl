@@ -13,6 +13,10 @@ Needs["Yurie`MathForm`Constant`"];
 
 Needs["Yurie`MathForm`Variable`"];
 
+Needs["Lacia`Base`"];
+
+ClearAll[MFString];
+
 
 (* ::Section:: *)
 (*Public*)
@@ -44,7 +48,9 @@ Begin["`Private`"];
 
 
 MFString//Options = {
-    "RemoveLaTeXLRPair"->True
+    "RemoveLeftRightPair"->True,
+    "BreakPlusTimes"->True,
+    "BreakPlusTimesThreshold"->10
 };
 
 MFCopy//Options = {
@@ -67,6 +73,13 @@ MF//Options = {
 };
 
 
+MF::LaTeXFailed=
+    "LaTeX compilation failed, please check the LaTeX file below.";
+
+MF::PDFFailed=
+    "PDF import failed, please check the LaTeX file below.";
+
+
 (* ::Subsection:: *)
 (*MFString*)
 
@@ -81,9 +94,13 @@ MFString[expr_,OptionsPattern[]] :=
             If[ Head[expr]===String,
                 expr,
                 (*Else*)
-                expr//TeXForm//ToString//texTrim//ifRemoveLeftRight[OptionValue["RemoveLaTeXLRPair"]]
+                expr//ifBreakPlusTimes[OptionValue["BreakPlusTimes"],OptionValue["BreakPlusTimesThreshold"]]//
+                    TeXForm//ToString//deleteBlankOfScript//
+                        ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]
             ];
-        string//StringReplace[$MFRule]
+        string//StringReplace[$MFRule]//
+            ifBreakPlusTimes[OptionValue["BreakPlusTimes"]]//
+		        trimEmptyLine
     ];
 
 
@@ -91,7 +108,7 @@ MFString[expr_,OptionsPattern[]] :=
 (*Helper*)
 
 
-texTrim[string_String] :=
+deleteBlankOfScript[string_String] :=
     string//StringReplace[{
         " _"->"_"," ^"->"^"
     }];
@@ -104,6 +121,50 @@ ifRemoveLeftRight[True][string_String] :=
 
 ifRemoveLeftRight[False][string_String] :=
     string;
+
+
+ifBreakPlusTimes[True,threshold_Integer][expr_] :=
+    Replace[
+        expr,
+        {
+            product_Times/;leafCount[product]>=threshold:>Apply[$breakTimes,product],
+            sum_Plus/;leafCount[sum]>=threshold:>Apply[$breakPlus,sum]
+        },
+        All
+    ];
+
+ifBreakPlusTimes[True][string_String] :=
+    string//StringReplace[{
+        "\\text{MFPlusLeft}"->"\n",
+        "\\text{MFPlusSep}"->"\n+\n",
+        "\\text{MFPlusRight}"->"\n",
+        "\\text{MFTimesLeft}"->"\n",
+        "\\text{MFTimesSep}"->"\n",
+        "\\text{MFTimesRight}"->"\n"
+    }]//StringReplace[{
+        "+"~~spacing:WhitespaceCharacter...~~"-":>"-"<>spacing
+    }];
+
+ifBreakPlusTimes[False] :=
+    Identity;
+
+
+leafCount[_Symbol|_Integer|_String|_$breakTimes|_$breakPlus] :=
+    1;
+
+leafCount[_Symbol[_Symbol|_Integer|_String]] :=
+    1;
+
+leafCount[expr_] :=
+    If[ Length[expr]===0,
+        0,
+        (*Else*)
+        Plus@@leafCount/@List@@expr
+    ]+leafCount[Head[expr]];
+
+
+trimEmptyLine[string_String] :=
+    string//StringReplace[RegularExpression["(?m)^\\s*$\\n?"]->""]//StringTrim;
 
 
 (* ::Subsection:: *)
@@ -148,7 +209,7 @@ MF[expr_,opts:OptionsPattern[]] :=
             ],
             (*Else*)
             MFKernel[string,fopts1]
-        ]
+        ]//Catch
     ];
 
 
@@ -173,9 +234,6 @@ MFKernel[string_String,OptionsPattern[]] :=
         importPDF[id]//First//Magnify[#,OptionValue["Magnification"]]&
     ];
 
-MFKernel[{},OptionsPattern[]] :=
-    {};
-
 MFKernel[stringList:{__String},OptionsPattern[]] :=
     Module[ {id,texData},
         texData = {
@@ -195,6 +253,9 @@ MFKernel[stringList:{__String},OptionsPattern[]] :=
         ];
         importPDF[id]//Map[Magnify[#,OptionValue["Magnification"]]&]
     ];
+
+MFKernel[{},OptionsPattern[]] :=
+    {};
 
 
 (* ::Subsubsection:: *)
@@ -221,19 +282,36 @@ exportTexFile[id_String,listable_?BooleanQ][stringOrItsList_,preambleList_List,f
 
 
 generatePDF[id_] :=
-    RunProcess[
-        {
-            $pdfLaTeX,
-            "-halt-on-error",
-            "-interaction=nonstopmode",
-            id<>".tex"
-        },
-        ProcessDirectory->$temporaryDir
+    Module[ {info},
+	    info=
+		    RunProcess[
+		        {
+		            $pdfLaTeX,
+		            "-halt-on-error",
+		            "-interaction=nonstopmode",
+		            id<>".tex"
+		        },
+		        ProcessDirectory->$temporaryDir
+		    ];
+        If[ info["ExitCode"]===1,
+            Message[MF::LaTeXFailed];
+            Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],
+            (*Else*)
+            pdf
+        ]
     ];
 
 
 importPDF[id_] :=
-    Import[FileNameJoin[$temporaryDir,id<>".pdf"],"PageGraphics"];
+    Module[ {pdf},
+        pdf = Quiet@Import[FileNameJoin[$temporaryDir,id<>".pdf"],"PageGraphics"];
+        If[ FailureQ[pdf],
+            Message[MF::PDFFailed];
+            Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],
+            (*Else*)
+            pdf
+        ]
+    ];
 
 
 (* ::Subsection:: *)

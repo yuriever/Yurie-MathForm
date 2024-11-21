@@ -1,6 +1,9 @@
-{"MFString" -> {0, {"RemoveLaTeXLRPair"}}, 
- "MFCopy" -> {0, {"RemoveLaTeXLRPair"}}, 
+{"MFString" -> {0, {"RemoveLeftRightPair", "BreakPlusTimes", 
+    "BreakPlusTimesThreshold"}}, 
+ "MFCopy" -> {0, {"RemoveLeftRightPair", "BreakPlusTimes", 
+    "BreakPlusTimesThreshold"}}, 
  "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
-    "RemoveLaTeXLRPair", "CopyToClipboard", "ClearCache", "Listable"}}, 
+    "RemoveLeftRightPair", "BreakPlusTimes", "BreakPlusTimesThreshold", 
+    "CopyToClipboard", "ClearCache", "Listable"}}, 
  "indexJoin" -> {0, {"IndexPosition", "IndexType"}}, 
  "indexSplit" -> {0, {"IndexPosition", "IndexType"}}}

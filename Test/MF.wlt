@@ -94,7 +94,7 @@ VerificationTest[
 VerificationTest[
 	SetOptions[MF, "Listable" -> False]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLaTeXLRPair" -> True, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "BreakPlusTimes" -> True, "BreakPlusTimesThreshold" -> 10, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
 	TestID->"11-MF.nb"
 ]
@@ -118,7 +118,7 @@ VerificationTest[
 VerificationTest[
 	SetOptions[MF, "FontSize" -> 10]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLaTeXLRPair" -> True, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "BreakPlusTimes" -> True, "BreakPlusTimesThreshold" -> 10, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
 	TestID->"14-MF.nb"
 ]
@@ -129,6 +129,54 @@ VerificationTest[
 	"9181961723921148291-Single"
 	,
 	TestID->"15-MF.nb"
+]
+
+VerificationTest[
+	MFString[((-a)*b)^n, "BreakPlusTimesThreshold" -> 2]
+	,
+	"(\n-a\nb\n)^n"
+	,
+	TestID->"16-MF.nb"
+]
+
+VerificationTest[
+	MFString[a - b + c, "BreakPlusTimesThreshold" -> 2]
+	,
+	"a\n+\nc\n-\nb"
+	,
+	TestID->"17-MF.nb"
+]
+
+VerificationTest[
+	MFString[-a - b, "BreakPlusTimesThreshold" -> 2]
+	,
+	"-a\n-\nb"
+	,
+	TestID->"18-MF.nb"
+]
+
+VerificationTest[
+	MFString[1 - a*b, "BreakPlusTimesThreshold" -> 2]
+	,
+	"1\n-\na\nb"
+	,
+	TestID->"19-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h, "BreakPlusTimesThreshold" -> 10]
+	,
+	"(\n-(c d)^n\n(a+b+c+d+e+f+g)^2\n)+e f+h"
+	,
+	TestID->"20-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-(a + b - c + d + e + f + g)^2)*(c*d)^n + e*f + h, "BreakPlusTimesThreshold" -> 20]
+	,
+	"e f\n-\n(c d)^n (a+b-c+d+e+f+g)^2\n+\nh"
+	,
+	TestID->"21-MF.nb"
 ]
 
 VerificationTest[
