@@ -13,10 +13,6 @@ Needs["Yurie`MathForm`Constant`"];
 
 Needs["Yurie`MathForm`Variable`"];
 
-Needs["Lacia`Base`"];
-
-ClearAll[MFString];
-
 
 (* ::Section:: *)
 (*Public*)
@@ -77,10 +73,10 @@ MF//Options = {
 (*Message*)
 
 
-MF::LaTeXFailed=
+MF::LaTeXFailed =
     "LaTeX compilation failed, please check the LaTeX file below.";
 
-MF::PDFFailed=
+MF::PDFFailed =
     "PDF import failed, please check the LaTeX file below.";
 
 
@@ -104,7 +100,7 @@ MFString[expr_,OptionsPattern[]] :=
             ];
         string//StringReplace[$MFRule]//
             ifBreakPlusTimes[OptionValue["BreakPlusTimes"]]//
-		        trimEmptyLine
+                trimEmptyLine
     ];
 
 
@@ -139,9 +135,9 @@ ifBreakPlusTimes[True,threshold_Integer][expr_] :=
 
 ifBreakPlusTimes[True][string_String] :=
     string//StringReplace[{
-        "\\text{MFPlusLeft}"->"\n",
+        "\\text{MFPlusLeft}"->"(\n",
         "\\text{MFPlusSep}"->"\n+\n",
-        "\\text{MFPlusRight}"->"\n",
+        "\\text{MFPlusRight}"->"\n)",
         "\\text{MFTimesLeft}"->"\n",
         "\\text{MFTimesSep}"->"\n",
         "\\text{MFTimesRight}"->"\n"
@@ -287,16 +283,16 @@ exportTexFile[id_String,listable_?BooleanQ][stringOrItsList_,preambleList_List,f
 
 generatePDF[id_] :=
     Module[ {info},
-	    info=
-		    RunProcess[
-		        {
-		            $pdfLaTeX,
-		            "-halt-on-error",
-		            "-interaction=nonstopmode",
-		            id<>".tex"
-		        },
-		        ProcessDirectory->$temporaryDir
-		    ];
+        info =
+            RunProcess[
+                {
+                    $pdfLaTeX,
+                    "-halt-on-error",
+                    "-interaction=nonstopmode",
+                    id<>".tex"
+                },
+                ProcessDirectory->$temporaryDir
+            ];
         If[ info["ExitCode"]===1,
             Message[MF::LaTeXFailed];
             Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],

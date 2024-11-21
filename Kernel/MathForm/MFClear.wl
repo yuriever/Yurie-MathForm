@@ -48,8 +48,8 @@ MFClear[(args:(_String|_Symbol)..)|{args:(_String|_Symbol)..}] :=
 
 MFClear[] :=
     (
-	    MFClear["Global`"];
-	    Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True];
+        MFClear["Global`"];
+        Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True];
     );
 
 

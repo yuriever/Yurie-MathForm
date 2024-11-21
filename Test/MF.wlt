@@ -142,7 +142,7 @@ VerificationTest[
 VerificationTest[
 	MFString[a - b + c, "BreakPlusTimesThreshold" -> 2]
 	,
-	"a\n+\nc\n-\nb"
+	"(\na\n+\nc\n-\nb\n)"
 	,
 	TestID->"17-MF.nb"
 ]
@@ -150,7 +150,7 @@ VerificationTest[
 VerificationTest[
 	MFString[-a - b, "BreakPlusTimesThreshold" -> 2]
 	,
-	"-a\n-\nb"
+	"(\n-a\n-\nb\n)"
 	,
 	TestID->"18-MF.nb"
 ]
@@ -158,7 +158,7 @@ VerificationTest[
 VerificationTest[
 	MFString[1 - a*b, "BreakPlusTimesThreshold" -> 2]
 	,
-	"1\n-\na\nb"
+	"(\n1\n-\na\nb\n)"
 	,
 	TestID->"19-MF.nb"
 ]
@@ -174,7 +174,7 @@ VerificationTest[
 VerificationTest[
 	MFString[(-(a + b - c + d + e + f + g)^2)*(c*d)^n + e*f + h, "BreakPlusTimesThreshold" -> 20]
 	,
-	"e f\n-\n(c d)^n (a+b-c+d+e+f+g)^2\n+\nh"
+	"(\ne f\n-\n(c d)^n (a+b-c+d+e+f+g)^2\n+\nh\n)"
 	,
 	TestID->"21-MF.nb"
 ]
