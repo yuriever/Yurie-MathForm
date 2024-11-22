@@ -1,9 +1,8 @@
-{"MFString" -> {0, {"RemoveLeftRightPair", "BreakPlusTimes", 
-    "BreakPlusTimesThreshold"}}, 
- "MFCopy" -> {0, {"RemoveLeftRightPair", "BreakPlusTimes", 
-    "BreakPlusTimesThreshold"}}, 
- "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
-    "RemoveLeftRightPair", "BreakPlusTimes", "BreakPlusTimesThreshold", 
-    "CopyToClipboard", "ClearCache", "Listable"}}, 
- "indexJoin" -> {0, {"IndexPosition", "IndexType"}}, 
+{"MFString" -> {0, {"RemoveLeftRightPair", "Linebreak", "LinebreakThreshold", 
+    "LinebreakIgnore"}}, "MFCopy" -> 
+  {0, {"RemoveLeftRightPair", "Linebreak", "LinebreakThreshold", 
+    "LinebreakIgnore"}}, "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", 
+    "Magnification", "RemoveLeftRightPair", "Linebreak", 
+    "LinebreakThreshold", "LinebreakIgnore", "CopyToClipboard", "ClearCache", 
+    "Listable"}}, "indexJoin" -> {0, {"IndexPosition", "IndexType"}}, 
  "indexSplit" -> {0, {"IndexPosition", "IndexType"}}}

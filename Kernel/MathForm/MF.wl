@@ -45,8 +45,9 @@ Begin["`Private`"];
 
 MFString//Options = {
     "RemoveLeftRightPair"->True,
-    "BreakPlusTimes"->True,
-    "BreakPlusTimesThreshold"->10
+    "Linebreak"->True,
+    "LinebreakThreshold"->12,
+    "LinebreakIgnore"->{}
 };
 
 MFCopy//Options = {
@@ -94,13 +95,13 @@ MFString[expr_,OptionsPattern[]] :=
             If[ Head[expr]===String,
                 expr,
                 (*Else*)
-                expr//ifBreakPlusTimes[OptionValue["BreakPlusTimes"],OptionValue["BreakPlusTimesThreshold"]]//
-                    TeXForm//ToString//deleteBlankOfScript//
-                        ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]
-            ];
-        string//StringReplace[$MFRule]//
-            ifBreakPlusTimes[OptionValue["BreakPlusTimes"]]//
-                trimEmptyLine
+                expr//ifBreakPlusTimes[OptionValue["Linebreak"],OptionValue["LinebreakThreshold"],OptionValue["LinebreakIgnore"]]//
+                    TeXForm//ToString//
+		                ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]//
+		                    ifBreakPlusTimes[OptionValue["Linebreak"]]//
+			                    StringReplace[$MFRule]//
+			                        deleteBlankBeforeScript//trimEmptyLine
+            ]
     ];
 
 
@@ -108,10 +109,167 @@ MFString[expr_,OptionsPattern[]] :=
 (*Helper*)
 
 
-deleteBlankOfScript[string_String] :=
+ifBreakPlusTimes[True,threshold_Integer,ignoredList_List][expr_] :=
+    Replace[
+        expr,
+        {
+            HoldPattern[product_Times]/;leafCount[ignoredList][product]>=threshold:>
+                Apply[breakTimes,product],
+            HoldPattern[sum_Plus]/;leafCount[ignoredList][sum]>=threshold:>
+                Apply[breakPlus,sum]
+        },
+        All
+    ];
+
+ifBreakPlusTimes[True][string_String] :=
     string//StringReplace[{
-        " _"->"_"," ^"->"^"
+        "\\text{MFTimesLeft}"->"\n",
+        "\\text{MFTimesRight}"->"\n",
+        "\\text{MFPlusSep}"->"\n+",
+        "\\text{MFPlusMinusSep}"->"\n-",
+        "\\text{MFTimesSep}"->"\n"
+    }]//FixedPoint[
+        StringReplace[{
+            left:$leftBracketP~~WhitespaceCharacter...~~"\\text{MFPlusLeft}"~~Shortest[content__]~~"\\text{MFPlusRight}"~~WhitespaceCharacter...~~right:$rightBracketP/;braketPairQ[left,right]&&!StringContainsQ[content,"\\text{MFPlusLeft}"]:>
+                left~~"\n"~~content~~"\n"~~right
+        }],
+        #
+    ]&//StringReplace[{
+        "\\text{MFPlusLeft}"->"(\n",
+        "\\text{MFPlusRight}"->"\n)"
+    }]//StringReplace[{
+        "+"~~WhitespaceCharacter...~~"-"~~WhitespaceCharacter...~~succ:WordCharacter|PunctuationCharacter:>"-"~~succ,
+        "-"~~WhitespaceCharacter...~~succ:WordCharacter|PunctuationCharacter:>"-"~~succ
     }];
+
+ifBreakPlusTimes[False,___] :=
+    Identity;
+
+
+leafCount[_][_breakTimes|_breakPlus|_Symbol|_Integer|_String|_Subscript|_Superscript|_Subsuperscript|(_Symbol[_Symbol|_Integer|_String])] :=
+    1;
+
+leafCount[ignoredList_][expr_]/;AnyTrue[ignoredList,MatchQ[expr,#]&] :=
+    1;
+
+leafCount[ignoredList_][expr_] :=
+    If[ Length[expr]===0,
+        0,
+        (*Else*)
+        Plus@@leafCount[ignoredList]/@List@@expr
+    ]+leafCount[ignoredList][Head[expr]];
+
+leafCount[ignoredList_][HoldPattern[Times[-1,rest__]]] :=
+    leafCount[ignoredList][Times[rest]];
+
+
+braketPairQ["(",")"] :=
+    True;
+
+braketPairQ["[","]"] :=
+    True;
+
+braketPairQ["\\{","\\}"] :=
+    True;
+
+braketPairQ["\\left(","\\right)"] :=
+    True;
+
+braketPairQ["\\left[","\\right]"] :=
+    True;
+
+braketPairQ["\\left\\{","\\right\\}"] :=
+    True;
+
+braketPairQ["{","}"] :=
+    True;
+
+
+breakPlus//Attributes =
+    {Flat,Orderless,HoldAllComplete};
+
+breakPlus/:MakeBoxes[breakPlus[args___],TraditionalForm]:=
+    Module[ {signedList},
+        signedList =
+            Map[
+                If[ MatchQ[#,Times[-1,___]],
+                    {"MFPlusMinusSep",boxPlusSignedTerm[-#]},
+                    {"MFPlusSep",boxPlusTerm[#]}
+                ]&,
+                {args}
+            ]//Flatten//dropFirstPlus;
+        RowBox@{
+            "MFPlusLeft",
+            Sequence@@signedList,
+            "MFPlusRight"
+        }
+    ];
+
+
+boxPlusSignedTerm//Attributes =
+    {HoldAllComplete};
+
+boxPlusSignedTerm[HoldPattern[-Times[-1,rest___]]] :=
+    MakeBoxes[Times[rest],TraditionalForm];
+
+boxPlusSignedTerm[HoldPattern[-Times[-1,rest_]]] :=
+    MakeBoxes[rest,TraditionalForm];
+
+
+boxPlusTerm//Attributes =
+    {HoldAllComplete};
+
+boxPlusTerm[expr_] :=
+    MakeBoxes[expr,TraditionalForm];
+
+
+dropFirstPlus[{"MFPlusSep",rest__}] :=
+    {rest};
+
+
+breakTimes//Attributes =
+    {Flat,Orderless,HoldAllComplete};
+
+breakTimes/:MakeBoxes[breakTimes[args___],TraditionalForm]:=
+    Module[ {args1,num,denom},
+        args1 =
+            Map[
+                If[ Head[#]===Plus,
+                    boxPlusInTimes[#],
+                    #
+                ]&,
+                {args}
+            ];
+        denom =
+            Cases[args1,Power[base_,-1]:>MakeBoxes[base,TraditionalForm]]//trimMinusOne;
+        num =
+            Cases[args1,factor:Except[Power[_,-1]]:>MakeBoxes[factor,TraditionalForm]]//trimMinusOne;
+        If[ denom==={},
+            boxTimes[num],
+            (*Else*)
+            FractionBox[boxTimes[num],boxTimes[denom]]
+        ]
+    ];
+
+
+boxPlusInTimes/:MakeBoxes[boxPlusInTimes[arg_],TraditionalForm]:=
+    RowBox@{"MFPlusLeft",MakeBoxes[arg,TraditionalForm],"MFPlusRight"};
+
+
+trimMinusOne[factorList_List] :=
+    If[ Length[factorList]>=2&&factorList[[1]]===RowBox[{"-", "1"}],
+        Join[{"-"},Rest@factorList],
+        (*Else*)
+        factorList
+    ];
+
+
+boxTimes[factorList_] :=
+    RowBox@{
+        "MFTimesLeft",
+        Sequence@@Riffle[factorList,"MFTimesSep"],
+        "MFTimesRight"
+    };
 
 
 ifRemoveLeftRight[True][string_String] :=
@@ -123,44 +281,10 @@ ifRemoveLeftRight[False][string_String] :=
     string;
 
 
-ifBreakPlusTimes[True,threshold_Integer][expr_] :=
-    Replace[
-        expr,
-        {
-            product_Times/;leafCount[product]>=threshold:>Apply[$breakTimes,product],
-            sum_Plus/;leafCount[sum]>=threshold:>Apply[$breakPlus,sum]
-        },
-        All
-    ];
-
-ifBreakPlusTimes[True][string_String] :=
+deleteBlankBeforeScript[string_String] :=
     string//StringReplace[{
-        "\\text{MFPlusLeft}"->"(\n",
-        "\\text{MFPlusSep}"->"\n+\n",
-        "\\text{MFPlusRight}"->"\n)",
-        "\\text{MFTimesLeft}"->"\n",
-        "\\text{MFTimesSep}"->"\n",
-        "\\text{MFTimesRight}"->"\n"
-    }]//StringReplace[{
-        "+"~~spacing:WhitespaceCharacter...~~"-":>"-"<>spacing
+        " _"->"_"," ^"->"^"
     }];
-
-ifBreakPlusTimes[False] :=
-    Identity;
-
-
-leafCount[_Symbol|_Integer|_String|_$breakTimes|_$breakPlus] :=
-    1;
-
-leafCount[_Symbol[_Symbol|_Integer|_String]] :=
-    1;
-
-leafCount[expr_] :=
-    If[ Length[expr]===0,
-        0,
-        (*Else*)
-        Plus@@leafCount/@List@@expr
-    ]+leafCount[Head[expr]];
 
 
 trimEmptyLine[string_String] :=
@@ -198,7 +322,7 @@ MF[expr_,opts:OptionsPattern[]] :=
             CopyToClipboard@string
         ];
         If[ OptionValue["ClearCache"],
-            DeleteDirectory[$temporaryDir,DeleteContents->True]
+            Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True]
         ];
         (*If the expression is a list, and the option Listable is True, then LaTeXify each element of the list separately.*)
         (*Otherwise, treat the list head as part of the LaTeX.*)

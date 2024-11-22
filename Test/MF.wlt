@@ -94,7 +94,7 @@ VerificationTest[
 VerificationTest[
 	SetOptions[MF, "Listable" -> False]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "BreakPlusTimes" -> True, "BreakPlusTimesThreshold" -> 10, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 5, "LinebreakIgnore" -> {}, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
 	TestID->"11-MF.nb"
 ]
@@ -118,7 +118,7 @@ VerificationTest[
 VerificationTest[
 	SetOptions[MF, "FontSize" -> 10]
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "BreakPlusTimes" -> True, "BreakPlusTimesThreshold" -> 10, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 5, "LinebreakIgnore" -> {}, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
 	,
 	TestID->"14-MF.nb"
 ]
@@ -132,51 +132,99 @@ VerificationTest[
 ]
 
 VerificationTest[
-	MFString[((-a)*b)^n, "BreakPlusTimesThreshold" -> 2]
+	SetOptions[{MFString}, "LinebreakThreshold" -> 4]
 	,
-	"(\n-a\nb\n)^n"
+	{{"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 4, "LinebreakIgnore" -> {}}}
 	,
 	TestID->"16-MF.nb"
 ]
 
 VerificationTest[
-	MFString[a - b + c, "BreakPlusTimesThreshold" -> 2]
+	MFString[-a]
 	,
-	"(\na\n+\nc\n-\nb\n)"
+	"-a"
 	,
 	TestID->"17-MF.nb"
 ]
 
 VerificationTest[
-	MFString[-a - b, "BreakPlusTimesThreshold" -> 2]
+	MFString[a - b + c]
 	,
-	"(\n-a\n-\nb\n)"
+	"(\na\n-b\n+c\n)"
 	,
 	TestID->"18-MF.nb"
 ]
 
 VerificationTest[
-	MFString[1 - a*b, "BreakPlusTimesThreshold" -> 2]
+	MFString[-a - b]
 	,
-	"(\n1\n-\na\nb\n)"
+	"-a-b"
 	,
 	TestID->"19-MF.nb"
 ]
 
 VerificationTest[
-	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h, "BreakPlusTimesThreshold" -> 10]
+	MFString[1 - a*b]
 	,
-	"(\n-(c d)^n\n(a+b+c+d+e+f+g)^2\n)+e f+h"
+	"(\n1\n-a b\n)"
 	,
 	TestID->"20-MF.nb"
 ]
 
 VerificationTest[
-	MFString[(-(a + b - c + d + e + f + g)^2)*(c*d)^n + e*f + h, "BreakPlusTimesThreshold" -> 20]
+	MFString[(-a + b)/2]
 	,
-	"(\ne f\n-\n(c d)^n (a+b-c+d+e+f+g)^2\n+\nh\n)"
+	"\\frac{1}{2}\n(\nb-a\n)"
 	,
 	TestID->"21-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-a + b)/(c + d)]
+	,
+	"\\frac{\nb-a\n}{\nc+d\n}"
+	,
+	TestID->"22-MF.nb"
+]
+
+VerificationTest[
+	MFString[((-a)*b)^n]
+	,
+	"(-a b)^n"
+	,
+	TestID->"23-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h]
+	,
+	"(\ne f\n+h\n-(c d)^n\n(\na\n+b\n+c\n+d\n+e\n+f\n+g\n)^2\n)"
+	,
+	TestID->"24-MF.nb"
+]
+
+VerificationTest[
+	MFString[((-b^2)*a[x, y])/(m[1]*m[2])]
+	,
+	"\\frac{\n-b^2\na(x,y)\n}{\nm(1)\nm(2)\n}"
+	,
+	TestID->"25-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-(a + b - c + d + e + f + g)^2)*(c*d)^n + e*f + h]
+	,
+	"(\ne f\n+h\n-(c d)^n\n(\na\n+b\n-c\n+d\n+e\n+f\n+g\n)^2\n)"
+	,
+	TestID->"26-MF.nb"
+]
+
+VerificationTest[
+	MFString[a^n*b^n*((c*d)^n/(e*f))]
+	,
+	"\\frac{\na^n\nb^n\n(c d)^n\n}{\ne\nf\n}"
+	,
+	TestID->"27-MF.nb"
 ]
 
 VerificationTest[
