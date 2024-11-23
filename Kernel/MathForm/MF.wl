@@ -131,6 +131,7 @@ ifBreakPlusTimes[expr_,False,___] :=
 
 ifBreakPlusTimes2[True][string_String] :=
     string//StringReplace[{
+        "\\text{MFLeftTimes} (-1) \\text{MFLinebreak}"->"\n-\n",
         "\\text{MFLinebreak}"->"\n",
         "\\text{MFLeftTimes}"->"\n",
         "\\text{MFRightTimes}"->"\n"
@@ -158,9 +159,9 @@ ifBreakPlusTimes2[True][string_String] :=
         #
     ]&//StringReplace[{
         (*Remove the plus signs at the begining/ending: {+ -> {, +} -> }*)
-        prec:$leftBracketP~~Shortest[spacing:WhitespaceCharacter...]~~"+":>prec~~spacing,
-        "+"~~Shortest[spacing:WhitespaceCharacter...]~~succ:$rightBracketP:>spacing~~succ,
-        "+"~~Shortest[WhitespaceCharacter...]~~"(-1)":>"-"
+        prec:$leftBracketP~~spacing:WhitespaceCharacter...~~"+":>prec~~spacing,
+        "+"~~spacing:WhitespaceCharacter...~~succ:$rightBracketP:>spacing~~succ
+        (* "+"~~WhitespaceCharacter...~~"(-1)":>"-" *)
     }];
 
 ifBreakPlusTimes2[False][string_String] :=
@@ -170,7 +171,7 @@ ifBreakPlusTimes2[False][string_String] :=
 leafCount//Attributes =
     {HoldAllComplete};
 
-leafCount[_,_Symbol|_Integer|_String|_Subscript|_Superscript|_Subsuperscript|(_Symbol[_Symbol|_Integer|_String])] :=
+leafCount[_,_Symbol|_Integer|_String] :=
     1;
 
 leafCount[ignoredList_,HoldPattern[Times[-1,rest__]]] :=

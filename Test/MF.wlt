@@ -158,7 +158,7 @@ VerificationTest[
 VerificationTest[
 	Yurie`MathForm`MF`Private`leafCount[{}, a - b]
 	,
-	3
+	4
 	,
 	TestID->"19-MF.nb"
 ]
@@ -166,7 +166,7 @@ VerificationTest[
 VerificationTest[
 	Yurie`MathForm`MF`Private`leafCount[{}, 1 - 1 + a - b]
 	,
-	5
+	6
 	,
 	TestID->"20-MF.nb"
 ]
@@ -198,7 +198,7 @@ VerificationTest[
 VerificationTest[
 	MFString[a - b + c]
 	,
-	"a-b+c"
+	"a\n-b\n+c"
 	,
 	TestID->"24-MF.nb"
 ]
@@ -206,7 +206,7 @@ VerificationTest[
 VerificationTest[
 	MFString[-a - b]
 	,
-	"-a-b"
+	"-a\n-b"
 	,
 	TestID->"25-MF.nb"
 ]
@@ -222,7 +222,7 @@ VerificationTest[
 VerificationTest[
 	MFString[(-a + b)/2]
 	,
-	"\\frac{1}{2} \n (-a+b)"
+	"\\frac{1}{2} \n (\n-a\n+b\n)"
 	,
 	TestID->"27-MF.nb"
 ]
@@ -230,7 +230,7 @@ VerificationTest[
 VerificationTest[
 	MFString[(-a + b)/(c + d)]
 	,
-	"\\frac{\n-a+b\n}{c+d}"
+	"\\frac{\n-a\n+b\n}{c+d}"
 	,
 	TestID->"28-MF.nb"
 ]
@@ -246,7 +246,7 @@ VerificationTest[
 VerificationTest[
 	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h]
 	,
-	"e f\n- \n (c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
+	"e f\n-\n (c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
 	,
 	TestID->"30-MF.nb"
 ]
@@ -254,7 +254,7 @@ VerificationTest[
 VerificationTest[
 	MFString[((-b^2)*a[x, y])/(m[1]*m[2])]
 	,
-	"\\frac{\n (-1) \n b^2 \n a(x,y) \n}{m(1) m(2)}"
+	"\\frac{\n-\n b^2 \n a(x,y) \n}{m(1) m(2)}"
 	,
 	TestID->"31-MF.nb"
 ]
