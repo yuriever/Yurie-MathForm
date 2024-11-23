@@ -109,21 +109,28 @@ ifBreakPlusTimes//Attributes = {
     HoldFirst
 };
 
+brokenPlusTimes//Attributes = {
+    HoldAll
+};
+
 ifBreakPlusTimes[expr_,True,threshold_Integer,ignoredList_List] :=
     HoldComplete[expr]//
         Replace[#,
             HoldPattern[(head:Times|Plus)[args__]]/;
-                AnyTrue[HoldComplete[args],Function[expr1,leafCount[ignoredList,expr1]>=threshold,HoldAllComplete]]:>
+                AnyTrue[HoldComplete[args],Function[arg,leafCount[ignoredList,arg]>=threshold,HoldAllComplete]]:>
                     RuleCondition@Replace[
-                        Hold[head,Evaluate["MFLeft"<>ToString[head]],args,Evaluate["MFRight"<>ToString[head]]],
+                        brokenPlusTimes[head,Evaluate["MF"<>ToString[head]<>"Left"],args,Evaluate["MF"<>ToString[head]<>"Right"]],
                         arg_/;leafCount[ignoredList,arg]>=threshold:>
                             Sequence["MFLinebreak",arg,"MFLinebreak"],
                         {1}
                     ],
             All
         ]&//
-            Replace[#,Hold[head_,args__]:>Construct[HoldForm@*head,args],All]&//
-                ReleaseHold;
+            Replace[#,{
+                brokenPlusTimes[Times,"MFTimesLeft",coefficient_?NumberQ,rest___]:>brokenPlusTimes[Times,"MFTimesLeft","MFNumberLeft",HoldForm[coefficient],"MFNumberRight",rest]
+            },All]&//
+                Replace[#,brokenPlusTimes[head_,args__]:>HoldForm@head[args],All]&//
+                    ReleaseHold;
 
 ifBreakPlusTimes[expr_,False,___] :=
     expr;
@@ -131,15 +138,18 @@ ifBreakPlusTimes[expr_,False,___] :=
 
 ifBreakPlusTimes2[True][string_String] :=
     string//StringReplace[{
-        "\\text{MFLeftTimes} (-1)"->"\n-",
+        "\\text{MFNumberLeft} (-1) \\text{MFNumberRight}":>"-",
+        "\\text{MFNumberLeft} ("~~Shortest[num__]~~") \\text{MFNumberRight}":>num,
+        "\\text{MFNumberLeft} "~~Shortest[num__]~~" \\text{MFNumberRight}":>num
+    }]//StringReplace[{
         "\\text{MFLinebreak}"->"\n",
-        "\\text{MFLeftTimes}"->"\n",
-        "\\text{MFRightTimes}"->"\n"
+        "\\text{MFTimesLeft}"->"\n",
+        "\\text{MFTimesRight}"->"\n"
     }]//FixedPoint[
         StringReplace[{
             (*The left and right separators are removed if in another bracket pair.*)
-            left:$leftBracketP~~WhitespaceCharacter...~~"\\text{MFLeftPlus}"~~Shortest[content__]~~"\\text{MFRightPlus}"~~WhitespaceCharacter...~~right:$rightBracketP/;
-                braketPairQ[left,right]&&!StringContainsQ[content,"\\text{MFLeftPlus}"]:>
+            left:$leftBracketP~~WhitespaceCharacter...~~"\\text{MFPlusLeft}"~~Shortest[content__]~~"\\text{MFPlusRight}"~~WhitespaceCharacter...~~right:$rightBracketP/;
+                braketPairQ[left,right]&&!StringContainsQ[content,"\\text{MFPlusLeft}"]:>
                     left~~"\n"~~content~~"\n"~~right
         }],
         #
@@ -160,8 +170,8 @@ ifBreakPlusTimes2[True][string_String] :=
     ]&//StringReplace[{
         (*Remove the plus signs at the begining/ending: {+ -> {, +} -> }*)
         prec:$leftBracketP~~spacing:WhitespaceCharacter...~~"+":>prec~~spacing,
-        "+"~~spacing:WhitespaceCharacter...~~succ:$rightBracketP:>spacing~~succ
-        (* "+"~~WhitespaceCharacter...~~"(-1)":>"-" *)
+        "+"~~spacing:WhitespaceCharacter...~~succ:$rightBracketP:>spacing~~succ,
+        StartOfLine~~WhitespaceCharacter...~~sign:"+"|"-"~~WhitespaceCharacter...~~succ:Except[WhitespaceCharacter]:>sign~~""~~succ
     }];
 
 ifBreakPlusTimes2[False][string_String] :=
@@ -171,7 +181,7 @@ ifBreakPlusTimes2[False][string_String] :=
 leafCount//Attributes =
     {HoldAllComplete};
 
-leafCount[_,_Symbol|_Integer|_String] :=
+leafCount[_,_Symbol|_String|_Integer] :=
     1;
 
 leafCount[ignoredList_,HoldPattern[Times[-1,rest__]]] :=

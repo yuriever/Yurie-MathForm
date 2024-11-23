@@ -246,7 +246,7 @@ VerificationTest[
 VerificationTest[
 	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h]
 	,
-	"e f\n- \n (c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
+	"e f\n-(c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
 	,
 	TestID->"30-MF.nb"
 ]
@@ -254,7 +254,7 @@ VerificationTest[
 VerificationTest[
 	MFString[((-b^2)*a[x, y])/(m[1]*m[2])]
 	,
-	"\\frac{\n- \n b^2 \n a(x,y) \n}{m(1) m(2)}"
+	"\\frac{\n-b^2 \n a(x,y) \n}{m(1) m(2)}"
 	,
 	TestID->"31-MF.nb"
 ]
@@ -294,9 +294,33 @@ VerificationTest[
 VerificationTest[
 	MFString[(-s)*t*f[a*b*c] - s*u*f[a*c*d]]
 	,
-	"- s t \n f(a b c) \n- s u \n f(a c d)"
+	"-s t \n f(a b c) \n-s u \n f(a c d)"
 	,
 	TestID->"36-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-s)*t*f[a*b*c] - 2*s*u*f[a*c*d]]
+	,
+	"-s t \n f(a b c) \n-2 s u \n f(a c d)"
+	,
+	TestID->"37-MF.nb"
+]
+
+VerificationTest[
+	expr = -1 - (a/3)*s*t*f[a*b*c] - 2*s*u*f[a*c*d] - (-1)^a*s*t*f[a*b*c*d] - (1/2)*s*u*f[a*c*d, 2] + (-1)^a*s*f[a*b*c*d] + (1/2)*s*u*t*f[a*c*d, 2] - s*u*f[a]
+	,
+	-1 - s*u*f[a] - (1/3)*a*s*t*f[a*b*c] - 2*s*u*f[a*c*d] + (-1)^a*s*f[a*b*c*d] - (-1)^a*s*t*f[a*b*c*d] - (1/2)*s*u*f[a*c*d, 2] + (1/2)*s*t*u*f[a*c*d, 2]
+	,
+	TestID->"38-MF.nb"
+]
+
+VerificationTest[
+	MFString[expr]
+	,
+	"-1\n-s u \n f(a) \n-\\frac{1}{3} a s t \n f(a b c) \n-2 s u \n f(a c d) \n+(-1)^a \n s \n f(a b c d) \n-(-1)^a \n s t \n f(a b c d) \n-\\frac{1}{2} s u \n f(a c d,2) \n+\\frac{1}{2} s t u \n f(a c d,2)"
+	,
+	TestID->"39-MF.nb"
 ]
 
 VerificationTest[
