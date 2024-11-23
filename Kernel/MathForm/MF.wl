@@ -46,7 +46,7 @@ Begin["`Private`"];
 MFString//Options = {
     "RemoveLeftRightPair"->True,
     "Linebreak"->True,
-    "LinebreakThreshold"->8,
+    "LinebreakThreshold"->5,
     "LinebreakIgnore"->{}
 };
 
