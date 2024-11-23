@@ -92,9 +92,9 @@ VerificationTest[
 ]
 
 VerificationTest[
-	SetOptions[MF, "Listable" -> False]
+	SetOptions[MF, "Listable" -> False]; 
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 12, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 5, "LinebreakIgnore" -> {}, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	Null
 	,
 	TestID->"11-MF.nb"
 ]
@@ -116,9 +116,9 @@ VerificationTest[
 ]
 
 VerificationTest[
-	SetOptions[MF, "FontSize" -> 10]
+	SetOptions[MF, "FontSize" -> 10]; 
 	,
-	{"Preamble" -> {"\\usepackage{amsmath,amssymb}"}, "FontSize" -> 10, "LineSpacing" -> {1.2, 0}, "Magnification" -> 1.5, "RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 5, "LinebreakIgnore" -> {}, "CopyToClipboard" -> True, "ClearCache" -> False, "Listable" -> False}
+	Null
 	,
 	TestID->"14-MF.nb"
 ]
@@ -132,11 +132,59 @@ VerificationTest[
 ]
 
 VerificationTest[
-	SetOptions[{MFString}, "LinebreakThreshold" -> 4]
+	Yurie`MathForm`MF`Private`leafCount[{Plus[__]}, 1 - 1]
 	,
-	{{"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 4, "LinebreakIgnore" -> {}}}
+	1
 	,
 	TestID->"16-MF.nb"
+]
+
+VerificationTest[
+	Yurie`MathForm`MF`Private`leafCount[{}, 1 - 1]
+	,
+	3
+	,
+	TestID->"17-MF.nb"
+]
+
+VerificationTest[
+	Yurie`MathForm`MF`Private`leafCount[{}, a + b]
+	,
+	3
+	,
+	TestID->"18-MF.nb"
+]
+
+VerificationTest[
+	Yurie`MathForm`MF`Private`leafCount[{}, a - b]
+	,
+	3
+	,
+	TestID->"19-MF.nb"
+]
+
+VerificationTest[
+	Yurie`MathForm`MF`Private`leafCount[{}, 1 - 1 + a - b]
+	,
+	5
+	,
+	TestID->"20-MF.nb"
+]
+
+VerificationTest[
+	Yurie`MathForm`MF`Private`leafCount[{HoldPattern[Plus[__]]}, 1 - 1 + a - b]
+	,
+	1
+	,
+	TestID->"21-MF.nb"
+]
+
+VerificationTest[
+	SetOptions[{MFString}, "LinebreakThreshold" -> 2]
+	,
+	{{"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}}}
+	,
+	TestID->"22-MF.nb"
 ]
 
 VerificationTest[
@@ -144,15 +192,15 @@ VerificationTest[
 	,
 	"-a"
 	,
-	TestID->"17-MF.nb"
+	TestID->"23-MF.nb"
 ]
 
 VerificationTest[
 	MFString[a - b + c]
 	,
-	"(\na\n-b\n+c\n)"
+	"a-b+c"
 	,
-	TestID->"18-MF.nb"
+	TestID->"24-MF.nb"
 ]
 
 VerificationTest[
@@ -160,31 +208,31 @@ VerificationTest[
 	,
 	"-a-b"
 	,
-	TestID->"19-MF.nb"
+	TestID->"25-MF.nb"
 ]
 
 VerificationTest[
 	MFString[1 - a*b]
 	,
-	"(\n1\n-a b\n)"
+	"1\n-a b"
 	,
-	TestID->"20-MF.nb"
+	TestID->"26-MF.nb"
 ]
 
 VerificationTest[
 	MFString[(-a + b)/2]
 	,
-	"\\frac{1}{2}\n(\nb-a\n)"
+	"\\frac{1}{2} \n (-a+b)"
 	,
-	TestID->"21-MF.nb"
+	TestID->"27-MF.nb"
 ]
 
 VerificationTest[
 	MFString[(-a + b)/(c + d)]
 	,
-	"\\frac{\nb-a\n}{\nc+d\n}"
+	"\\frac{\n-a+b\n}{c+d}"
 	,
-	TestID->"22-MF.nb"
+	TestID->"28-MF.nb"
 ]
 
 VerificationTest[
@@ -192,39 +240,55 @@ VerificationTest[
 	,
 	"(-a b)^n"
 	,
-	TestID->"23-MF.nb"
+	TestID->"29-MF.nb"
 ]
 
 VerificationTest[
 	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h]
 	,
-	"(\ne f\n+h\n-(c d)^n\n(\na\n+b\n+c\n+d\n+e\n+f\n+g\n)^2\n)"
+	"e f\n- \n (c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
 	,
-	TestID->"24-MF.nb"
+	TestID->"30-MF.nb"
 ]
 
 VerificationTest[
 	MFString[((-b^2)*a[x, y])/(m[1]*m[2])]
 	,
-	"\\frac{\n-b^2\na(x,y)\n}{\nm(1)\nm(2)\n}"
+	"\\frac{\n (-1) \n b^2 \n a(x,y) \n}{m(1) m(2)}"
 	,
-	TestID->"25-MF.nb"
-]
-
-VerificationTest[
-	MFString[(-(a + b - c + d + e + f + g)^2)*(c*d)^n + e*f + h]
-	,
-	"(\ne f\n+h\n-(c d)^n\n(\na\n+b\n-c\n+d\n+e\n+f\n+g\n)^2\n)"
-	,
-	TestID->"26-MF.nb"
+	TestID->"31-MF.nb"
 ]
 
 VerificationTest[
 	MFString[a^n*b^n*((c*d)^n/(e*f))]
 	,
-	"\\frac{\na^n\nb^n\n(c d)^n\n}{\ne\nf\n}"
+	"\\frac{\n a^n \n b^n \n (c d)^n \n}{e f}"
 	,
-	TestID->"27-MF.nb"
+	TestID->"32-MF.nb"
+]
+
+VerificationTest[
+	MFString[(a + b*c + d)/(a + b*c + d + 1)]
+	,
+	"\\frac{\na\n+b c\n+d\n}{\n1+a\n+b c\n+d\n}"
+	,
+	TestID->"33-MF.nb"
+]
+
+VerificationTest[
+	MFString[a*(b + c)*d, "LinebreakIgnore" -> {HoldPattern[Plus[___]]}]
+	,
+	"a d (b+c)"
+	,
+	TestID->"34-MF.nb"
+]
+
+VerificationTest[
+	MFString[a*(b + c)*d, "LinebreakIgnore" :> {HoldPattern[Times[___]]}]
+	,
+	"a \n (b+c) \n d"
+	,
+	TestID->"35-MF.nb"
 ]
 
 VerificationTest[

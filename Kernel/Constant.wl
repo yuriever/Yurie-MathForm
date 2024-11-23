@@ -94,9 +94,9 @@ $indexTypeP =
     All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|_Symbol;
 
 
-$leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{";
+$leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
 
-$rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}";
+$rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|EndOfString;
 
 
 (* ::Subsection:: *)
