@@ -127,9 +127,12 @@ ifBreakPlusTimes[expr_,True,threshold_Integer,ignoredList_List] :=
             All
         ]&//
             Replace[#,{
-                brokenPlusTimes[Times,"MFTimesLeft",coefficient_?NumberQ,rest___]:>brokenPlusTimes[Times,"MFTimesLeft","MFNumberLeft",HoldForm[coefficient],"MFNumberRight",rest]
+                brokenPlusTimes[Times,"MFTimesLeft",coefficient_?NumberQ,rest___]:>
+                    brokenPlusTimes[Times,"MFTimesLeft","MFNumberLeft",HoldForm[coefficient],"MFNumberRight",rest]
             },All]&//
-                Replace[#,brokenPlusTimes[head_,args__]:>HoldForm@head[args],All]&//
+                Replace[#,{
+                    brokenPlusTimes[head_,args__]:>HoldForm@head[args]
+                },All]&//
                     ReleaseHold;
 
 ifBreakPlusTimes[expr_,False,___] :=
@@ -171,6 +174,7 @@ ifBreakPlusTimes2[True][string_String] :=
         (*Remove the plus signs at the begining/ending: {+ -> {, +} -> }*)
         prec:$leftBracketP~~spacing:WhitespaceCharacter...~~"+":>prec~~spacing,
         "+"~~spacing:WhitespaceCharacter...~~succ:$rightBracketP:>spacing~~succ,
+        (*Remove the extra whitespaces.*)
         StartOfLine~~WhitespaceCharacter...~~sign:"+"|"-"~~WhitespaceCharacter...~~succ:Except[WhitespaceCharacter]:>sign~~""~~succ
     }];
 
