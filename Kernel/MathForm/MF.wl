@@ -131,7 +131,7 @@ ifBreakPlusTimes[expr_,False,___] :=
 
 ifBreakPlusTimes2[True][string_String] :=
     string//StringReplace[{
-        "\\text{MFLeftTimes} (-1) \\text{MFLinebreak}"->"\n-\n",
+        "\\text{MFLeftTimes} (-1)"->"\n-",
         "\\text{MFLinebreak}"->"\n",
         "\\text{MFLeftTimes}"->"\n",
         "\\text{MFRightTimes}"->"\n"

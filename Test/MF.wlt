@@ -246,7 +246,7 @@ VerificationTest[
 VerificationTest[
 	MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h]
 	,
-	"e f\n-\n (c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
+	"e f\n- \n (c d)^n \n (a+b+c+d+e+f+g)^2 \n+h"
 	,
 	TestID->"30-MF.nb"
 ]
@@ -254,7 +254,7 @@ VerificationTest[
 VerificationTest[
 	MFString[((-b^2)*a[x, y])/(m[1]*m[2])]
 	,
-	"\\frac{\n-\n b^2 \n a(x,y) \n}{m(1) m(2)}"
+	"\\frac{\n- \n b^2 \n a(x,y) \n}{m(1) m(2)}"
 	,
 	TestID->"31-MF.nb"
 ]
@@ -289,6 +289,14 @@ VerificationTest[
 	"a \n (b+c) \n d"
 	,
 	TestID->"35-MF.nb"
+]
+
+VerificationTest[
+	MFString[(-s)*t*f[a*b*c] - s*u*f[a*c*d]]
+	,
+	"- s t \n f(a b c) \n- s u \n f(a c d)"
+	,
+	TestID->"36-MF.nb"
 ]
 
 VerificationTest[
