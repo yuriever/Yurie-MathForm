@@ -29,6 +29,9 @@ $thisTestSourceDir::usage =
 $thisCompletionDir::usage =
     "directory of auto completion data.";
 
+$thisLibraryDir::usage =
+    "directory of library.";
+
 
 (* ::Section:: *)
 (*Private*)
@@ -65,6 +68,9 @@ $thisTestSourceDir =
 
 $thisCompletionDir =
     FileNameJoin@{$thisPaclet["Location"],"AutoCompletionData"};
+
+$thisLibraryDir =
+    FileNameJoin@{$thisPaclet["AssetLocation","Library"],$SystemID};
 
 
 (* ::Subsection:: *)

@@ -27,8 +27,8 @@ $macroListSeparator::usage =
 $pdfLaTeX::usage =
     "path of pdfLaTeX.";
 
-$Ghostscript::usage =
-    "path of Ghostscript.";
+$texfmt::usage =
+    "path of texfmt.";
 
 $temporaryDir::usage =
     "temporary directory."
@@ -72,9 +72,9 @@ $macroRightDelimiter = "MFRIGHT";
 $macroListSeparator = "MFLISTSEP";
 
 
-$pdfLaTeX = "/Library/TeX/texbin/pdflatex";
+$texfmt = FileNameJoin[$thisLibraryDir,"tex-fmt"];
 
-$Ghostscript = "/usr/local/bin/gs";
+$pdfLaTeX = "/Library/TeX/texbin/pdflatex";
 
 $temporaryDir = FileNameJoin[$TemporaryDirectory,"Yurie__MathForm"];
 

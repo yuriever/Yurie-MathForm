@@ -15,13 +15,15 @@ Get["Yurie`MathForm`Constant`"];
 Get["Yurie`MathForm`Variable`"];
 
 
-Get["Yurie`MathForm`MF`"];
+Get["Yurie`MathForm`MFString`"];
 
-Get["Yurie`MathForm`MFClear`"];
+Get["Yurie`MathForm`MF`"];
 
 Get["Yurie`MathForm`MFArgConvert`"];
 
 Get["Yurie`MathForm`MFInterpret`"];
+
+Get["Yurie`MathForm`MFClear`"];
 
 Get["Yurie`MathForm`Index`"];
 

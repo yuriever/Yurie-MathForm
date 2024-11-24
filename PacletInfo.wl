@@ -23,7 +23,8 @@ PacletObject[
         "Kernel",
         "Root" -> "Utility",
         "Context" -> {
-          "Yurie`MathForm`Info`"
+          "Yurie`MathForm`Info`",
+          "Yurie`MathForm`Library`"
         }
       },
       {
@@ -36,6 +37,7 @@ PacletObject[
         "Assets" -> {
           {"License", "LICENSE"},
           {"ReadMe", "README.md"},
+          {"Library", "Library"},
           {"Source", "Source"},
           {"Test", "Test"},
           {"TestSource", "TestSource"}
