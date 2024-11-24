@@ -65,6 +65,9 @@ MFArgConvert::clearformat =
 MFArgConvert[args___][list_List] :=
     Scan[MFArgConvertKernel2[args],list]//Catch;
 
+MFArgConvert[args___][arg_] :=
+    MFArgConvertKernel2[args][arg]//Catch;
+
 
 MFArgConvertKernel2[args___][Verbatim[Rule][funPattern_,funString_String]] :=
     MFArgConvertKernel[{funPattern,funString},args];
