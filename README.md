@@ -4,6 +4,8 @@ A Mathematica paclet for improving math layout.
 
 * The LaTeX template file `Source/template` is from [MaTeX](http://szhorvat.net/mathematica/MaTeX).
 
+* The exported LaTeX strings will be formatted by [tex-fmt](https://github.com/WGUNDERWOOD/tex-fmt).
+
 ## Documentation
 
 <https://yuriever.github.io/symbolic/Yurie-MathForm/doc/>
