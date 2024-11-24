@@ -13,6 +13,8 @@ Needs["Yurie`MathForm`Constant`"];
 
 Needs["Yurie`MathForm`Variable`"];
 
+Needs["Yurie`MathForm`MFString`"];
+
 
 (* ::Section:: *)
 (*Public*)
@@ -77,7 +79,7 @@ MF[expr_,opts:OptionsPattern[]] :=
         string =
             MFStringKernel[expr,fopts2];
         If[ OptionValue["CopyToClipboard"],
-            CopyToClipboard@string
+            string//MFFormatKernel//CopyToClipboard
         ];
         If[ OptionValue["ClearCache"],
             Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True]
@@ -91,8 +93,8 @@ MF[expr_,opts:OptionsPattern[]] :=
             ],
             (*Else*)
             MFKernel[string,fopts1]
-        ]//Catch
-    ];
+        ]
+    ]//Catch;
 
 
 MFKernel[string_String,OptionsPattern[]] :=
@@ -177,9 +179,7 @@ generatePDF[id_] :=
             ];
         If[ info["ExitCode"]===1,
             Message[MF::LaTeXFailed];
-            Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],
-            (*Else*)
-            pdf
+            Throw@File@FileNameJoin[$temporaryDir,id<>".tex"]
         ]
     ];
 

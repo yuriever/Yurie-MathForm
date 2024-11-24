@@ -98,7 +98,7 @@ VerificationTest[
 	MFArgConvert[][{funWithListArg[_List]}]; 
 	MFString[funWithListArg[{a, b}]]
 	,
-	"\\funWithListArg{\n\ta,\n\tb\n}"
+	"\\funWithListArg{\n    a,\n    b\n}"
 	,
 	TestID->"11-MFArgConvert.nb"
 ]
@@ -107,7 +107,7 @@ VerificationTest[
 	MFArgConvert[][{funWithMultiListArg[___List]}]; 
 	MFString[funWithMultiListArg[{a, b}, {c, d}]]
 	,
-	"\\funWithMultiListArg{\n\ta,\n\tb\n}{\n\tc,\n\td\n}"
+	"\\funWithMultiListArg{\n    a,\n    b\n}{\n    c,\n    d\n}"
 	,
 	TestID->"12-MFArgConvert.nb"
 ]
@@ -159,7 +159,7 @@ VerificationTest[
 VerificationTest[
 	MFString[funWithListArg[{fun[a], fun[b]}]]
 	,
-	"\\funWithListArg{\n\t\\fun{a},\n\t\\fun{b}\n}"
+	"\\funWithListArg{\n    \\fun{a},\n    \\fun{b}\n}"
 	,
 	TestID->"18-MFArgConvert.nb"
 ]
@@ -167,7 +167,7 @@ VerificationTest[
 VerificationTest[
 	MFString[funWithMultiListArg[{fun[a], fun[b]}, {funWithMultiArg[c, d]}]]
 	,
-	"\\funWithMultiListArg{\n\t\\fun{a},\n\t\\fun{b}\n}{\n\t\\funWithMultiArg{c}{d}\n}"
+	"\\funWithMultiListArg{\n    \\fun{a},\n    \\fun{b}\n}{\n    \\funWithMultiArg{c}{d}\n}"
 	,
 	TestID->"19-MFArgConvert.nb"
 ]
@@ -183,7 +183,7 @@ VerificationTest[
 VerificationTest[
 	MFString[funWithListArg[{fun[a], fun[b]}]]
 	,
-	"\\h{\n\t\\f{a},\n\t\\f{b}\n}"
+	"\\h{\n    \\f{a},\n    \\f{b}\n}"
 	,
 	TestID->"21-MFArgConvert.nb"
 ]
@@ -191,7 +191,7 @@ VerificationTest[
 VerificationTest[
 	MFString[funWithMultiListArg[{fun[a], fun[b]}, {funWithMultiArg[c, d]}]]
 	,
-	"\\k{\n\t\\f{a},\n\t\\f{b}\n}{\n\t\\g{c}{d}\n}"
+	"\\k{\n    \\f{a},\n    \\f{b}\n}{\n    \\g{c}{d}\n}"
 	,
 	TestID->"22-MFArgConvert.nb"
 ]
@@ -227,7 +227,7 @@ VerificationTest[
 VerificationTest[
 	MFString[g[{a, b}]]
 	,
-	"g{\n\ta,\n\tb\n}"
+	"g{\n    a,\n    b\n}"
 	,
 	TestID->"26-MFArgConvert.nb"
 ]
@@ -243,7 +243,7 @@ VerificationTest[
 VerificationTest[
 	MFString[funWithListArg[{fun[a], fun[b]}]]
 	,
-	"\\h{\n\t\\text{fun}(a),\n\t\\text{fun}(b)\n}"
+	"\\h{\n    \\text{fun}(a),\n    \\text{fun}(b)\n}"
 	,
 	TestID->"28-MFArgConvert.nb"
 ]

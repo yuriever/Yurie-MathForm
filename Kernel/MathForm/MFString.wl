@@ -25,6 +25,11 @@ MFCopy::usage =
     "copy the string from MFString and return the original expression.";
 
 
+MFStringKernel;
+
+MFFormatKernel;
+
+
 (* ::Section:: *)
 (*Private*)
 
@@ -47,13 +52,11 @@ MFStringKernel//Options = {
     "LinebreakIgnore"->{}
 };
 
-MFString//Options = {
-    Splice@Options@MFStringKernel
-};
+MFString//Options = 
+    Options@MFStringKernel;
 
-MFCopy//Options = {
-    Splice@Options@MFStringKernel
-};
+MFCopy//Options = 
+    Options@MFStringKernel;
 
 
 (* ::Subsection:: *)
@@ -64,13 +67,14 @@ MFCopy//Options = {
 (*Main*)
 
 
-MFString[expr_,OptionsPattern[]]:=
-    Pass;
-
+MFString[expr_,opts:OptionsPattern[]] :=
+    MFStringKernel[expr,FilterRules[{opts,Options@MFString},Options@MFStringKernel]]//
+        MFFormatKernel//Catch;
 
 MFCopy[expr_,opts:OptionsPattern[]] :=
     (
-        CopyToClipboard@MFString[expr,FilterRules[{opts,Options@MFCopy},Options@MFString]];
+        MFStringKernel[expr,FilterRules[{opts,Options@MFCopy},Options@MFStringKernel]]//
+            MFFormatKernel//CopyToClipboard//Catch;
         expr
     );
 
@@ -85,6 +89,17 @@ MFStringKernel[expr_,OptionsPattern[]] :=
                 ifBreakPlusTimes2[OptionValue["Linebreak"]]//
                     StringReplace[$MFRule]//
                         deleteBlankBeforeScript//trimEmptyLine;
+
+
+MFFormatKernel[string_String] :=
+    Module[ {res},
+        res = RunProcess[{$texfmt,"--keep","--tab","4","--stdin"},"StandardOutput",string];
+        If[ Head[res]=!=String,
+            Throw[res],
+            (*Else*)
+            res//StringTrim
+        ]
+    ];
 
 
 (* ::Subsection:: *)
@@ -162,7 +177,7 @@ ifBreakPlusTimes2[True][string_String] :=
             prec:$leftBracketP~~spacing:WhitespaceCharacter...~~"+":>prec~~spacing,
             "+"~~spacing:WhitespaceCharacter...~~succ:$rightBracketP:>spacing~~succ,
             (*Remove the extra whitespaces.*)
-            StartOfLine~~WhitespaceCharacter...~~sign:"+"|"-"~~WhitespaceCharacter...~~succ:Except[WhitespaceCharacter]:>sign~~""~~succ
+            StartOfLine~~WhitespaceCharacter...~~sign:"+"|"-"~~WhitespaceCharacter...~~succ:Except[WhitespaceCharacter]:>sign~~succ
         }],
         #
     ]&;
@@ -243,22 +258,6 @@ deleteBlankBeforeScript[string_String] :=
 
 trimEmptyLine[string_String] :=
     string//StringReplace[RegularExpression["(?m)^\\s*$\\n?"]->""]//StringTrim;
-
-
-
-MFFormat[library_][file_] :=
-    ExternalEvaluate[
-        "Shell",
-        <|
-            "Command"->"`texfmtpath` --keep --tab 4 --print `file`",
-            "TemplateArguments"-><|
-                "texfmtpath"->robustPath[library],
-                "file"->file
-        |>
-    |>];
-
-robustPath[path_] :=
-    "'"<>AbsoluteFileName[path]<>"'";
 
 
 (* ::Subsection:: *)
