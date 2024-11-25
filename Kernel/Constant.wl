@@ -49,6 +49,12 @@ $leftBracketP::usage =
 $rightBracketP::usage =
     "pattern of right bracket.";
 
+$leftSeparatorP::usage =
+    "pattern of left separator.";
+
+$rightSeparatorP::usage =
+    "pattern of right separator.";
+
 
 (* ::Section:: *)
 (*Private*)
@@ -97,6 +103,10 @@ $indexTypeP =
 $leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
 
 $rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|EndOfString;
+
+$leftSeparatorP = "("|"["|"{"|","|";"|"."|StartOfString;
+
+$rightSeparatorP = ")"|"]"|"}"|","|";"|"."|EndOfString;
 
 
 (* ::Subsection:: *)
