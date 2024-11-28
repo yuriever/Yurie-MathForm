@@ -52,10 +52,10 @@ MFStringKernel//Options = {
     "LinebreakIgnore"->{}
 };
 
-MFString//Options = 
+MFString//Options =
     Options@MFStringKernel;
 
-MFCopy//Options = 
+MFCopy//Options =
     Options@MFStringKernel;
 
 
