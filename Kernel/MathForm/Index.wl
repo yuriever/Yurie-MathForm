@@ -214,6 +214,12 @@ indexQ["PositiveInteger"][str_] :=
 indexQ["PositiveIntegerOrSingleLetter"][str_] :=
     StringMatchQ[str,RegularExpression["^$|[^\\W_]|[1-9]\\d*"]];
 
+indexQ["NaturalNumber"][str_] :=
+    StringMatchQ[str,RegularExpression["^$|0|[1-9]\\d*"]];
+
+indexQ["NaturalNumberOrSingleLetter"][str_] :=
+    StringMatchQ[str,RegularExpression["^$|0|[^\\W_]|[1-9]\\d*"]];
+
 indexQ[fun_Symbol][str_] :=
     fun[str];
 

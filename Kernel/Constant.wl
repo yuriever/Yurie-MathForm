@@ -97,7 +97,7 @@ $indexPositionP =
     Construct|Subscript|Superscript;
 
 $indexTypeP =
-    All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|_Symbol;
+    All|"PositiveInteger"|"PositiveIntegerOrSingleLetter"|"NaturalNumber"|"NaturalNumberOrSingleLetter"|_Symbol;
 
 
 $leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
