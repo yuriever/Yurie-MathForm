@@ -212,13 +212,19 @@ indexQ["PositiveInteger"][str_] :=
     StringMatchQ[str,RegularExpression["^$|[1-9]\\d*"]];
 
 indexQ["PositiveIntegerOrSingleLetter"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|[^\\W_]|[1-9]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|[1-9]|[^\\W_]\\d*"]];
+
+indexQ["PositiveIntegerOrGreekLetter"][str_] :=
+    StringMatchQ[str,RegularExpression["^$|[0-9]|[\[Alpha]\[Beta]\[Gamma]\[Delta]\[CurlyEpsilon]\[Zeta]\[Eta]\[Theta]\[Iota]\[Kappa]\[Lambda]\[Mu]\[Nu]\[Xi]\[Omicron]\[Pi]\[Rho]\[Sigma]\[Tau]\[Upsilon]\[CurlyPhi]\[Chi]\[Psi]\[Omega]]\\d*"]];
 
 indexQ["NaturalNumber"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|0|[1-9]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|[0-9]\\d*"]];
 
 indexQ["NaturalNumberOrSingleLetter"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|0|[^\\W_]|[1-9]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|[0-9]|[^\\W_]\\d*"]];
+
+indexQ["NaturalNumberOrGreekLetter"][str_] :=
+    StringMatchQ[str,RegularExpression["^$|[0-9]|[\[Alpha]\[Beta]\[Gamma]\[Delta]\[CurlyEpsilon]\[Zeta]\[Eta]\[Theta]\[Iota]\[Kappa]\[Lambda]\[Mu]\[Nu]\[Xi]\[Omicron]\[Pi]\[Rho]\[Sigma]\[Tau]\[Upsilon]\[CurlyPhi]\[Chi]\[Psi]\[Omega]]\\d*"]];
 
 indexQ[fun_Symbol][str_] :=
     fun[str];
