@@ -212,19 +212,19 @@ indexQ["PositiveInteger"][str_] :=
     StringMatchQ[str,RegularExpression["^$|[1-9]\\d*"]];
 
 indexQ["PositiveIntegerOrSingleLetter"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|[1-9]|[^\\W_]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|[1-9]\\d*|[^\\W_]"]];
 
 indexQ["PositiveIntegerOrGreekLetter"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|[0-9]|[\[Alpha]\[Beta]\[Gamma]\[Delta]\[CurlyEpsilon]\[Zeta]\[Eta]\[Theta]\[Iota]\[Kappa]\[Lambda]\[Mu]\[Nu]\[Xi]\[Omicron]\[Pi]\[Rho]\[Sigma]\[Tau]\[Upsilon]\[CurlyPhi]\[Chi]\[Psi]\[Omega]]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|0|[1-9]\\d*|[\[Alpha]\[Beta]\[Gamma]\[Delta]\[CurlyEpsilon]\[Zeta]\[Eta]\[Theta]\[Iota]\[Kappa]\[Lambda]\[Mu]\[Nu]\[Xi]\[Omicron]\[Pi]\[Rho]\[Sigma]\[Tau]\[Upsilon]\[CurlyPhi]\[Chi]\[Psi]\[Omega]]"]];
 
 indexQ["NaturalNumber"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|[0-9]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|0|[1-9]\\d*"]];
 
 indexQ["NaturalNumberOrSingleLetter"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|[0-9]|[^\\W_]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|0|[1-9]\\d*|[^\\W_]"]];
 
 indexQ["NaturalNumberOrGreekLetter"][str_] :=
-    StringMatchQ[str,RegularExpression["^$|[0-9]|[\[Alpha]\[Beta]\[Gamma]\[Delta]\[CurlyEpsilon]\[Zeta]\[Eta]\[Theta]\[Iota]\[Kappa]\[Lambda]\[Mu]\[Nu]\[Xi]\[Omicron]\[Pi]\[Rho]\[Sigma]\[Tau]\[Upsilon]\[CurlyPhi]\[Chi]\[Psi]\[Omega]]\\d*"]];
+    StringMatchQ[str,RegularExpression["^$|0|[1-9]\\d*|[\[Alpha]\[Beta]\[Gamma]\[Delta]\[CurlyEpsilon]\[Zeta]\[Eta]\[Theta]\[Iota]\[Kappa]\[Lambda]\[Mu]\[Nu]\[Xi]\[Omicron]\[Pi]\[Rho]\[Sigma]\[Tau]\[Upsilon]\[CurlyPhi]\[Chi]\[Psi]\[Omega]]"]];
 
 indexQ[fun_Symbol][str_] :=
     fun[str];
