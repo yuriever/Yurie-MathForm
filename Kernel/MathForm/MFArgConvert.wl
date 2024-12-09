@@ -205,11 +205,6 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
 (* ::Text:: *)
 (*f[{x,...},{y,...},...]->f{x,...}{y,...}...*)
 
-                RowBox@Map[
-                    RowBox[{funLeft,makeTraditionalBoxes[#],funRight}]&,
-                    {arg}
-                ]
-
 
 MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
     With[ {
