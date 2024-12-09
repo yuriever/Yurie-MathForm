@@ -118,15 +118,19 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:
         fun/:MakeBoxes[fun[arg_],TraditionalForm] :=
             RowBox@{
                 funPlaceholder,
-                funLeft,
-                makeTraditionalBoxes[arg],
-                funRight
+                "(",
+                RowBox@{
+                    funLeft,
+                    makeTraditionalBoxes[arg],
+                    funRight
+                },
+                ")"
             };
         updateMFData[
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
-                "\\text{"<>funLeft<>"}"->left,
-                "\\text{"<>funRight<>"}"->right
+                "(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"})"->right
             }
         ]
     ];
@@ -146,13 +150,19 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},
         fun/:MakeBoxes[fun[arg___],TraditionalForm] :=
             RowBox@{
                 funPlaceholder,
-                Sequence@@Flatten@Map[{funLeft,makeTraditionalBoxes[#],funRight}&,{arg}]
+                "(",
+                RowBox@Map[
+                    RowBox[{funLeft,makeTraditionalBoxes[#],funRight}]&,
+                    {arg}
+                ],
+                ")"
             };
         updateMFData[
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
-                "\\text{"<>funLeft<>"}"->left,
-                "\\text{"<>funRight<>"}"->right
+                "\\text{"<>funRight<>"}\\text{"<>funLeft<>"}"->right<>left,
+                "(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"})"->right
             }
         ];
     ];
@@ -173,15 +183,19 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
         fun/:MakeBoxes[fun[arg_List],TraditionalForm] :=
             RowBox@{
                 funPlaceholder,
-                funLeft,
-                Sequence@@Riffle[Map[makeTraditionalBoxes,arg],funDelimiter],
-                funRight
+                "(",
+                RowBox@{
+                    funLeft,
+                    Splice@Riffle[Map[makeTraditionalBoxes,arg],funDelimiter],
+                    funRight
+                },
+                ")"
             };
         updateMFData[
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
-                "\\text{"<>funLeft<>"}"->left,
-                "\\text{"<>funRight<>"}"->right,
+                "(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"})"->right,
                 "\\text{"<>funDelimiter<>"}"->delimiter
             }
         ]
@@ -190,6 +204,11 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
 
 (* ::Text:: *)
 (*f[{x,...},{y,...},...]->f{x,...}{y,...}...*)
+
+                RowBox@Map[
+                    RowBox[{funLeft,makeTraditionalBoxes[#],funRight}]&,
+                    {arg}
+                ]
 
 
 MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
@@ -203,13 +222,23 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_Stri
         fun/:MakeBoxes[fun[arg___List],TraditionalForm] :=
             RowBox@{
                 funPlaceholder,
-                Sequence@@Flatten@Map[{funLeft,Riffle[Map[makeTraditionalBoxes,#],funDelimiter],funRight}&,{arg}]
+                "(",
+                RowBox@Map[
+                    RowBox@{
+                        funLeft,
+                        Splice@Riffle[Map[makeTraditionalBoxes,#],funDelimiter],
+                        funRight
+                    }&,
+                    {arg}
+                ],
+                ")"
             };
         updateMFData[
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
-                "\\text{"<>funLeft<>"}"->left,
-                "\\text{"<>funRight<>"}"->right,
+                "\\text{"<>funRight<>"}\\text{"<>funLeft<>"}"->right<>left,
+                "(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"})"->right,
                 "\\text{"<>funDelimiter<>"}"->delimiter
             }
         ];
