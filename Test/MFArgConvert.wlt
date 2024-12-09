@@ -197,11 +197,35 @@ VerificationTest[
 ]
 
 VerificationTest[
-	ToExpression["Format[g[x_]]:=Subscript[g,x];"]
+	MFArgConvert[][{fun[_] -> "f", funWithMultiArg[___] -> "g", funWithListArg[_List] -> "h", funWithMultiListArg[___List] -> "k"}]
 	,
 	Null
 	,
 	TestID->"23-MFArgConvert.nb"
+]
+
+VerificationTest[
+	MFString[2*funWithListArg[{2*fun[a], 2*fun[b]}]]
+	,
+	"2\n\\h{\n    2 \\f{a},\n    2 \\f{b}\n}"
+	,
+	TestID->"24-MFArgConvert.nb"
+]
+
+VerificationTest[
+	MFString[2*funWithMultiListArg[{2*fun[a], 2*fun[b]}, {2*funWithMultiArg[c, d]}]]
+	,
+	"2\n\\k{\n    2 \\f{a},\n    2 \\f{b}\n}{\n    2 \\g{c}{d}\n}"
+	,
+	TestID->"25-MFArgConvert.nb"
+]
+
+VerificationTest[
+	ToExpression["Format[g[x_]]:=Subscript[g,x];"]
+	,
+	Null
+	,
+	TestID->"26-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -211,7 +235,7 @@ VerificationTest[
 	,
 	{Yurie`MathForm`MFArgConvert::clearformat}
 	,
-	TestID->"24-MFArgConvert.nb"
+	TestID->"27-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -221,7 +245,7 @@ VerificationTest[
 	,
 	{Yurie`MathForm`MFArgConvert::notsupported}
 	,
-	TestID->"25-MFArgConvert.nb"
+	TestID->"28-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -229,7 +253,7 @@ VerificationTest[
 	,
 	"g{\n    a,\n    b\n}"
 	,
-	TestID->"26-MFArgConvert.nb"
+	TestID->"29-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -237,7 +261,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"27-MFArgConvert.nb"
+	TestID->"30-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -245,7 +269,7 @@ VerificationTest[
 	,
 	"\\h{\n    \\text{fun}(a),\n    \\text{fun}(b)\n}"
 	,
-	TestID->"28-MFArgConvert.nb"
+	TestID->"31-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -253,7 +277,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"29-MFArgConvert.nb"
+	TestID->"32-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -261,7 +285,7 @@ VerificationTest[
 	,
 	"\\text{fun}"
 	,
-	TestID->"30-MFArgConvert.nb"
+	TestID->"33-MFArgConvert.nb"
 ]
 
 VerificationTest[

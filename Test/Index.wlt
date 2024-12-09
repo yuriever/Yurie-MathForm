@@ -158,11 +158,27 @@ VerificationTest[
 ]
 
 VerificationTest[
+	indexSplit[z, zb, "IndexType" -> "NaturalNumber"][{z0, zb0, zb}]
+	,
+	{z[0], zb[0], zb}
+	,
+	TestID->"19-Index.nb"
+]
+
+VerificationTest[
+	indexSplit[z, zb, "IndexType" -> "NaturalNumberOrSingleLetter"][{z0, zb0, zb}]
+	,
+	{z[0], zb[0], z[b]}
+	,
+	TestID->"20-Index.nb"
+]
+
+VerificationTest[
 	indexJoin[x][Hold[x[1] + x[2]]]
 	,
 	Hold[x1 + x2]
 	,
-	TestID->"19-Index.nb"
+	TestID->"21-Index.nb"
 ]
 
 VerificationTest[
@@ -170,7 +186,7 @@ VerificationTest[
 	,
 	HoldComplete[x1]
 	,
-	TestID->"20-Index.nb"
+	TestID->"22-Index.nb"
 ]
 
 VerificationTest[
@@ -178,7 +194,7 @@ VerificationTest[
 	,
 	Inactive[f][x1]
 	,
-	TestID->"21-Index.nb"
+	TestID->"23-Index.nb"
 ]
 
 VerificationTest[
@@ -186,7 +202,7 @@ VerificationTest[
 	,
 	Hold[x[1] + x[2]]
 	,
-	TestID->"22-Index.nb"
+	TestID->"24-Index.nb"
 ]
 
 VerificationTest[
@@ -194,7 +210,7 @@ VerificationTest[
 	,
 	HoldComplete[x[1]]
 	,
-	TestID->"23-Index.nb"
+	TestID->"25-Index.nb"
 ]
 
 VerificationTest[
@@ -202,7 +218,7 @@ VerificationTest[
 	,
 	Inactive[f][x[1]]
 	,
-	TestID->"24-Index.nb"
+	TestID->"26-Index.nb"
 ]
 
 VerificationTest[
@@ -210,7 +226,7 @@ VerificationTest[
 	,
 	0
 	,
-	TestID->"25-Index.nb"
+	TestID->"27-Index.nb"
 ]
 
 VerificationTest[
@@ -218,7 +234,7 @@ VerificationTest[
 	,
 	x2
 	,
-	TestID->"26-Index.nb"
+	TestID->"28-Index.nb"
 ]
 
 VerificationTest[
@@ -226,7 +242,7 @@ VerificationTest[
 	,
 	x12
 	,
-	TestID->"27-Index.nb"
+	TestID->"29-Index.nb"
 ]
 
 VerificationTest[
@@ -234,7 +250,7 @@ VerificationTest[
 	,
 	x1 - x2
 	,
-	TestID->"28-Index.nb"
+	TestID->"30-Index.nb"
 ]
 
 VerificationTest[
@@ -242,7 +258,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"29-Index.nb"
+	TestID->"31-Index.nb"
 ]
 
 VerificationTest[
@@ -250,7 +266,7 @@ VerificationTest[
 	,
 	FullForm[phat1]
 	,
-	TestID->"30-Index.nb"
+	TestID->"32-Index.nb"
 ]
 
 VerificationTest[
@@ -258,7 +274,7 @@ VerificationTest[
 	,
 	FullForm[Subscript[phat, 1]]
 	,
-	TestID->"31-Index.nb"
+	TestID->"33-Index.nb"
 ]
 
 VerificationTest[
@@ -266,7 +282,7 @@ VerificationTest[
 	,
 	Null
 	,
-	TestID->"32-Index.nb"
+	TestID->"34-Index.nb"
 ]
 
 VerificationTest[
