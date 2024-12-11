@@ -37,12 +37,6 @@ $texTemplate::usage =
     "tex template.";
 
 
-$indexPositionP::usage =
-    "pattern of index positions.";
-
-$indexTypeP::usage =
-    "pattern of index types.";
-
 $leftBracketP::usage =
     "pattern of left bracket.";
 
@@ -91,15 +85,6 @@ $texTemplate :=
             "Text",
             CharacterEncoding->"UTF-8"
         ];
-
-
-$indexPositionP =
-    Construct|Subscript|Superscript;
-
-$indexTypeP =
-    "PositiveInteger"|"PositiveIntegerOrSingleLetter"|"PositiveIntegerOrGreekLetter"|
-    "NaturalNumber"|"NaturalNumberOrSingleLetter"|"NaturalNumberOrGreekLetter"|
-    All|_Symbol;
 
 
 $leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;

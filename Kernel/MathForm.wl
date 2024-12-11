@@ -25,8 +25,6 @@ Get["Yurie`MathForm`MFInterpret`"];
 
 Get["Yurie`MathForm`MFClear`"];
 
-Get["Yurie`MathForm`Index`"];
-
 
 (* ::Section:: *)
 (*End*)
