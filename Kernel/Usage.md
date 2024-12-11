@@ -32,10 +32,13 @@
 * `#!wl MFInterpret` - set interpretable format values.
 
 
-<!-- MF.wl -->
+<!-- MFString.wl -->
 
 * `#!wl MFString` - refine the string from TeXForm.
 
 * `#!wl MFCopy` - copy the string from MFString and return the original expression.
+
+
+<!-- MF.wl -->
 
 * `#!wl MF` - show the LaTeX of the expression.

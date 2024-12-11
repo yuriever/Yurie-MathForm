@@ -43,13 +43,16 @@ MFInterpret::usage =
 	"set interpretable format values.";
 
 
-(* MF.wl *)
+(* MFString.wl *)
 
 MFString::usage =
 	"refine the string from TeXForm.";
 
 MFCopy::usage =
 	"copy the string from MFString and return the original expression.";
+
+
+(* MF.wl *)
 
 MF::usage =
 	"show the LaTeX of the expression.";
