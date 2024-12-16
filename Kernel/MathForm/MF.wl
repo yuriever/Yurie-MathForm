@@ -40,7 +40,7 @@ Begin["`Private`"];
 
 
 MFKernel//Options = {
-    "Preamble"->{"\\usepackage{amsmath,amssymb}"},
+    "Preamble"->{},
     "FontSize"->12,
     "LineSpacing"->{1.2,0},
     "Magnification"->1.5
@@ -187,6 +187,7 @@ generatePDF[id_] :=
 importPDF[id_] :=
     Module[ {pdf},
         pdf = Quiet@Import[FileNameJoin[$temporaryDir,id<>".pdf"],"PageGraphics"];
+        (* pdf = Quiet@Import[FileNameJoin[$temporaryDir,id<>".pdf"],"PageImages",ImageResolution->1024]; *)
         If[ FailureQ[pdf],
             Message[MF::PDFFailed];
             Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],
@@ -194,6 +195,10 @@ importPDF[id_] :=
             pdf
         ]
     ];
+
+
+getImageSizeFromLog[log_String] :=
+    ToExpression@StringCases[log,RegularExpression["YurieMathFormSizeBegin,(.+?)pt,(.+?)pt,(.+?)pt,YurieMathFormSizeEnd"]->{"$1","$2","$3"}];
 
 
 (* ::Subsection:: *)
