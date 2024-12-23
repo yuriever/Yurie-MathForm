@@ -238,7 +238,7 @@ braketPairQ[__] :=
 
 ifRemoveLeftRight[True][string_String] :=
     string//StringReplace[{
-        "\\left"->"","\\right"->""
+        "\\left"~~rest:"("|"["|"\\{":>rest,"\\right"~~rest:")"|"]"|"\\}":>rest
     }];
 
 ifRemoveLeftRight[False][string_String] :=

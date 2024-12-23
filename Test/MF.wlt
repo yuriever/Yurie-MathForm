@@ -54,7 +54,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[expr]
 	,
-	"7741539260952591760-Multiple"
+	"8829776013302237911-Multiple"
 	,
 	TestID->"6-MF.nb"
 ]
@@ -62,7 +62,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[string]
 	,
-	"5096232467966650635-Single"
+	"4477692086360724138-Single"
 	,
 	TestID->"7-MF.nb"
 ]
@@ -70,7 +70,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[""]
 	,
-	"7711654075342081847-Single"
+	"143570300399556146-Single"
 	,
 	TestID->"8-MF.nb"
 ]
@@ -86,7 +86,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[{}, "Listable" -> False]
 	,
-	"7171960276681927965-Single"
+	"6847048074156736154-Single"
 	,
 	TestID->"10-MF.nb"
 ]
@@ -102,7 +102,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[expr]
 	,
-	"5096232467966650635-Single"
+	"4477692086360724138-Single"
 	,
 	TestID->"12-MF.nb"
 ]
@@ -110,7 +110,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[string]
 	,
-	"5096232467966650635-Single"
+	"4477692086360724138-Single"
 	,
 	TestID->"13-MF.nb"
 ]
@@ -126,7 +126,7 @@ VerificationTest[
 VerificationTest[
 	MFBlockGraphics[a]
 	,
-	"9181961723921148291-Single"
+	"5395043549295889034-Single"
 	,
 	TestID->"15-MF.nb"
 ]
