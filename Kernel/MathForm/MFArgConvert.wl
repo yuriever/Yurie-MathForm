@@ -129,6 +129,8 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:
         updateMFData[
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\left(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}\\right)"->right,
                 "(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"})"->right
             }
@@ -161,6 +163,8 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
                 "\\text{"<>funRight<>"}\\text{"<>funLeft<>"}"->right<>left,
+                "\\left(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}\\right)"->right,
                 "(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"})"->right
             }
@@ -194,6 +198,8 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
         updateMFData[
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\left(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}\\right)"->right,
                 "(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"})"->right,
                 "\\text{"<>funDelimiter<>"}"->delimiter
@@ -232,6 +238,8 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_Stri
             funPlaceholder->{
                 "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
                 "\\text{"<>funRight<>"}\\text{"<>funLeft<>"}"->right<>left,
+                "\\left(\\text{"<>funLeft<>"}"->left,
+                "\\text{"<>funRight<>"}\\right)"->right,
                 "(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"})"->right,
                 "\\text{"<>funDelimiter<>"}"->delimiter
