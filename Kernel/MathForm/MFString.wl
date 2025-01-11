@@ -13,6 +13,10 @@ Needs["Yurie`MathForm`Constant`"];
 
 Needs["Yurie`MathForm`Variable`"];
 
+Needs["Yurie`Base`"];
+
+ClearAll["`*"];
+
 
 (* ::Section:: *)
 (*Public*)
@@ -83,7 +87,7 @@ MFStringKernel[string_String,OptionsPattern[]] :=
     string;
 
 MFStringKernel[expr_,OptionsPattern[]] :=
-    ifBreakPlusTimes[expr,OptionValue["Linebreak"],OptionValue["LinebreakThreshold"],OptionValue["LinebreakIgnore"]]//
+    ifBreakPlusTimes[expr,OptionValue["Linebreak"],OptionValue["LinebreakThreshold"],OptionValue["LinebreakIgnore"]]//Throw//
         TeXForm//ToString//
             (* Remove pairs of brackets before calling $MFRule. *)
             ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]//
@@ -121,21 +125,13 @@ ifBreakPlusTimes[expr_,True,threshold_Integer,ignoredList_List] :=
             HoldPattern[(head:Times|Plus)[args__]]/;
                 AnyTrue[HoldComplete[args],Function[arg,leafCount[ignoredList,arg]>=threshold,HoldAllComplete]]:>
                     RuleCondition@Replace[
-                        brokenPlusTimes[head,Evaluate["MF"<>ToString[head]<>"Left"],args,Evaluate["MF"<>ToString[head]<>"Right"]],
+                        brokenPlusTimes[head,args],
                         arg_/;leafCount[ignoredList,arg]>=threshold:>
                             Sequence["MFLinebreak",arg,"MFLinebreak"],
                         {1}
                     ],
             All
-        ]&//
-            Replace[#,{
-                brokenPlusTimes[Times,"MFTimesLeft",coefficient_?NumberQ,rest___]:>
-                    brokenPlusTimes[Times,"MFTimesLeft","MFNumberLeft",HoldForm[coefficient],"MFNumberRight",rest]
-            },All]&//
-                Replace[#,{
-                    brokenPlusTimes[head_,args__]:>HoldForm@head[args]
-                },All]&//
-                    ReleaseHold;
+        ]&;
 
 ifBreakPlusTimes[expr_,False,___] :=
     expr;
@@ -184,11 +180,17 @@ ifBreakPlusTimes2[False][string_String] :=
 leafCount//Attributes =
     {HoldAllComplete};
 
-leafCount[_,_Symbol|_String|_Integer] :=
+leafCount[_,_Symbol|_String|_Integer|_Rational|_Real|_Complex] :=
     1;
 
-leafCount[ignoredList_,HoldPattern[Times[-1,rest__]]] :=
-    leafCount[ignoredList,Times[rest]];
+leafCount[ignoredList_,HoldPattern[Times[-1,expr_]]] :=
+    leafCount[ignoredList,expr];
+
+leafCount[ignoredList_,HoldPattern[Power[expr_,-1]]] :=
+    leafCount[ignoredList,expr];
+
+leafCount[ignoredList_,HoldPattern[Times[1,Power[expr_,-1]]]] :=
+    leafCount[ignoredList,expr];
 
 leafCount[ignoredList_,expr_] :=
     With[ {head = Head@Unevaluated@expr},
