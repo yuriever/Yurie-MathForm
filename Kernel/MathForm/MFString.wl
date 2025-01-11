@@ -94,7 +94,7 @@ MFStringKernel[expr_,OptionsPattern[]] :=
 
 MFFormatKernel[string_String] :=
     Module[ {res},
-        res = RunProcess[{$texfmt,"--keep","--tab","4","--stdin"},"StandardOutput",string];
+        res = RunProcess[{$texfmt,"--nowrap","--tabsize","4","--stdin"},"StandardOutput",string];
         If[ Head[res]=!=String,
             Throw[res],
             (*Else*)
