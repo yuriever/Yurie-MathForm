@@ -1,6 +1,6 @@
 
 
-(*MFString.nb*)
+(*MFString-option-Linebreak.nb*)
 
 VerificationTest[
     Begin["Global`"];
@@ -8,7 +8,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"0-MFString.nb"
+    TestID->"0-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MFString.nb"
+    TestID->"1-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -24,7 +24,7 @@ VerificationTest[
     ,
     {{"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}}}
     ,
-    TestID->"2-MFString.nb"
+    TestID->"2-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -32,7 +32,7 @@ VerificationTest[
     ,
     "-a"
     ,
-    TestID->"3-MFString.nb"
+    TestID->"3-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -40,7 +40,7 @@ VerificationTest[
     ,
     "a-b+c"
     ,
-    TestID->"4-MFString.nb"
+    TestID->"4-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -48,7 +48,7 @@ VerificationTest[
     ,
     "-a-b"
     ,
-    TestID->"5-MFString.nb"
+    TestID->"5-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -56,7 +56,7 @@ VerificationTest[
     ,
     "1\n-a b"
     ,
-    TestID->"6-MFString.nb"
+    TestID->"6-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -64,7 +64,7 @@ VerificationTest[
     ,
     "\\frac{1}{2}\n(-a+b)"
     ,
-    TestID->"7-MFString.nb"
+    TestID->"7-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -72,7 +72,7 @@ VerificationTest[
     ,
     "\\frac{\n    -a+b\n}{c+d}"
     ,
-    TestID->"8-MFString.nb"
+    TestID->"8-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -80,7 +80,7 @@ VerificationTest[
     ,
     "(-a b)^n"
     ,
-    TestID->"9-MFString.nb"
+    TestID->"9-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -88,7 +88,7 @@ VerificationTest[
     ,
     "e f\n-(c d)^n\n(a+b+c+d+e+f+g)^2\n+h"
     ,
-    TestID->"10-MFString.nb"
+    TestID->"10-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -96,7 +96,7 @@ VerificationTest[
     ,
     "\\frac{\n    -b^2\n    a(x,y)\n}{m(1) m(2)}"
     ,
-    TestID->"11-MFString.nb"
+    TestID->"11-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -104,7 +104,7 @@ VerificationTest[
     ,
     "\\frac{\n    a^n\n    b^n\n    (c d)^n\n}{e f}"
     ,
-    TestID->"12-MFString.nb"
+    TestID->"12-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -112,7 +112,7 @@ VerificationTest[
     ,
     "\\frac{\n    a\n    +b c\n    +d\n}{\n    1+a\n    +b c\n    +d\n}"
     ,
-    TestID->"13-MFString.nb"
+    TestID->"13-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -120,7 +120,7 @@ VerificationTest[
     ,
     "a d (b+c)"
     ,
-    TestID->"14-MFString.nb"
+    TestID->"14-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -128,7 +128,7 @@ VerificationTest[
     ,
     "a\n(b+c)\nd"
     ,
-    TestID->"15-MFString.nb"
+    TestID->"15-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -136,7 +136,7 @@ VerificationTest[
     ,
     "-s t\nf(a b c)\n-s u\nf(a c d)"
     ,
-    TestID->"16-MFString.nb"
+    TestID->"16-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -144,7 +144,7 @@ VerificationTest[
     ,
     "-s t\nf(a b c)\n-2 s u\nf(a c d)"
     ,
-    TestID->"17-MFString.nb"
+    TestID->"17-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -152,7 +152,7 @@ VerificationTest[
     ,
     -1 - s*u*f[a] - (1/3)*a*s*t*f[a*b*c] - 2*s*u*f[a*c*d] + (-1)^a*s*f[a*b*c*d] - (-1)^a*s*t*f[a*b*c*d] - (1/2)*s*u*f[a*c*d, 2] + (1/2)*s*t*u*f[a*c*d, 2]
     ,
-    TestID->"18-MFString.nb"
+    TestID->"18-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -160,7 +160,7 @@ VerificationTest[
     ,
     "-1\n-s u\nf(a)\n-\\frac{1}{3} a s t\nf(a b c)\n-2 s u\nf(a c d)\n+(-1)^a\ns\nf(a b c d)\n-(-1)^a\ns t\nf(a b c d)\n-\\frac{1}{2} s u\nf(a c d,2)\n+\\frac{1}{2} s t u\nf(a c d,2)"
     ,
-    TestID->"19-MFString.nb"
+    TestID->"19-MFString-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -169,5 +169,5 @@ VerificationTest[
     ,
     "Global`"
     ,
-    TestID->"∞-MFString.nb"
+    TestID->"∞-MFString-option-Linebreak.nb"
 ]
