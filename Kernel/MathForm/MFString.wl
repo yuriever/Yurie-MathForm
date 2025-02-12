@@ -144,6 +144,7 @@ ifBreakPlusTimes[expr_,False,___] :=
 ifBreakPlusTimes2[True][string_String] :=
     string//StringReplace[{
         "\\text{MFNumberLeft} (-1) \\text{MFNumberRight}":>"-",
+        "\\text{MFNumberLeft} \\left("~~Shortest[num__]~~"\\right) \\text{MFNumberRight}":>num,
         "\\text{MFNumberLeft} ("~~Shortest[num__]~~") \\text{MFNumberRight}":>num,
         "\\text{MFNumberLeft} "~~Shortest[num__]~~" \\text{MFNumberRight}":>num
     }]//StringReplace[{
@@ -162,13 +163,13 @@ ifBreakPlusTimes2[True][string_String] :=
         #
     ]&//FixedPoint[
         StringReplace[{
-            (* Remove the double signs from MFLinebreak: ++ -> +, +- -> - *)
+            (* Remove the double signs from MFLinebreak: "++"->"+", "+-"->"-" *)
             "+"~~spacing:WhitespaceCharacter...~~sign:"+"|"-":>spacing~~sign
         }],
         #
     ]&//FixedPoint[
         StringReplace[{
-            (* Remove the plus signs at the begining/ending: {+ -> {, +} -> } *)
+            (* Remove the plus signs at the begining/ending: "{+"->"{", "+}"->"}" *)
             prec:$leftSeparatorP~~spacing:WhitespaceCharacter...~~"+":>prec~~spacing,
             "+"~~spacing:WhitespaceCharacter...~~succ:$rightSeparatorP:>spacing~~succ,
             (* Remove the extra whitespaces. *)

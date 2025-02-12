@@ -91,9 +91,9 @@ $leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
 
 $rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|EndOfString;
 
-$leftSeparatorP = "("|"["|"{"|","|";"|"."|StartOfString;
+$leftSeparatorP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|","|";"|"."|StartOfString;
 
-$rightSeparatorP = ")"|"]"|"}"|","|";"|"."|EndOfString;
+$rightSeparatorP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|","|";"|"."|EndOfString;
 
 
 (* ::Subsection:: *)
