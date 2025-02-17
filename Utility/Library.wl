@@ -7,7 +7,7 @@
 BeginPackage["Yurie`MathForm`Library`"];
 
 
-Needs["Yurie`MathForm`Info`"];
+Needs["Yurie`MathForm`Info`"]//Quiet;
 
 
 (* ::Section:: *)
