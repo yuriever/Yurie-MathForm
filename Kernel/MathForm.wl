@@ -21,9 +21,12 @@ Get["Yurie`MathForm`MF`"];
 
 Get["Yurie`MathForm`MFArgConvert`"];
 
-Get["Yurie`MathForm`MFInterpret`"];
+Get["Yurie`MathForm`MFMakeBox`"];
 
 Get["Yurie`MathForm`MFClear`"];
+
+
+Get["Yurie`MathForm`Deprecation`"];
 
 
 (* ::Section:: *)

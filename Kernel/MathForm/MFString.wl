@@ -21,9 +21,6 @@ Needs["Yurie`MathForm`Variable`"];
 MFString::usage =
     "refine the string from TeXForm.";
 
-MFCopy::usage =
-    "copy the string from MFString and return the original expression.";
-
 
 MFStringKernel;
 
@@ -55,9 +52,6 @@ MFStringKernel//Options = {
 MFString//Options =
     Options@MFStringKernel;
 
-MFCopy//Options =
-    Options@MFStringKernel;
-
 
 (* ::Subsection:: *)
 (*Message*)
@@ -70,13 +64,6 @@ MFCopy//Options =
 MFString[expr_,opts:OptionsPattern[]] :=
     MFStringKernel[expr,FilterRules[{opts,Options@MFString},Options@MFStringKernel]]//
         MFFormatKernel//Catch;
-
-MFCopy[expr_,opts:OptionsPattern[]] :=
-    (
-        MFStringKernel[expr,FilterRules[{opts,Options@MFCopy},Options@MFStringKernel]]//
-            MFFormatKernel//CopyToClipboard//Catch;
-        expr
-    );
 
 
 MFStringKernel[string_String,OptionsPattern[]] :=

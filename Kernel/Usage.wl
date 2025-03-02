@@ -1,3 +1,12 @@
+(* Deprecation.wl *)
+
+MFInterpret::usage =
+    "set interpretable format values.";
+
+MFCopy::usage =
+    "copy the string from MFString and return the original expression.";
+
+
 (* MFArgConvert.wl *)
 
 MFArgConvert::usage =
@@ -10,19 +19,16 @@ MFClear::usage =
     "clear format values and rules in $MFAssoc of the symbol, or all symbols under the context.";
 
 
-(* MFInterpret.wl *)
+(* MFMakeBox.wl *)
 
-MFInterpret::usage =
-    "set interpretable format values.";
+MFMakeBox::usage =
+    "make the box definitions interpretable.";
 
 
 (* MFString.wl *)
 
 MFString::usage =
     "refine the string from TeXForm.";
-
-MFCopy::usage =
-    "copy the string from MFString and return the original expression.";
 
 
 (* MF.wl *)

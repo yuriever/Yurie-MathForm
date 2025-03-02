@@ -4,7 +4,7 @@
 (*Begin*)
 
 
-BeginPackage["Yurie`MathForm`MFInterpret`"];
+BeginPackage["Yurie`MathForm`Deprecation`"];
 
 
 Needs["Yurie`MathForm`"];
@@ -16,6 +16,9 @@ Needs["Yurie`MathForm`"];
 
 MFInterpret::usage =
     "set interpretable format values.";
+
+MFCopy::usage =
+    "copy the string from MFString and return the original expression.";
 
 
 (* ::Section:: *)
@@ -33,6 +36,35 @@ Begin["`Private`"];
 (*Main*)
 
 
+MFDeprecationWarning//Attributes = {
+    HoldAllComplete
+};
+
+MFDeprecationWarning[code_] :=
+    (
+        Message[General::deprecation,"MFInterpret","MFMakeBox"];
+        code
+    );
+
+MFDeprecationWarning2[code_] :=
+    (
+        Message[General::deprecation0,"MFCopy"];
+        code
+    );
+
+
+MFCopy//Options =
+    Options@MFStringKernel;
+
+
+MFCopy[expr_,opts:OptionsPattern[]] :=
+    MFDeprecationWarning2@(
+        MFStringKernel[expr,FilterRules[{opts,Options@MFCopy},Options@MFStringKernel]]//
+            MFFormatKernel//CopyToClipboard//Catch;
+        expr
+    );
+
+
 MFInterpret//Attributes =
     {HoldAllComplete};
 
@@ -45,34 +77,34 @@ MFInterpret[args__,list:{___List}] :=
 
 
 MFInterpret[Format,{pattern_,definition_,interpretation_}] :=
-    MFInterpretKernel[Format,pattern,definition,interpretation];
+    MFDeprecationWarning@MFInterpretKernel[Format,pattern,definition,interpretation];
 
 MFInterpret[Format,format_,{pattern_,definition_,interpretation_}]/;validFormatQ[Format,format] :=
-    MFInterpretKernel[Format,pattern,definition,interpretation,format];
+    MFDeprecationWarning@MFInterpretKernel[Format,pattern,definition,interpretation,format];
 
 MFInterpret[Format,{pattern_,definition_}] :=
-    With[ {interpretation = stripPattern[pattern,Unevaluated]},
+    MFDeprecationWarning@With[ {interpretation = stripPattern[pattern,Unevaluated]},
         MFInterpretKernel[Format,pattern,definition,interpretation];
     ];
 
 MFInterpret[Format,format_,{pattern_,definition_}]/;validFormatQ[Format,format] :=
-    With[ {interpretation = stripPattern[pattern,Unevaluated]},
+    MFDeprecationWarning@With[ {interpretation = stripPattern[pattern,Unevaluated]},
         MFInterpretKernel[Format,pattern,definition,interpretation,format];
     ];
 
 
 MFInterpret[MakeBoxes,{pattern_,definition_,interpretation_}] :=
-    With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
+    MFDeprecationWarning@With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
         MFInterpretKernel[MakeBoxes,pattern,definition,interpretation,_,symbol]
     ];
 
 MFInterpret[MakeBoxes,format_,{pattern_,definition_,interpretation_}]/;validFormatQ[MakeBoxes,format] :=
-    With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
+    MFDeprecationWarning@With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
         MFInterpretKernel[MakeBoxes,pattern,definition,interpretation,format,symbol]
     ];
 
 MFInterpret[MakeBoxes,{pattern_,definition_}] :=
-    With[ {
+    MFDeprecationWarning@With[ {
             symbol = getHeadFromPattern[pattern,Unevaluated],
             interpretation = stripPattern[pattern,Unevaluated]
         },
@@ -80,7 +112,7 @@ MFInterpret[MakeBoxes,{pattern_,definition_}] :=
     ];
 
 MFInterpret[MakeBoxes,format_,{pattern_,definition_}]/;validFormatQ[MakeBoxes,format] :=
-    With[ {
+    MFDeprecationWarning@With[ {
             symbol = getHeadFromPattern[pattern,Unevaluated],
             interpretation = stripPattern[pattern,Unevaluated]
         },

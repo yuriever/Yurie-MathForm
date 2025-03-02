@@ -1,6 +1,4 @@
 {"MFString" -> {0, {"RemoveLeftRightPair", "Linebreak", "LinebreakThreshold", 
-    "LinebreakIgnore"}}, "MFCopy" -> 
-  {0, {"RemoveLeftRightPair", "Linebreak", "LinebreakThreshold", 
     "LinebreakIgnore"}}, "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", 
     "Magnification", "RemoveLeftRightPair", "Linebreak", 
     "LinebreakThreshold", "LinebreakIgnore", "CopyToClipboard", "ClearCache", 

@@ -1,3 +1,10 @@
+<!-- Deprecation.wl -->
+
+* `#!wl MFInterpret` - set interpretable format values.
+
+* `#!wl MFCopy` - copy the string from MFString and return the original expression.
+
+
 <!-- MFArgConvert.wl -->
 
 * `#!wl MFArgConvert` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
@@ -8,16 +15,14 @@
 * `#!wl MFClear` - clear format values and rules in $MFAssoc of the symbol, or all symbols under the context.
 
 
-<!-- MFInterpret.wl -->
+<!-- MFMakeBox.wl -->
 
-* `#!wl MFInterpret` - set interpretable format values.
+* `#!wl MFMakeBox` - make the box definitions interpretable.
 
 
 <!-- MFString.wl -->
 
 * `#!wl MFString` - refine the string from TeXForm.
-
-* `#!wl MFCopy` - copy the string from MFString and return the original expression.
 
 
 <!-- MF.wl -->
