@@ -40,6 +40,7 @@ Begin["`Private`"];
 MFClear//Attributes =
     {HoldAllComplete};
 
+
 MFClear[(args:(_String|_Symbol)..)|{args:(_String|_Symbol)..}] :=
     Scan[
         MFClearKernel,
@@ -68,14 +69,13 @@ MFClearKernel[symbolName_String] :=
 
 MFClearKernel[symbol_Symbol] :=
     With[ {symbolName = Function[Null,ToString[Unevaluated[#],InputForm],HoldAllComplete]@symbol},
-        symbolName;
         MFClearKernel[symbolName];
     ];
 
-MFClearKernel[ctx_String]/;StringEndsQ[ctx,"`"]&&MemberQ[$ContextPath,ctx] :=
+MFClearKernel[context_String]/;StringEndsQ[context,"`"]&&MemberQ[$ContextPath,context] :=
     Scan[
-        (FormatValues[#] = {})&,
-        Names[ctx<>"*"]
+        MFClearKernel,
+        Names[context<>"*"]
     ];
 
 
