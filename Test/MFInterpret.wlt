@@ -25,6 +25,8 @@ VerificationTest[
     ,
     Null
     ,
+    {General::deprecation}
+    ,
     TestID->"2-MFInterpret.nb"
 ]
 
@@ -49,6 +51,8 @@ VerificationTest[
     MFInterpret[Format, TraditionalForm, {dot[x_, y_], x · y}]
     ,
     Null
+    ,
+    {General::deprecation}
     ,
     TestID->"5-MFInterpret.nb"
 ]
@@ -75,6 +79,8 @@ VerificationTest[
     ,
     Null
     ,
+    {General::deprecation}
+    ,
     TestID->"8-MFInterpret.nb"
 ]
 
@@ -99,6 +105,8 @@ VerificationTest[
     MFInterpret[MakeBoxes, {{dot[x_, y_], RowBox[{MakeBoxes[x], "·", MakeBoxes[y]}]}}]
     ,
     Null
+    ,
+    {General::deprecation}
     ,
     TestID->"11-MFInterpret.nb"
 ]
@@ -125,6 +133,8 @@ VerificationTest[
     ,
     Null
     ,
+    {General::deprecation}
+    ,
     TestID->"14-MFInterpret.nb"
 ]
 
@@ -150,6 +160,8 @@ VerificationTest[
     ,
     Null
     ,
+    {General::deprecation}
+    ,
     TestID->"17-MFInterpret.nb"
 ]
 
@@ -167,6 +179,8 @@ VerificationTest[
     ,
     Null
     ,
+    {General::deprecation}
+    ,
     TestID->"19-MFInterpret.nb"
 ]
 
@@ -182,6 +196,8 @@ VerificationTest[
     MFInterpret[Format, {{f[x_], Subscript[f, x]}, {g[x_], Subscript[g, x], h[x]}}]
     ,
     Null
+    ,
+    {General::deprecation,General::deprecation}
     ,
     TestID->"21-MFInterpret.nb"
 ]
