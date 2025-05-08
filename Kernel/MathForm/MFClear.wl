@@ -53,6 +53,13 @@ MFClear[] :=
         Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True];
     );
 
+MFClear[Full] :=
+    (
+        MFClear["Global`"];
+        MFClear["Global`Private`"];
+        Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True];
+    );
+
 
 MFClearKernel//Attributes = {
     HoldAllComplete
@@ -72,11 +79,19 @@ MFClearKernel[symbol_Symbol] :=
         MFClearKernel[symbolName];
     ];
 
-MFClearKernel[context_String]/;StringEndsQ[context,"`"]&&MemberQ[$ContextPath,context] :=
+MFClearKernel[context_String?validContextQ] :=
     Scan[
         MFClearKernel,
         Names[context<>"*"]
     ];
+
+
+validContextQ[context_String] :=
+    StringEndsQ[context,"`"]&&MemberQ[$ContextPath,context]||
+        StringEndsQ[context,"`Private`"]&&MemberQ[$ContextPath,StringDrop[context,-8]];
+
+validContextQ[_] :=
+    False;
 
 
 (* ::Subsection:: *)
