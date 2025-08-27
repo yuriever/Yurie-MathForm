@@ -72,11 +72,11 @@ MFStringKernel[string_String,OptionsPattern[]] :=
 MFStringKernel[expr_,OptionsPattern[]] :=
     ifBreakPlusTimes[expr,OptionValue["Linebreak"],OptionValue["LinebreakThreshold"],OptionValue["LinebreakIgnore"]]//
         TeXForm//ToString//
-            (* Remove pairs of brackets before calling $MFRule. *)
-            ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]//
-                StringReplace[$MFRule]//
-                    ifBreakPlusTimes2[OptionValue["Linebreak"]]//
-                        deleteBlankBeforeScript//trimEmptyLine;
+        (* Remove pairs of brackets before calling $MFRule. *)
+        ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]//
+        StringReplace[$MFRule]//
+        ifBreakPlusTimes2[OptionValue["Linebreak"]]//
+        deleteBlankBeforeScript//trimEmptyLine;
 
 
 MFFormatKernel[string_String] :=
@@ -104,17 +104,15 @@ brokenPlusTimes//Attributes = {
 
 ifBreakPlusTimes[expr_,True,threshold_Integer,ignoredList_List] :=
     HoldComplete[expr]//
-        Replace[#,
+        Replace[#,{
             HoldPattern[(head:Times|Plus)[args__]]/;
                 AnyTrue[HoldComplete[args],Function[arg,leafCount[ignoredList,arg]>=threshold,HoldAllComplete]]:>
                     RuleCondition@Replace[
                         brokenPlusTimes[head,Evaluate["MF"<>ToString[head]<>"Left"],args,Evaluate["MF"<>ToString[head]<>"Right"]],
-                        arg_/;leafCount[ignoredList,arg]>=threshold:>
-                            Sequence["MFLinebreak",arg,"MFLinebreak"],
+                        arg_/;leafCount[ignoredList,arg]>=threshold:>Sequence["MFLinebreak",arg,"MFLinebreak"],
                         {1}
-                    ],
-            All
-        ]&//
+                    ]
+        },All]&//
             Replace[#,{
                 brokenPlusTimes[Times,"MFTimesLeft",coefficient_?NumberQ,rest___]:>
                     brokenPlusTimes[Times,"MFTimesLeft","MFNumberLeft",HoldForm[coefficient],"MFNumberRight",rest]
