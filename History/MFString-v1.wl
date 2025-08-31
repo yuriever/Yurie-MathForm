@@ -185,18 +185,18 @@ leafCount[ignoredList_,HoldPattern[Times[1,Power[expr_,-1]]]] :=
     leafCount[ignoredList,expr];
 
 leafCount[ignoredList_,expr_] :=
-    With[ {head = Head@Unevaluated@expr},
+    With[ {
+            head = Head@Unevaluated@expr,
+            ignoreP = Map[HoldPattern,Unevaluated[ignoredList]]
+        },
         Which[
             Length@Unevaluated@expr===0,
                 0,
-            AnyTrue[
-                Map[HoldPattern,Unevaluated[ignoredList]],
-                MatchQ[HoldComplete[expr],HoldComplete[#]]&
-            ],
+            AnyTrue[ignoreP,MatchQ[HoldComplete[expr],HoldComplete[#]]&],
                 0,
             True,
                 HoldComplete[expr]//ReplaceAll[{HoldComplete[_[args__]]:>HoldComplete[args]}]//
-                    Map[Function[expr1,leafCount[ignoredList,expr1],{HoldAllComplete}]]//Apply[Plus]
+                    Map[Function[expr1,leafCount[ignoredList,expr1],HoldAllComplete]]//Apply[Plus]
         ]+leafCount[ignoredList,head]
     ];
 
@@ -222,7 +222,7 @@ braketPairQ["\\left\\{","\\right\\}"] :=
 braketPairQ["{","}"] :=
     True;
 
-(* StartOfString and EndOfString will be evalueated as empty strings. *)
+(* StartOfString and EndOfString will be evaluated as empty strings. *)
 braketPairQ["",""] :=
     True;
 
