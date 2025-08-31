@@ -172,33 +172,26 @@ ifBreakPlusTimes2[False][string_String] :=
 leafCount//Attributes =
     {HoldAllComplete};
 
-leafCount[_,_Symbol|_String|_Integer|_Rational|_Real|_Complex] :=
+leafCount[_,_?Developer`HoldAtomQ] :=
     1;
 
-leafCount[ignoredList_,HoldPattern[Times[-1,expr_]]] :=
-    leafCount[ignoredList,expr];
+leafCount[ignoredP_,Verbatim[Times][-1,rest__]] :=
+    leafCount[ignoredP,Times[rest]]-1;
 
-leafCount[ignoredList_,HoldPattern[Power[expr_,-1]]] :=
-    leafCount[ignoredList,expr];
+leafCount[ignoredP_,HoldPattern[Power[base_,-1]]] :=
+    leafCount[ignoredP,base];
 
-leafCount[ignoredList_,HoldPattern[Times[1,Power[expr_,-1]]]] :=
-    leafCount[ignoredList,expr];
+leafCount[ignoredP_,HoldPattern[Times[1,Power[base_,-1]]]] :=
+    leafCount[ignoredP,base];
 
-leafCount[ignoredList_,expr_] :=
-    With[ {
-            head = Head@Unevaluated@expr,
-            ignoreP = Map[HoldPattern,Unevaluated[ignoredList]]
-        },
-        Which[
-            Length@Unevaluated@expr===0,
-                0,
-            AnyTrue[ignoreP,MatchQ[HoldComplete[expr],HoldComplete[#]]&],
-                0,
-            True,
-                HoldComplete[expr]//ReplaceAll[{HoldComplete[_[args__]]:>HoldComplete[args]}]//
-                    Map[Function[expr1,leafCount[ignoredList,expr1],HoldAllComplete]]//Apply[Plus]
-        ]+leafCount[ignoredList,head]
-    ];
+leafCount[ignoredP_,expr_]/;MatchQ[Unevaluated[expr],ignoredP] :=
+    1;
+
+leafCount[ignoredP_,head_[arg_]] :=
+    leafCount[ignoredP,head]+leafCount[ignoredP,arg];
+
+leafCount[ignoredP_,head_[args__]] :=
+    leafCount[ignoredP,head]+Plus@@Map[Function[Null,leafCount[ignoredP,#],HoldAllComplete],HoldComplete[args]];
 
 
 braketPairQ["(",")"] :=
