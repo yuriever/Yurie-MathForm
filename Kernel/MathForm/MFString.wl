@@ -39,6 +39,32 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
+(*Constant*)
+
+
+$leftBracketP::usage =
+    "pattern of left bracket.";
+
+$rightBracketP::usage =
+    "pattern of right bracket.";
+
+$leftSeparatorP::usage =
+    "pattern of left separator.";
+
+$rightSeparatorP::usage =
+    "pattern of right separator.";
+
+
+$leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
+
+$rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|EndOfString;
+
+$leftSeparatorP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|","|";"|"."|StartOfString;
+
+$rightSeparatorP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|","|";"|"."|EndOfString;
+
+
+(* ::Subsection:: *)
 (*Option*)
 
 
@@ -51,10 +77,6 @@ MFStringKernel//Options = {
 
 MFString//Options =
     Options@MFStringKernel;
-
-
-(* ::Subsection:: *)
-(*Message*)
 
 
 (* ::Subsection:: *)

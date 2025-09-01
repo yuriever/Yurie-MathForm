@@ -14,16 +14,6 @@ Needs["Yurie`MathForm`Info`"]//Quiet;
 (*Public*)
 
 
-$macroLeftDelimiter::usage =
-    "left delimiter.";
-
-$macroRightDelimiter::usage =
-    "right delimiter.";
-
-$macroListSeparator::usage =
-    "list separator.";
-
-
 $pdfLaTeX::usage =
     "path of pdfLaTeX.";
 
@@ -35,19 +25,6 @@ $temporaryDir::usage =
 
 $texTemplate::usage =
     "tex template.";
-
-
-$leftBracketP::usage =
-    "pattern of left bracket.";
-
-$rightBracketP::usage =
-    "pattern of right bracket.";
-
-$leftSeparatorP::usage =
-    "pattern of left separator.";
-
-$rightSeparatorP::usage =
-    "pattern of right separator.";
 
 
 (* ::Section:: *)
@@ -65,13 +42,6 @@ Begin["`Private`"];
 (*Main*)
 
 
-$macroLeftDelimiter = "MFLEFT";
-
-$macroRightDelimiter = "MFRIGHT";
-
-$macroListSeparator = "MFLISTSEP";
-
-
 $texfmt = FileNameJoin[$thisLibraryDir,"tex-fmt"];
 
 $pdfLaTeX = "/Library/TeX/texbin/pdflatex";
@@ -85,15 +55,6 @@ $texTemplate :=
             "Text",
             CharacterEncoding->"UTF-8"
         ];
-
-
-$leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
-
-$rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|EndOfString;
-
-$leftSeparatorP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|","|";"|"."|StartOfString;
-
-$rightSeparatorP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|","|";"|"."|EndOfString;
 
 
 (* ::Subsection:: *)

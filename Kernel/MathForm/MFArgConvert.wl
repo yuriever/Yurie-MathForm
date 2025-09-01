@@ -37,6 +37,23 @@ Begin["`Private`"];
 (*Constant*)
 
 
+$macroLeftDelimiter::usage =
+    "left delimiter.";
+
+$macroRightDelimiter::usage =
+    "right delimiter.";
+
+$macroListSeparator::usage =
+    "list separator.";
+
+
+$macroLeftDelimiter = "MFLEFT";
+
+$macroRightDelimiter = "MFRIGHT";
+
+$macroListSeparator = "MFLISTSEP";
+
+
 (* ::Text:: *)
 (*In MFArgConvertKernel, when evaluating MakeBoxes, the local variable arg will be renamed as arg$, which enters into the format value.*)
 (*The function clearFormat needs to match this format value from MFArgConvertKernel, hence we need use arg$.*)
