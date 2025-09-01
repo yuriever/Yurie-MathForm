@@ -39,29 +39,118 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
-(*Constant*)
+(*Bracket*)
 
 
-$leftBracketP::usage =
-    "pattern of left bracket.";
-
-$rightBracketP::usage =
-    "pattern of right bracket.";
-
-$leftSeparatorP::usage =
-    "pattern of left separator.";
-
-$rightSeparatorP::usage =
-    "pattern of right separator.";
+(* ::Text:: *)
+(*StartOfString and EndOfString will be evaluated as empty strings.*)
 
 
-$leftBracketP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|StartOfString;
+$leftBracketP = "("|"["|"{"|"\\{"|"\\left("|"\\left["|"\\left\\{"|StartOfString;
 
-$rightBracketP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|EndOfString;
+$rightBracketP = ")"|"]"|"}"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|EndOfString;
 
-$leftSeparatorP = "("|"["|"\\{"|"\\left("|"\\left["|"\\left\\{"|"{"|","|";"|"."|StartOfString;
 
-$rightSeparatorP = ")"|"]"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|"}"|","|";"|"."|EndOfString;
+$leftSeparatorP = "("|"["|"{"|"\\{"|"\\left("|"\\left["|"\\left\\{"|","|";"|"."|StartOfString;
+
+$rightSeparatorP = ")"|"]"|"}"|"\\}"|"\\right)"|"\\right]"|"\\right\\}"|","|";"|"."|EndOfString;
+
+
+bracketPartner["("] :=
+    ")";
+
+bracketPartner[")"] :=
+    "(";
+
+bracketPartner["["] :=
+    "]";
+
+bracketPartner["]"] :=
+    "[";
+
+bracketPartner["{"] :=
+    "}";
+
+bracketPartner["}"] :=
+    "{";
+
+bracketPartner["\\{"] :=
+    "\\}";
+
+bracketPartner["\\}"] :=
+    "\\{";
+
+bracketPartner["\\left("] :=
+    "\\right)";
+
+bracketPartner["\\right)"] :=
+    "\\left(";
+
+bracketPartner["\\left["] :=
+    "\\right]";
+
+bracketPartner["\\right]"] :=
+    "\\left[";
+
+bracketPartner["\\left\\{"] :=
+    "\\right\\}";
+
+bracketPartner["\\right\\}"] :=
+    "\\left\\{";
+
+bracketPartner[""] :=
+    "";
+
+
+bracketPairQ["(",")"] :=
+    True;
+
+bracketPairQ["[","]"] :=
+    True;
+
+bracketPairQ["\\{","\\}"] :=
+    True;
+
+bracketPairQ["\\left(","\\right)"] :=
+    True;
+
+bracketPairQ["\\left[","\\right]"] :=
+    True;
+
+bracketPairQ["\\left\\{","\\right\\}"] :=
+    True;
+
+bracketPairQ["{","}"] :=
+    True;
+
+bracketPairQ["",""] :=
+    True;
+
+bracketPairQ[__] :=
+    False;
+
+
+bracketBalancedQ[string_String,left:$leftBracketP] :=
+    With[ {
+            leftPos = StringPosition[string,left][[All,2]],
+            rightPos = StringPosition[string,bracketPartner[left]][[All,2]]
+        },
+        Length[leftPos]===Length[rightPos]&&OrderedQ@Riffle[leftPos,rightPos]
+    ];
+
+bracketBalancedQ[string_String,right:$rightBracketP] :=
+    With[ {
+            rightPos = StringPosition[string,right][[All,2]],
+            leftPos = StringPosition[string,bracketPartner[right]][[All,2]]
+        },
+        Length[leftPos]===Length[rightPos]&&OrderedQ@Riffle[leftPos,rightPos]
+    ];
+
+
+bracketLRRemove[string_String] :=
+    string//StringReplace[{
+        "\\left"~~left:"("|"["|"|"|"\\{":>left,"\\right"~~right:")"|"]"|"|"|"\\}":>right
+    }];
 
 
 (* ::Subsection:: *)
@@ -92,13 +181,30 @@ MFStringKernel[string_String,OptionsPattern[]] :=
     string;
 
 MFStringKernel[expr_,OptionsPattern[]] :=
-    ifBreakPlusTimes[expr,OptionValue["Linebreak"],OptionValue["LinebreakThreshold"],OptionValue["LinebreakIgnore"]]//
-        TeXForm//ToString//
-        (* Remove pairs of brackets before calling $MFRule. *)
-        ifRemoveLeftRight[OptionValue["RemoveLeftRightPair"]]//
-        StringReplace[$MFRule]//
-        ifBreakPlusTimes2[OptionValue["Linebreak"]]//
-        deleteBlankBeforeScript//trimEmptyLine;
+    With[ {
+            ifLinebreak = OptionValue["Linebreak"],
+            linebreakThreshold = OptionValue["LinebreakThreshold"],
+            linebreakIgnoredP = getLinebreakIgnoreP@OptionValue["LinebreakIgnore"]
+        },
+        (* Insert linebreak tags according to the options. *)
+        linebreakInsert[expr,ifLinebreak,linebreakThreshold,linebreakIgnoredP]//
+            (* Convert to LaTeX format. *)
+            TeXForm//ToString//
+            (* Remove pairs of brackets before calling $MFRule. *)
+            If[ OptionValue["RemoveLeftRightPair"],
+                bracketLRRemove[#],
+                (* Else *)
+                #
+            ]&//
+            (* Apply the rule list $MFRule introduced by MFArgConvert. *)
+            StringReplace[$MFRule]//
+            (* Convert the inserted linebreak tags to line breaks. *)
+            linebreakConvert[ifLinebreak]//
+            lineBreakClean[ifLinebreak]//
+            (* Cleanup *)
+            deleteBlankBeforeScript//
+            trimEmptyLine
+    ];
 
 
 MFFormatKernel[string_String] :=
@@ -113,145 +219,185 @@ MFFormatKernel[string_String] :=
 
 
 (* ::Subsection:: *)
-(*Helper*)
+(*Helper: Linebreak*)
 
 
-ifBreakPlusTimes//Attributes = {
-    HoldFirst
-};
-
-brokenPlusTimes//Attributes = {
+LBHold//Attributes = {
     HoldAll
 };
 
-ifBreakPlusTimes[expr_,True,threshold_Integer,ignoredList_List] :=
+LBNode//Attributes = {
+    HoldAll
+};
+
+LBNodePlusInTimes//Attributes = {
+    HoldAll
+};
+
+LBNode/:MakeBoxes[LBNode[arg_],TraditionalForm] :=
+    RowBox@{
+        "LBNode",
+        "(",
+        RowBox@{
+            "LBNodeLeft",
+            MakeBoxes[arg,TraditionalForm],
+            "LBNodeRight"
+        },
+        ")"
+    };
+
+LBNodePlusInTimes/:MakeBoxes[LBNodePlusInTimes[arg_],TraditionalForm] :=
+    RowBox@{
+        "LBNodePlusInTimes",
+        "(",
+        RowBox@{
+            "LBNodePlusInTimesLeft",
+            MakeBoxes[arg,TraditionalForm],
+            "LBNodePlusInTimesRight"
+        },
+        ")"
+    };
+
+
+getLinebreakIgnoreP//Attributes = {
+    HoldAll
+};
+
+getLinebreakIgnoreP[ignored_List] :=
+    Alternatives@@Map[HoldPattern,ignored];
+
+getLinebreakIgnoreP[ignored_] :=
+    HoldPattern[ignored];
+
+
+linebreakInsert//Attributes = {
+    HoldFirst
+};
+
+linebreakInsert[expr_,True,threshold_,ignoredP_] :=
     HoldComplete[expr]//
         Replace[#,{
-            HoldPattern[(head:Times|Plus)[args__]]/;
-                AnyTrue[HoldComplete[args],Function[arg,leafCount[ignoredList,arg]>=threshold,HoldAllComplete]]:>
-                    RuleCondition@Replace[
-                        brokenPlusTimes[head,Evaluate["MF"<>ToString[head]<>"Left"],args,Evaluate["MF"<>ToString[head]<>"Right"]],
-                        arg_/;leafCount[ignoredList,arg]>=threshold:>Sequence["MFLinebreak",arg,"MFLinebreak"],
-                        {1}
-                    ]
-        },All]&//
-            Replace[#,{
-                brokenPlusTimes[Times,"MFTimesLeft",coefficient_?NumberQ,rest___]:>
-                    brokenPlusTimes[Times,"MFTimesLeft","MFNumberLeft",HoldForm[coefficient],"MFNumberRight",rest]
-            },All]&//
-                Replace[#,{
-                    brokenPlusTimes[head_,args__]:>HoldForm@head[args]
-                },All]&//
-                    ReleaseHold;
+            HoldPattern[(head:Plus|Times)[args__]]/;insertQ[Hold[args],threshold,ignoredP]:>
+                RuleCondition@Replace[
+                    LBHold[head,args],
+                    {
+                        arg_Plus/;leafCount[arg,ignoredP]>=threshold:>
+                            RuleCondition@If[ head===Times,
+                                LBNodePlusInTimes[arg],
+                                (* Else *)
+                                LBNode[arg]
+                            ],
+                        arg:Power[base_,exponent_]/;leafCount[arg,ignoredP]>=threshold:>
+                            RuleCondition@If[ Negative[exponent]===True,
+                                Power[LBNode[base],exponent],
+                                (* Else *)
+                                LBNode[arg]
+                            ],
+                        arg:Except[_Plus|_Power]/;leafCount[arg,ignoredP]>=threshold:>
+                            LBNode[arg]
+                    },
+                    {1}
+                ]
+        },All]&//Replace[#,{
+            LBHold[head_,args__]:>head[args]
+        },All]&;
 
-ifBreakPlusTimes[expr_,False,___] :=
+linebreakInsert[expr_,False,___] :=
     expr;
 
 
-ifBreakPlusTimes2[True][string_String] :=
+linebreakConvert[True][string_String] :=
     string//StringReplace[{
-        "\\text{MFNumberLeft} (-1) \\text{MFNumberRight}":>"-",
-        "\\text{MFNumberLeft} \\left("~~Shortest[num__]~~"\\right) \\text{MFNumberRight}":>num,
-        "\\text{MFNumberLeft} ("~~Shortest[num__]~~") \\text{MFNumberRight}":>num,
-        "\\text{MFNumberLeft} "~~Shortest[num__]~~" \\text{MFNumberRight}":>num
+        StartOfString~~"\\text{HoldComplete}["~~content___~~"]"~~EndOfString:>content,
+        StartOfString~~"\\text{HoldComplete}\\left["~~content___~~"\\right]"~~EndOfString:>content
     }]//StringReplace[{
-        "\\text{MFLinebreak}"->"\n",
-        "\\text{MFTimesLeft}"->"\n",
-        "\\text{MFTimesRight}"->"\n",
-        "\\text{MFPlusLeft}"->"\n",
-        "\\text{MFPlusRight}"->"\n"
-    }]//FixedPoint[
-        StringReplace[{
-            (* This is to remove the doubled bracket pair autogenerated by TeXForm. *)
-            (* Notice that WhitespaceCharacter.. is used. In some cases the doubled bracket pairs should not be removed, like derivatives. *)
-            (* We use the trick WhitespaceCharacter.. instead of WhitespaceCharacter... to skip these cases. *)
-            left:$leftBracketP~~WhitespaceCharacter..~~"("~~Shortest[content__]~~")"~~WhitespaceCharacter..~~right:$rightBracketP/;
-                braketPairQ[left,right]&&!StringContainsQ[content,"("]:>
-                    left~~"\n"~~content~~"\n"~~right
-        }],
-        #
-    ]&//FixedPoint[
-        StringReplace[{
-            (* Remove the double signs from MFLinebreak: "++"->"+", "+-"->"-" *)
-            "+"~~spacing:WhitespaceCharacter...~~sign:"+"|"-":>spacing~~sign
-        }],
-        #
-    ]&//FixedPoint[
-        StringReplace[{
-            (* Remove the plus signs at the begining/ending: "{+"->"{", "+}"->"}" *)
-            prec:$leftSeparatorP~~spacing:WhitespaceCharacter...~~"+":>prec~~spacing,
-            "+"~~spacing:WhitespaceCharacter...~~succ:$rightSeparatorP:>spacing~~succ,
-            (* Remove the extra whitespaces. *)
-            StartOfLine~~WhitespaceCharacter...~~sign:"+"|"-"~~WhitespaceCharacter...~~succ:Except[WhitespaceCharacter]:>sign~~succ
-        }],
-        #
-    ]&;
+        "\\text{LBNodePlusInTimes}"->"",
+        "\\left(\\text{LBNodePlusInTimesLeft}"->"\n(",
+        "\\text{LBNodePlusInTimesRight}\\right)"->")\n",
+        "(\\text{LBNodePlusInTimesLeft}"->"\n(",
+        "\\text{LBNodePlusInTimesRight})"->")\n"
+    }]//StringReplace[{
+        "\\text{LBNode}"->"",
+        "\\left(\\text{LBNodeLeft}"->"\n",
+        "\\text{LBNodeRight}\\right)"->"\n",
+        "(\\text{LBNodeLeft}"->"\n",
+        "\\text{LBNodeRight})"->"\n"
+    }];
 
-ifBreakPlusTimes2[False][string_String] :=
+linebreakConvert[False][string_String] :=
     string;
+
+
+insertQ//Attributes = {
+    HoldFirst
+};
+
+insertQ[held_,threshold_,ignoredP_] :=
+    AnyTrue[held,Function[Null,leafCount[#,ignoredP]>=threshold,HoldAll]];
 
 
 leafCount//Attributes =
-    {HoldAllComplete};
+    {HoldFirst};
 
-leafCount[_,_?Developer`HoldAtomQ] :=
+leafCount[_?Developer`HoldAtomQ,ignoredP_] :=
     1;
 
-leafCount[ignoredP_,Verbatim[Times][-1,rest__]] :=
-    leafCount[ignoredP,Times[rest]]-1;
+leafCount[Verbatim[Times][-1,rest__],ignoredP_] :=
+    leafCount[Times[rest],ignoredP]-1;
 
-leafCount[ignoredP_,HoldPattern[Power[base_,-1]]] :=
-    leafCount[ignoredP,base];
+leafCount[HoldPattern[Power[base_,-1]],ignoredP_] :=
+    leafCount[base,ignoredP];
 
-leafCount[ignoredP_,HoldPattern[Times[1,Power[base_,-1]]]] :=
-    leafCount[ignoredP,base];
+leafCount[HoldPattern[Times[1,Power[base_,-1]]],ignoredP_] :=
+    leafCount[base,ignoredP];
 
-leafCount[ignoredP_,expr_]/;MatchQ[Unevaluated[expr],ignoredP] :=
+leafCount[LBHold[head_,_,rest__,_],ignoredP_] :=
+    leafCount[head[rest],ignoredP];
+
+leafCount[expr_,ignoredP_]/;MatchQ[Unevaluated[expr],ignoredP] :=
     1;
 
-leafCount[ignoredP_,head_[arg_]] :=
-    leafCount[ignoredP,head]+leafCount[ignoredP,arg];
+leafCount[head_[arg_],ignoredP_] :=
+    leafCount[head,ignoredP]+leafCount[arg,ignoredP];
 
-leafCount[ignoredP_,head_[args__]] :=
-    leafCount[ignoredP,head]+Plus@@Map[Function[Null,leafCount[ignoredP,#],HoldAllComplete],HoldComplete[args]];
-
-
-braketPairQ["(",")"] :=
-    True;
-
-braketPairQ["[","]"] :=
-    True;
-
-braketPairQ["\\{","\\}"] :=
-    True;
-
-braketPairQ["\\left(","\\right)"] :=
-    True;
-
-braketPairQ["\\left[","\\right]"] :=
-    True;
-
-braketPairQ["\\left\\{","\\right\\}"] :=
-    True;
-
-braketPairQ["{","}"] :=
-    True;
-
-(* StartOfString and EndOfString will be evaluated as empty strings. *)
-braketPairQ["",""] :=
-    True;
-
-braketPairQ[__] :=
-    False;
+leafCount[head_[args__],ignoredP_] :=
+    leafCount[head,ignoredP]+Plus@@Map[Function[Null,leafCount[#,ignoredP],HoldAll],Hold[args]];
 
 
-ifRemoveLeftRight[True][string_String] :=
-    string//StringReplace[{
-        "\\left"~~rest:"("|"["|"|"|"\\{":>rest,"\\right"~~rest:")"|"]"|"|"|"\\}":>rest
-    }];
+lineBreakClean[True][string_String] :=
+    string//FixedPoint[
+        StringReplace[{
+            (* Remove the doubled bracket pair generated by TeXForm. *)
+            (* Notice that WhitespaceCharacter.. is used. In some cases the doubled bracket pairs should not be removed, like derivatives. *)
+            (* We use WhitespaceCharacter.. instead of WhitespaceCharacter... to skip these cases. *)
+            left:$leftBracketP~~WhitespaceCharacter..~~"("~~Shortest[content__]~~")"~~WhitespaceCharacter..~~right:$rightBracketP/;
+                bracketPairQ[left,right]&&bracketBalancedQ[content,"("]&&bracketBalancedQ[content,left]:>
+                    left~~"\n"~~content~~"\n"~~right
+        }],
+        #
+    ]&//StringSplit[#,"\n"]&//StringReplace[#,{
+        (* Add line breaks to the beginning and ending of brackets when they are not balanced. *)
+        StartOfLine~~prec___~~left:$leftBracketP~~Longest[content__]~~EndOfLine/;bracketBalancedQ[content,left]:>
+            prec~~left~~"\n"~~content,
+        StartOfLine~~Longest[content__]~~right:$rightBracketP~~succ___~~EndOfLine/;!StringEndsQ[content,"\\right"]&&bracketBalancedQ[content,right]:>
+            content~~"\n"~~right~~succ
+    }]&//StringRiffle[#,"\n"]&//FixedPoint[
+        StringReplace[{
+            (* Remove double signs: "++"->"+", "+-"->"-" *)
+            (* "+"~~space:WhitespaceCharacter...~~sign:"+"|"-":>space~~sign, *)
+            "++"->"+","+-"->"-","-+"->"-",
+            (* Remove extra whitespaces. *)
+            sign:"+"|"-"~~space:WhitespaceCharacter...~~succ:Except[WhitespaceCharacter]:>space~~sign~~succ
+        }],
+        #
+    ]&
 
-ifRemoveLeftRight[False][string_String] :=
+lineBreakClean[False][string_String] :=
     string;
+
+
+(* ::Subsection:: *)
+(*Helper: Cleanup*)
 
 
 deleteBlankBeforeScript[string_String] :=
