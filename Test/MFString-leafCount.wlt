@@ -1,14 +1,14 @@
 
 
-(*MFString-leafCount.nb*)
+(* MFString-leafCount.nb *)
 
 VerificationTest[
     Begin["Global`"];
-	ClearAll["`*"]
+    ClearAll["`*"]
     ,
     Null
     ,
-    TestID->"0-MFString-leafCount.nb"
+    TestID->"[0] MFString-leafCount.nb"
 ]
 
 VerificationTest[
@@ -16,246 +16,249 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MFString-leafCount.nb"
+    TestID->"[1] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount = Yurie`MathForm`MFString`Private`leafCount; 
+    ClearAll[leafCount]; 
+    Attributes[leafCount] = {HoldFirst}; 
+    leafCount[expr_] := Yurie`MathForm`MFString`Private`leafCount[expr, Alternatives[]]; 
+    (leafCount[expr_, ignoredP_] := Yurie`MathForm`MFString`Private`leafCount[expr, ignoredP]; )
     ,
     Null
     ,
-    TestID->"2-MFString-leafCount.nb"
+    TestID->"[2] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, a]
+    leafCount[a]
     ,
     1
     ,
-    TestID->"3-MFString-leafCount.nb"
+    TestID->"[3] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, -a]
+    leafCount[-a]
     ,
     1
     ,
-    TestID->"4-MFString-leafCount.nb"
+    TestID->"[4] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1/a]
+    leafCount[1/a]
     ,
     1
     ,
-    TestID->"5-MFString-leafCount.nb"
+    TestID->"[5] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, Plus[a]]
+    leafCount[Plus[a]]
     ,
     2
     ,
-    TestID->"6-MFString-leafCount.nb"
+    TestID->"[6] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, Times[a]]
+    leafCount[Times[a]]
     ,
     2
     ,
-    TestID->"7-MFString-leafCount.nb"
+    TestID->"[7] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, a + b]
+    leafCount[a + b]
     ,
     3
     ,
-    TestID->"8-MFString-leafCount.nb"
+    TestID->"[8] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, a - b]
+    leafCount[a - b]
     ,
     3
     ,
-    TestID->"9-MFString-leafCount.nb"
+    TestID->"[9] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, a*b]
+    leafCount[a*b]
     ,
     3
     ,
-    TestID->"10-MFString-leafCount.nb"
+    TestID->"[10] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, a/b]
+    leafCount[a/b]
     ,
     3
     ,
-    TestID->"11-MFString-leafCount.nb"
+    TestID->"[11] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, f[g[a]]]
+    leafCount[f[g[a]]]
     ,
     3
     ,
-    TestID->"12-MFString-leafCount.nb"
+    TestID->"[12] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, (f + g)[a]]
+    leafCount[(f + g)[a]]
     ,
     4
     ,
-    TestID->"13-MFString-leafCount.nb"
+    TestID->"[13] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, (a + b)/c]
+    leafCount[(a + b)/c]
     ,
     5
     ,
-    TestID->"14-MFString-leafCount.nb"
+    TestID->"[14] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1 + 1]
+    leafCount[1 + 1]
     ,
     3
     ,
-    TestID->"15-MFString-leafCount.nb"
+    TestID->"[15] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1 - 1]
+    leafCount[1 - 1]
     ,
     3
     ,
-    TestID->"16-MFString-leafCount.nb"
+    TestID->"[16] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1*1]
+    leafCount[1*1]
     ,
     3
     ,
-    TestID->"17-MFString-leafCount.nb"
+    TestID->"[17] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1 + I]
+    leafCount[1 + I]
     ,
     3
     ,
-    TestID->"18-MFString-leafCount.nb"
+    TestID->"[18] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1/1]
+    leafCount[1/1]
     ,
     1
     ,
-    TestID->"19-MFString-leafCount.nb"
+    TestID->"[19] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1/2]
+    leafCount[1/2]
     ,
     1
     ,
-    TestID->"20-MFString-leafCount.nb"
+    TestID->"[20] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 2*a]
+    leafCount[2*a]
     ,
     3
     ,
-    TestID->"21-MFString-leafCount.nb"
+    TestID->"[21] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, -2*a]
+    leafCount[-2*a]
     ,
     3
     ,
-    TestID->"22-MFString-leafCount.nb"
+    TestID->"[22] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 2/a]
+    leafCount[2/a]
     ,
     3
     ,
-    TestID->"23-MFString-leafCount.nb"
+    TestID->"[23] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 2*(1/a)]
+    leafCount[2*(1/a)]
     ,
     3
     ,
-    TestID->"24-MFString-leafCount.nb"
+    TestID->"[24] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, -(2/a)]
+    leafCount[-(2/a)]
     ,
     3
     ,
-    TestID->"25-MFString-leafCount.nb"
+    TestID->"[25] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, -2/a]
+    leafCount[-2/a]
     ,
     3
     ,
-    TestID->"26-MFString-leafCount.nb"
+    TestID->"[26] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1 + a + b]
+    leafCount[1 + a + b]
     ,
     4
     ,
-    TestID->"27-MFString-leafCount.nb"
+    TestID->"[27] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{}, 1 + a - b]
+    leafCount[1 + a - b]
     ,
     4
     ,
-    TestID->"28-MFString-leafCount.nb"
+    TestID->"[28] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{HoldPattern[Plus[__]]}, 1 - 1 + a - b]
+    leafCount[1 - 1 + a - b, HoldPattern[Plus[__]]]
     ,
     1
     ,
-    TestID->"29-MFString-leafCount.nb"
+    TestID->"[29] MFString-leafCount.nb"
 ]
 
 VerificationTest[
-    leafCount[{Plus[__]}, 1 - 1]
+    leafCount[1 - 1, HoldPattern[Plus[__]]]
     ,
     1
     ,
-    TestID->"30-MFString-leafCount.nb"
+    TestID->"[30] MFString-leafCount.nb"
 ]
 
 VerificationTest[
     ClearAll["`*"];
-	End[]
+    End[]
     ,
     "Global`"
     ,
-    TestID->"∞-MFString-leafCount.nb"
+    TestID->"[∞] MFString-leafCount.nb"
 ]

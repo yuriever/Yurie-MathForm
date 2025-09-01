@@ -1,14 +1,14 @@
 
 
-(*MF.nb*)
+(* MF.nb *)
 
 VerificationTest[
     Begin["Global`"];
-	ClearAll["`*"]
+    ClearAll["`*"]
     ,
     Null
     ,
-    TestID->"0-MF.nb"
+    TestID->"[0] MF.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MF.nb"
+    TestID->"[1] MF.nb"
 ]
 
 VerificationTest[
@@ -24,7 +24,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"2-MF.nb"
+    TestID->"[2] MF.nb"
 ]
 
 VerificationTest[
@@ -32,7 +32,7 @@ VerificationTest[
     ,
     {a, b}
     ,
-    TestID->"3-MF.nb"
+    TestID->"[3] MF.nb"
 ]
 
 VerificationTest[
@@ -40,7 +40,7 @@ VerificationTest[
     ,
     "\\{a,b\\}"
     ,
-    TestID->"4-MF.nb"
+    TestID->"[4] MF.nb"
 ]
 
 VerificationTest[
@@ -48,7 +48,7 @@ VerificationTest[
     ,
     "\\{a,b\\}"
     ,
-    TestID->"5-MF.nb"
+    TestID->"[5] MF.nb"
 ]
 
 VerificationTest[
@@ -56,7 +56,7 @@ VerificationTest[
     ,
     "8829776013302237911-Multiple"
     ,
-    TestID->"6-MF.nb"
+    TestID->"[6] MF.nb"
 ]
 
 VerificationTest[
@@ -64,7 +64,7 @@ VerificationTest[
     ,
     "4477692086360724138-Single"
     ,
-    TestID->"7-MF.nb"
+    TestID->"[7] MF.nb"
 ]
 
 VerificationTest[
@@ -72,7 +72,7 @@ VerificationTest[
     ,
     "143570300399556146-Single"
     ,
-    TestID->"8-MF.nb"
+    TestID->"[8] MF.nb"
 ]
 
 VerificationTest[
@@ -80,7 +80,7 @@ VerificationTest[
     ,
     {}
     ,
-    TestID->"9-MF.nb"
+    TestID->"[9] MF.nb"
 ]
 
 VerificationTest[
@@ -88,7 +88,7 @@ VerificationTest[
     ,
     "6847048074156736154-Single"
     ,
-    TestID->"10-MF.nb"
+    TestID->"[10] MF.nb"
 ]
 
 VerificationTest[
@@ -96,7 +96,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"11-MF.nb"
+    TestID->"[11] MF.nb"
 ]
 
 VerificationTest[
@@ -104,7 +104,7 @@ VerificationTest[
     ,
     "4477692086360724138-Single"
     ,
-    TestID->"12-MF.nb"
+    TestID->"[12] MF.nb"
 ]
 
 VerificationTest[
@@ -112,7 +112,7 @@ VerificationTest[
     ,
     "4477692086360724138-Single"
     ,
-    TestID->"13-MF.nb"
+    TestID->"[13] MF.nb"
 ]
 
 VerificationTest[
@@ -120,7 +120,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"14-MF.nb"
+    TestID->"[14] MF.nb"
 ]
 
 VerificationTest[
@@ -128,14 +128,14 @@ VerificationTest[
     ,
     "5395043549295889034-Single"
     ,
-    TestID->"15-MF.nb"
+    TestID->"[15] MF.nb"
 ]
 
 VerificationTest[
     ClearAll["`*"];
-	End[]
+    End[]
     ,
     "Global`"
     ,
-    TestID->"∞-MF.nb"
+    TestID->"[∞] MF.nb"
 ]

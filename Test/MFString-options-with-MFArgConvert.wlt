@@ -1,14 +1,14 @@
 
 
-(*MFString-options-with-MFArgConvert.nb*)
+(* MFString-options-with-MFArgConvert.nb *)
 
 VerificationTest[
     Begin["Global`"];
-	ClearAll["`*"]
+    ClearAll["`*"]
     ,
     Null
     ,
-    TestID->"0-MFString-options-with-MFArgConvert.nb"
+    TestID->"[0] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MFString-options-with-MFArgConvert.nb"
+    TestID->"[1] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -24,7 +24,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"2-MFString-options-with-MFArgConvert.nb"
+    TestID->"[2] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -32,7 +32,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"3-MFString-options-with-MFArgConvert.nb"
+    TestID->"[3] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -41,7 +41,7 @@ VerificationTest[
     ,
     {{"\\Fpq{\\frac{1}{z}}", "\\Fpq{\\frac{1}{z}}"}, {"\\Fpq{\\frac{1}{z}}", "\\Fpq{\\frac{1}{z}}"}}
     ,
-    TestID->"4-MFString-options-with-MFArgConvert.nb"
+    TestID->"[4] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -52,7 +52,7 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"5-MFString-options-with-MFArgConvert.nb"
+    TestID->"[5] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -63,7 +63,7 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"6-MFString-options-with-MFArgConvert.nb"
+    TestID->"[6] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -74,7 +74,7 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"7-MFString-options-with-MFArgConvert.nb"
+    TestID->"[7] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -85,7 +85,7 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"8-MFString-options-with-MFArgConvert.nb"
+    TestID->"[8] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -96,7 +96,7 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"9-MFString-options-with-MFArgConvert.nb"
+    TestID->"[9] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -107,7 +107,7 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"10-MFString-options-with-MFArgConvert.nb"
+    TestID->"[10] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -118,14 +118,14 @@ VerificationTest[
     ,
     {Yurie`MathForm`MFArgConvert::clearformat}
     ,
-    TestID->"11-MFString-options-with-MFArgConvert.nb"
+    TestID->"[11] MFString-options-with-MFArgConvert.nb"
 ]
 
 VerificationTest[
     ClearAll["`*"];
-	End[]
+    End[]
     ,
     "Global`"
     ,
-    TestID->"∞-MFString-options-with-MFArgConvert.nb"
+    TestID->"[∞] MFString-options-with-MFArgConvert.nb"
 ]

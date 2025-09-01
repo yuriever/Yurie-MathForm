@@ -1,14 +1,14 @@
 
 
-(*MFString-option-RemoveLeftRightPair.nb*)
+(* MFString-option-RemoveLeftRightPair.nb *)
 
 VerificationTest[
     Begin["Global`"];
-	ClearAll["`*"]
+    ClearAll["`*"]
     ,
     Null
     ,
-    TestID->"0-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[0] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[1] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -24,7 +24,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"2-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[2] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -32,23 +32,23 @@ VerificationTest[
     ,
     {{"RemoveLeftRightPair" -> False, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}}}
     ,
-    TestID->"3-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[3] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
-    Null
+    MFString[-1 - (1/3)*s*t*f[a]]
     ,
-    Null
+    "-\\frac{1}{3} s t\nf(a)\n-1"
     ,
-    TestID->"4-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[4] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
     MFString[(x + z^2)^Δ]
     ,
-    "\\left(\n    x\n    +z^2\n\\right)^{\\Delta }"
+    "\\left(\n    z^2\n    +x\n\\right)^{\\Delta }"
     ,
-    TestID->"5-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[5] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -56,22 +56,22 @@ VerificationTest[
     ,
     "\\left(\n    (x-y).(x-y)\n    +z(1)^2\n\\right)^{\\Delta }"
     ,
-    TestID->"6-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[6] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
     MFString[Subscript[y, 1]^(-1 - d + Subscript[Δ, 1])/(Abs[Subscript[x, 2]]^2 + Subscript[y, 1]^2)^Subscript[Δ, 1]]
     ,
-    "y_1^{\n    -1-d\n    +\\Delta_1\n}\n\\left(\n    \\left| x_2\\right| {}^2\n    +y_1^2\n\\right){}^{\n    -\\Delta_1\n}"
+    "y_1^{\n    -d\n    +\\Delta_1\n    -1\n}\n\\left(\n    \\left| x_2\\right| {}^2\n    +y_1^2\n\\right){}^{\n    -\\Delta_1\n}"
     ,
-    TestID->"7-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[7] MFString-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
     ClearAll["`*"];
-	End[]
+    End[]
     ,
     "Global`"
     ,
-    TestID->"∞-MFString-option-RemoveLeftRightPair.nb"
+    TestID->"[∞] MFString-option-RemoveLeftRightPair.nb"
 ]

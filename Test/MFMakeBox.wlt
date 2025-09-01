@@ -1,14 +1,14 @@
 
 
-(*MFMakeBox.nb*)
+(* MFMakeBox.nb *)
 
 VerificationTest[
     Begin["Global`"];
-	ClearAll["`*"]
+    ClearAll["`*"]
     ,
     Null
     ,
-    TestID->"0-MFMakeBox.nb"
+    TestID->"[0] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MFMakeBox.nb"
+    TestID->"[1] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -24,7 +24,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"2-MFMakeBox.nb"
+    TestID->"[2] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -32,7 +32,7 @@ VerificationTest[
     ,
     Hold[x]
     ,
-    TestID->"3-MFMakeBox.nb"
+    TestID->"[3] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -40,7 +40,7 @@ VerificationTest[
     ,
     Hold[x]
     ,
-    TestID->"4-MFMakeBox.nb"
+    TestID->"[4] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -48,7 +48,7 @@ VerificationTest[
     ,
     Hold[f]
     ,
-    TestID->"5-MFMakeBox.nb"
+    TestID->"[5] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -56,7 +56,7 @@ VerificationTest[
     ,
     Hold[f]
     ,
-    TestID->"6-MFMakeBox.nb"
+    TestID->"[6] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -65,7 +65,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"7-MFMakeBox.nb"
+    TestID->"[7] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -73,7 +73,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"8-MFMakeBox.nb"
+    TestID->"[8] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -81,7 +81,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"9-MFMakeBox.nb"
+    TestID->"[9] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -90,7 +90,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"10-MFMakeBox.nb"
+    TestID->"[10] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -98,7 +98,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"11-MFMakeBox.nb"
+    TestID->"[11] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -106,7 +106,7 @@ VerificationTest[
     ,
     FullForm[RowBox[{"dot", "[", RowBox[{"a", ",", "b"}], "]"}]]
     ,
-    TestID->"12-MFMakeBox.nb"
+    TestID->"[12] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -115,7 +115,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"13-MFMakeBox.nb"
+    TestID->"[13] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -123,7 +123,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"14-MFMakeBox.nb"
+    TestID->"[14] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -131,7 +131,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"15-MFMakeBox.nb"
+    TestID->"[15] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -140,7 +140,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"16-MFMakeBox.nb"
+    TestID->"[16] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -148,7 +148,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"17-MFMakeBox.nb"
+    TestID->"[17] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -156,7 +156,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
     ,
-    TestID->"18-MFMakeBox.nb"
+    TestID->"[18] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -164,7 +164,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"19-MFMakeBox.nb"
+    TestID->"[19] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -172,7 +172,7 @@ VerificationTest[
     ,
     "\\{f_a,g_a\\}"
     ,
-    TestID->"20-MFMakeBox.nb"
+    TestID->"[20] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -180,7 +180,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[SubscriptBox["f", "a"], f[a]]]
     ,
-    TestID->"21-MFMakeBox.nb"
+    TestID->"[21] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -188,7 +188,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
     ,
-    TestID->"22-MFMakeBox.nb"
+    TestID->"[22] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -196,7 +196,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"23-MFMakeBox.nb"
+    TestID->"[23] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -204,7 +204,7 @@ VerificationTest[
     ,
     f[a]
     ,
-    TestID->"24-MFMakeBox.nb"
+    TestID->"[24] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -212,7 +212,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
     ,
-    TestID->"25-MFMakeBox.nb"
+    TestID->"[25] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -220,7 +220,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"26-MFMakeBox.nb"
+    TestID->"[26] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -228,14 +228,14 @@ VerificationTest[
     ,
     {f[x], g[x]}
     ,
-    TestID->"27-MFMakeBox.nb"
+    TestID->"[27] MFMakeBox.nb"
 ]
 
 VerificationTest[
     ClearAll["`*"];
-	End[]
+    End[]
     ,
     "Global`"
     ,
-    TestID->"∞-MFMakeBox.nb"
+    TestID->"[∞] MFMakeBox.nb"
 ]

@@ -1,14 +1,14 @@
 
 
-(*MFInterpret.nb*)
+(* MFInterpret.nb *)
 
 VerificationTest[
     Begin["Global`"];
-	ClearAll["`*"]
+    ClearAll["`*"]
     ,
     Null
     ,
-    TestID->"0-MFInterpret.nb"
+    TestID->"[0] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"1-MFInterpret.nb"
+    TestID->"[1] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -27,7 +27,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"2-MFInterpret.nb"
+    TestID->"[2] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -35,7 +35,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"3-MFInterpret.nb"
+    TestID->"[3] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -43,7 +43,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"4-MFInterpret.nb"
+    TestID->"[4] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -54,7 +54,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"5-MFInterpret.nb"
+    TestID->"[5] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -62,7 +62,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"6-MFInterpret.nb"
+    TestID->"[6] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -70,7 +70,7 @@ VerificationTest[
     ,
     FullForm[RowBox[{"dot", "[", RowBox[{"a", ",", "b"}], "]"}]]
     ,
-    TestID->"7-MFInterpret.nb"
+    TestID->"[7] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -81,7 +81,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"8-MFInterpret.nb"
+    TestID->"[8] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -89,7 +89,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"9-MFInterpret.nb"
+    TestID->"[9] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -97,7 +97,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"10-MFInterpret.nb"
+    TestID->"[10] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -108,7 +108,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"11-MFInterpret.nb"
+    TestID->"[11] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -116,7 +116,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"12-MFInterpret.nb"
+    TestID->"[12] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -124,7 +124,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"13-MFInterpret.nb"
+    TestID->"[13] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -135,7 +135,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"14-MFInterpret.nb"
+    TestID->"[14] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -143,7 +143,7 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"15-MFInterpret.nb"
+    TestID->"[15] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -151,7 +151,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"16-MFInterpret.nb"
+    TestID->"[16] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -162,7 +162,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"17-MFInterpret.nb"
+    TestID->"[17] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -170,7 +170,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
     ,
-    TestID->"18-MFInterpret.nb"
+    TestID->"[18] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -181,7 +181,7 @@ VerificationTest[
     ,
     {General::deprecation}
     ,
-    TestID->"19-MFInterpret.nb"
+    TestID->"[19] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -189,7 +189,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
     ,
-    TestID->"20-MFInterpret.nb"
+    TestID->"[20] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -199,7 +199,7 @@ VerificationTest[
     ,
     {General::deprecation,General::deprecation}
     ,
-    TestID->"21-MFInterpret.nb"
+    TestID->"[21] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -207,7 +207,7 @@ VerificationTest[
     ,
     "\\{f_a,g_a\\}"
     ,
-    TestID->"22-MFInterpret.nb"
+    TestID->"[22] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -215,7 +215,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[SubscriptBox["f", "a"], f[a]]]
     ,
-    TestID->"23-MFInterpret.nb"
+    TestID->"[23] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -223,7 +223,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
     ,
-    TestID->"24-MFInterpret.nb"
+    TestID->"[24] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -231,7 +231,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"25-MFInterpret.nb"
+    TestID->"[25] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -239,7 +239,7 @@ VerificationTest[
     ,
     f[a]
     ,
-    TestID->"26-MFInterpret.nb"
+    TestID->"[26] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -247,7 +247,7 @@ VerificationTest[
     ,
     FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
     ,
-    TestID->"27-MFInterpret.nb"
+    TestID->"[27] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -255,7 +255,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"28-MFInterpret.nb"
+    TestID->"[28] MFInterpret.nb"
 ]
 
 VerificationTest[
@@ -263,14 +263,14 @@ VerificationTest[
     ,
     {f[x], g[x]}
     ,
-    TestID->"29-MFInterpret.nb"
+    TestID->"[29] MFInterpret.nb"
 ]
 
 VerificationTest[
     ClearAll["`*"];
-	End[]
+    End[]
     ,
     "Global`"
     ,
-    TestID->"∞-MFInterpret.nb"
+    TestID->"[∞] MFInterpret.nb"
 ]
