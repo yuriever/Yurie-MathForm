@@ -281,7 +281,7 @@ linebreakInsert[expr_,True,threshold_,ignoredP_] :=
                 RuleCondition@Replace[
                     LBHold[head,args],
                     {
-                        arg_Plus/;leafCount[arg,ignoredP]>=threshold:>
+                        arg:_Plus|LBHold[Plus,__]/;leafCount[arg,ignoredP]>=threshold:>
                             RuleCondition@If[ head===Times,
                                 LBNodePlusInTimes[arg],
                                 (* Else *)
@@ -293,7 +293,7 @@ linebreakInsert[expr_,True,threshold_,ignoredP_] :=
                                 (* Else *)
                                 LBNode[arg]
                             ],
-                        arg:Except[_Plus|_Power]/;leafCount[arg,ignoredP]>=threshold:>
+                        arg_/;leafCount[arg,ignoredP]>=threshold:>
                             LBNode[arg]
                     },
                     {1}
