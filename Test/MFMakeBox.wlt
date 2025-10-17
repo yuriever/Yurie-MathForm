@@ -20,7 +20,7 @@ VerificationTest[
 ]
 
 VerificationTest[
-    test = Yurie`MathForm`MFMakeBox`Private`getHeadFromPattern; 
+    display[expr_] := FullForm[MakeBoxes[expr]]; 
     ,
     Null
     ,
@@ -28,11 +28,27 @@ VerificationTest[
 ]
 
 VerificationTest[
+    Null
+    ,
+    Null
+    ,
+    TestID->"[3] MFMakeBox.nb"
+]
+
+VerificationTest[
+    test = Yurie`MathForm`MFMakeBox`Private`getHeadFromPattern; 
+    ,
+    Null
+    ,
+    TestID->"[4] MFMakeBox.nb"
+]
+
+VerificationTest[
     test[x, Hold]
     ,
     Hold[x]
     ,
-    TestID->"[3] MFMakeBox.nb"
+    TestID->"[5] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -40,7 +56,7 @@ VerificationTest[
     ,
     Hold[x]
     ,
-    TestID->"[4] MFMakeBox.nb"
+    TestID->"[6] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -48,7 +64,7 @@ VerificationTest[
     ,
     Hold[f]
     ,
-    TestID->"[5] MFMakeBox.nb"
+    TestID->"[7] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -56,7 +72,7 @@ VerificationTest[
     ,
     Hold[f]
     ,
-    TestID->"[6] MFMakeBox.nb"
+    TestID->"[8] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -65,7 +81,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[7] MFMakeBox.nb"
+    TestID->"[9] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -73,15 +89,15 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"[8] MFMakeBox.nb"
+    TestID->"[10] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    FullForm[MakeBoxes[dot[a, b]]]
+    display[dot[a, b]]
     ,
     FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], dot[a, b]]]
     ,
-    TestID->"[9] MFMakeBox.nb"
+    TestID->"[11] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -90,48 +106,48 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[10] MFMakeBox.nb"
+    TestID->"[12] MFMakeBox.nb"
 ]
 
 VerificationTest[
     MFString[dot[a, b]]
     ,
     "a\\cdot b"
-    ,
-    TestID->"[11] MFMakeBox.nb"
-]
-
-VerificationTest[
-    FullForm[MakeBoxes[dot[a, b]]]
-    ,
-    FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
-    ,
-    TestID->"[12] MFMakeBox.nb"
-]
-
-VerificationTest[
-    MFClear[dot]; 
-    MFMakeBox[{dot[x_, y_], MakeBoxes[x · y]}, "Tooltip" -> True]
-    ,
-    Null
     ,
     TestID->"[13] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    MFString[dot[a, b]]
+    display[dot[a, b]]
     ,
-    "a\\cdot b"
+    FullForm[InterpretationBox[RowBox[{"a", "·", "b"}], h[a, b]]]
     ,
     TestID->"[14] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    FullForm[MakeBoxes[dot[a, b]]]
+    MFClear[dot]; 
+    MFMakeBox[{dot[x_, y_], MakeBoxes[x · y]}, "Tooltip" -> Full]
     ,
-    FullForm[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], "dot[a, b]"], dot[a, b]]]
+    Null
     ,
     TestID->"[15] MFMakeBox.nb"
+]
+
+VerificationTest[
+    MFString[dot[a, b]]
+    ,
+    "a\\cdot b"
+    ,
+    TestID->"[16] MFMakeBox.nb"
+]
+
+VerificationTest[
+    display[dot[a, b]]
+    ,
+    FullForm[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], "dot[a, b]"], dot[a, b], SyntaxForm -> Automatic]]
+    ,
+    TestID->"[17] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -140,7 +156,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[16] MFMakeBox.nb"
+    TestID->"[18] MFMakeBox.nb"
 ]
 
 VerificationTest[
@@ -148,51 +164,37 @@ VerificationTest[
     ,
     "a\\cdot b"
     ,
-    TestID->"[17] MFMakeBox.nb"
-]
-
-VerificationTest[
-    FullForm[MakeBoxes[dot[a, b]]]
-    ,
-    FullForm[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], Dot], dot[a, b]]]
-    ,
-    TestID->"[18] MFMakeBox.nb"
-]
-
-VerificationTest[
-    MFMakeBox[{f[x_], MakeBoxes[Subscript[f, x]]}, {g[x_], MakeBoxes[Subscript[g, x]], h[x]}]
-    ,
-    Null
-    ,
     TestID->"[19] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    MFString[{f[a], g[a]}]
+    display[dot[a, b]]
     ,
-    "\\{f_a,g_a\\}"
+    FullForm[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], Dot], dot[a, b], SyntaxForm -> Automatic]]
     ,
     TestID->"[20] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    FullForm[MakeBoxes[f[a]]]
+    MFClear[dot]; 
+    MFMakeBox[{dot[x_, y_], MakeBoxes[x · y]}, "Tooltip" -> Automatic]
     ,
-    FullForm[InterpretationBox[SubscriptBox["f", "a"], f[a]]]
+    Null
     ,
     TestID->"[21] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    FullForm[MakeBoxes[g[a]]]
+    display[dot[a, b]^2]
     ,
-    FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
+    FullForm[SuperscriptBox[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], "dot"], dot[a, b], SyntaxForm -> Automatic], "2"]]
     ,
     TestID->"[22] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    MFClear[f]
+    MFClear[dot]; 
+    MFMakeBox[{dot[x_, y_], MakeBoxes[x · y]}, "Tooltip" -> Automatic, "SyntaxForm" -> Dot]
     ,
     Null
     ,
@@ -200,35 +202,43 @@ VerificationTest[
 ]
 
 VerificationTest[
-    f[a]
+    display[dot[a, b]^2]
     ,
-    f[a]
+    FullForm[SuperscriptBox[RowBox[{"(", InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], "dot"], dot[a, b], SyntaxForm -> Dot], ")"}], "2"]]
     ,
     TestID->"[24] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    FullForm[MakeBoxes[g[a]]]
+    MFMakeBox[{f[x_], MakeBoxes[Subscript[f, x]]}, {g[x_], MakeBoxes[Subscript[g, x]], h[x]}]
     ,
-    FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
+    Null
     ,
     TestID->"[25] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    MFClear[g]
+    MFString[{f[a], g[a]}]
     ,
-    Null
+    "\\{f_a,g_a\\}"
     ,
     TestID->"[26] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    {f[x], g[x]}
+    display[f[a]]
     ,
-    {f[x], g[x]}
+    FullForm[InterpretationBox[SubscriptBox["f", "a"], f[a]]]
     ,
     TestID->"[27] MFMakeBox.nb"
+]
+
+VerificationTest[
+    display[g[a]]
+    ,
+    FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
+    ,
+    TestID->"[28] MFMakeBox.nb"
 ]
 
 VerificationTest[
