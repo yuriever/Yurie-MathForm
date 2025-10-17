@@ -15,7 +15,9 @@ Needs["Yurie`MathForm`"];
 
 
 MFMakeBox::usage =
-    "make the box definitions interpretable.";
+    "MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value."<>
+    "\n"<>
+    "Default[\"Tooltip\"]: False.";
 
 
 (* ::Section:: *)
@@ -30,52 +32,64 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
-(*Main*)
+(*MFMakeBox*)
 
 
 MFMakeBox//Attributes =
     {HoldAllComplete};
 
+MFMakeBox//Options = {
+    "Tooltip"->False
+};
 
-MFMakeBox[list:{___List}] :=
-    Scan[
-        MFMakeBox,
-        Unevaluated@list
+MFMakeBox[args___List,opts:OptionsPattern[]] :=
+    With[ {
+            ifTooltip = OptionValue["Tooltip"]
+        },
+        Scan[
+            Function[arg,MFMakeBoxKernel[arg,ifTooltip],HoldAllComplete],
+            Unevaluated@{args}
+        ]
     ];
 
 
-MFMakeBox[{pattern_,definition_}] :=
+MFMakeBoxKernel//Attributes = {
+    HoldAllComplete
+};
+
+MFMakeBoxKernel[{pattern_,formatValue_},ifTooltip_] :=
     With[ {
             symbol = getHeadFromPattern[pattern,Unevaluated],
-            interpretation = stripPattern[pattern,Unevaluated]
+            realValue = stripPattern[pattern,Unevaluated]
         },
-        MFMakeBoxKernel[symbol,pattern,definition,interpretation,_]
+        MFMakeBoxKernel[{symbol,pattern,formatValue,realValue},ifTooltip]
     ];
 
-MFMakeBox[{pattern_,definition_,format_}]/;boxFormatQ[format] :=
-    With[ {
-            symbol = getHeadFromPattern[pattern,Unevaluated],
-            interpretation = stripPattern[pattern,Unevaluated]
-        },
-        MFMakeBoxKernel[symbol,pattern,definition,interpretation,format]
-    ];
-
-MFMakeBox[{pattern_,definition_,interpretation_,format_}]/;boxFormatQ[format] :=
+MFMakeBoxKernel[{pattern_,formatValue_,realValue_},ifTooltip_] :=
     With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
-        MFMakeBoxKernel[symbol,pattern,definition,interpretation,format]
+        MFMakeBoxKernel[{symbol,pattern,formatValue,realValue},ifTooltip]
     ];
 
-
-MFMakeBoxKernel//Attributes =
-    {HoldAllComplete};
-
-
-MFMakeBoxKernel[symbol_,pattern_,definition_,interpretation_,format_] :=
+MFMakeBoxKernel[{symbol_,pattern_,formatValue_,realValue_},False] :=
     HoldComplete[
         symbol,
-        MakeBoxes[pattern,format],
-        With[ {def = definition},
-            InterpretationBox[def,interpretation]
+        MakeBoxes[pattern,_],
+        With[ {
+                fvalue = formatValue
+            },
+            InterpretationBox[fvalue,realValue]
+        ]
+    ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
+
+MFMakeBoxKernel[{symbol_,pattern_,formatValue_,realValue_},True] :=
+    HoldComplete[
+        symbol,
+        MakeBoxes[pattern,_],
+        With[ {
+                fvalue = formatValue,
+                rvalue = ToString[realValue]
+            },
+            InterpretationBox[TooltipBox[fvalue,rvalue],realValue]
         ]
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
@@ -111,16 +125,6 @@ getHeadFromPattern[Verbatim[HoldPattern][expr_],hold_] :=
     With[ {head = Head@Unevaluated@expr},
         hold[head]
     ];
-
-
-boxFormatQ//Attributes =
-    {HoldAllComplete};
-
-boxFormatQ[format_] :=
-    MatchQ[format,StandardForm|TraditionalForm]||Internal`PatternPresentQ[format];
-
-boxFormatQ[_,_] :=
-    False;
 
 
 (* ::Subsection:: *)
