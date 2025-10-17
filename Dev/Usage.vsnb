@@ -1,0 +1,12 @@
+{
+ "cells": [
+  {
+   "kind": 2,
+   "value": "<<Yurie`MathForm`\n<<Yurie`MathForm`Info`\n<<Yurie`Autocode`\n\n\nexportPublicSymbolUsage[\n    FileNameJoin@{$thisKernelDir,\"MathForm\"},\n    $thisKernelDir\n];\n\n\nexportArgumentCompletion[\n    $thisCompletionDir,\n    {\n        \"MFString\",\"MF\",\n        \"MFMakeBox\"->{0,_->4}\n    }\n];",
+   "languageId": "wolfram",
+   "outputs": [],
+   "metadata": {},
+   "executionSummary": {}
+  }
+ ]
+}

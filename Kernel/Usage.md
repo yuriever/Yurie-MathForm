@@ -17,7 +17,7 @@
 
 <!-- MFMakeBox.wl -->
 
-* `#!wl MFMakeBox` - make the box definitions interpretable.
+* `#!wl MFMakeBox` - MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value. Default["Tooltip"]: False.
 
 
 <!-- MFString.wl -->

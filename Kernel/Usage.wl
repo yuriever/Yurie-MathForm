@@ -22,7 +22,7 @@ MFClear::usage =
 (* MFMakeBox.wl *)
 
 MFMakeBox::usage =
-    "make the box definitions interpretable.";
+    StringJoin["MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value.", "\n", "Default[\"Tooltip\"]: False."];
 
 
 (* MFString.wl *)
