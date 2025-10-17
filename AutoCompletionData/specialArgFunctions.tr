@@ -2,5 +2,6 @@
     "LinebreakIgnore"}}, "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", 
     "Magnification", "RemoveLeftRightPair", "Linebreak", 
     "LinebreakThreshold", "LinebreakIgnore", "CopyToClipboard", "ClearCache", 
-    "Listable"}}, "MFMakeBox" -> {0, {"Tooltip"}, {"Tooltip"}, {"Tooltip"}, 
-   {"Tooltip"}}}
+    "Listable"}}, "MFMakeBox" -> {0, {"Tooltip", "SyntaxForm"}, 
+   {"Tooltip", "SyntaxForm"}, {"Tooltip", "SyntaxForm"}, 
+   {"Tooltip", "SyntaxForm"}}}
