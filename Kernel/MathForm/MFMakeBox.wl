@@ -89,17 +89,14 @@ MFMakeBoxKernel2[{symbol_,pattern_,format_,realValue_},None,Automatic] :=
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
 MFMakeBoxKernel2[{symbol_,pattern_,format_,realValue_},tooltip_,precedence_] :=
-    With[ {
-            tvalue = handleTooltip[tooltip,symbol,realValue]
-        },
-        HoldComplete[
-            symbol,
-            MakeBoxes[pattern,_],
-            With[ {
-                    fvalue = format
-                },
-                InterpretationBox[TooltipBox[fvalue,tvalue],realValue,SyntaxForm->precedence]
-            ]
+    HoldComplete[
+        symbol,
+        MakeBoxes[pattern,_],
+        With[ {
+                fvalue = format,
+                tvalue = tooltipValue[tooltip,symbol,realValue]
+            },
+            InterpretationBox[TooltipBox[fvalue,tvalue],realValue,SyntaxForm->precedence]
         ]
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
@@ -137,17 +134,17 @@ getHeadFromPattern[Verbatim[HoldPattern][expr_],hold_] :=
     ];
 
 
-handleTooltip//Attributes = {
+tooltipValue//Attributes = {
     HoldAllComplete
 };
 
-handleTooltip[Full,symbol_,realValue_] :=
+tooltipValue[Full,symbol_,realValue_] :=
     ToString@Unevaluated[realValue];
 
-handleTooltip[Automatic,symbol_,realValue_] :=
+tooltipValue[Automatic,symbol_,realValue_] :=
     ToString@Unevaluated[symbol];
 
-handleTooltip[tooltipValue_,_,_] :=
+tooltipValue[tooltipValue_,_,_] :=
     tooltipValue;
 
 
