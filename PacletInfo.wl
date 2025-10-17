@@ -8,7 +8,7 @@ PacletObject[
     "SourceControlURL" -> "https://github.com/yuriever/Yurie-MathForm",
     "License" -> "MIT",
     "PublisherID" -> "Yurie",
-    "Version" -> "4.0.0",
+    "Version" -> "5.0",
     "WolframVersion" -> "14.2+",
     "PrimaryContext" -> "Yurie`MathForm`",
     "Extensions" -> {
