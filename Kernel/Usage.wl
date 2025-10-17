@@ -1,12 +1,3 @@
-(* Deprecation.wl *)
-
-MFInterpret::usage =
-    "set interpretable format values.";
-
-MFCopy::usage =
-    "copy the string from MFString and return the original expression.";
-
-
 (* MFArgConvert.wl *)
 
 MFArgConvert::usage =

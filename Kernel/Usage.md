@@ -1,10 +1,3 @@
-<!-- Deprecation.wl -->
-
-* `#!wl MFInterpret` - set interpretable format values.
-
-* `#!wl MFCopy` - copy the string from MFString and return the original expression.
-
-
 <!-- MFArgConvert.wl -->
 
 * `#!wl MFArgConvert` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
