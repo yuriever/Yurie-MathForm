@@ -62,15 +62,20 @@ MFMakeBoxKernel[{pattern_,formatValue_},ifTooltip_] :=
             symbol = getHeadFromPattern[pattern,Unevaluated],
             realValue = stripPattern[pattern,Unevaluated]
         },
-        MFMakeBoxKernel[{symbol,pattern,formatValue,realValue},ifTooltip]
+        MFMakeBoxKernel2[{symbol,pattern,formatValue,realValue},ifTooltip]
     ];
 
 MFMakeBoxKernel[{pattern_,formatValue_,realValue_},ifTooltip_] :=
     With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
-        MFMakeBoxKernel[{symbol,pattern,formatValue,realValue},ifTooltip]
+        MFMakeBoxKernel2[{symbol,pattern,formatValue,realValue},ifTooltip]
     ];
 
-MFMakeBoxKernel[{symbol_,pattern_,formatValue_,realValue_},False] :=
+
+MFMakeBoxKernel2//Attributes = {
+    HoldAllComplete
+};
+
+MFMakeBoxKernel2[{symbol_,pattern_,formatValue_,realValue_},False] :=
     HoldComplete[
         symbol,
         MakeBoxes[pattern,_],
@@ -81,15 +86,26 @@ MFMakeBoxKernel[{symbol_,pattern_,formatValue_,realValue_},False] :=
         ]
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
-MFMakeBoxKernel[{symbol_,pattern_,formatValue_,realValue_},True] :=
+MFMakeBoxKernel2[{symbol_,pattern_,formatValue_,realValue_},True] :=
     HoldComplete[
         symbol,
         MakeBoxes[pattern,_],
         With[ {
                 fvalue = formatValue,
-                rvalue = ToString[realValue]
+                tvalue = ToString[realValue]
             },
-            InterpretationBox[TooltipBox[fvalue,rvalue],realValue]
+            InterpretationBox[TooltipBox[fvalue,tvalue],realValue]
+        ]
+    ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
+
+MFMakeBoxKernel2[{symbol_,pattern_,formatValue_,realValue_},tooltipValue_] :=
+    HoldComplete[
+        symbol,
+        MakeBoxes[pattern,_],
+        With[ {
+                fvalue = formatValue
+            },
+            InterpretationBox[TooltipBox[fvalue,tooltipValue],realValue]
         ]
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
