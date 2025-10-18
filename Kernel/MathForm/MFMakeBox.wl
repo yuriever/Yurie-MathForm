@@ -61,15 +61,15 @@ MFMakeBoxKernel//Attributes = {
 
 MFMakeBoxKernel[{pattern_,format_},tooltip_,precedence_] :=
     With[ {
-            symbol = getHeadFromPattern[pattern,Unevaluated],
+            heldSymbol = getHeadFromPattern[pattern,Unevaluated],
             realValue = stripPattern[pattern,Unevaluated]
         },
-        MFMakeBoxKernel2[{symbol,pattern,format,realValue},tooltip,precedence]
+        MFMakeBoxKernel2[{heldSymbol,pattern,format,realValue},tooltip,precedence]
     ];
 
 MFMakeBoxKernel[{pattern_,format_,realValue_},tooltip_,precedence_] :=
-    With[ {symbol = getHeadFromPattern[pattern,Unevaluated]},
-        MFMakeBoxKernel2[{symbol,pattern,format,realValue},tooltip,precedence]
+    With[ {heldSymbol = getHeadFromPattern[pattern,Unevaluated]},
+        MFMakeBoxKernel2[{heldSymbol,pattern,format,realValue},tooltip,precedence]
     ];
 
 
@@ -77,9 +77,9 @@ MFMakeBoxKernel2//Attributes = {
     HoldAllComplete
 };
 
-MFMakeBoxKernel2[{symbol_,pattern_,format_,realValue_},None,Automatic] :=
+MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},None,Automatic] :=
     HoldComplete[
-        symbol,
+        heldSymbol,
         MakeBoxes[pattern,_],
         With[ {
                 fvalue = format
@@ -88,13 +88,13 @@ MFMakeBoxKernel2[{symbol_,pattern_,format_,realValue_},None,Automatic] :=
         ]
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
-MFMakeBoxKernel2[{symbol_,pattern_,format_,realValue_},tooltip_,precedence_] :=
+MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},tooltip_,precedence_] :=
     HoldComplete[
-        symbol,
+        heldSymbol,
         MakeBoxes[pattern,_],
         With[ {
                 fvalue = format,
-                tvalue = tooltipValue[tooltip,symbol,realValue]
+                tvalue = tooltipValue[tooltip,heldSymbol,realValue]
             },
             InterpretationBox[TooltipBox[fvalue,tvalue],realValue,SyntaxForm->precedence]
         ]
@@ -138,14 +138,14 @@ tooltipValue//Attributes = {
     HoldAllComplete
 };
 
-tooltipValue[Full,symbol_,realValue_] :=
-    ToString@Unevaluated[realValue];
+tooltipValue[Full,heldSymbol_,realValue_] :=
+    ToString[realValue];
 
-tooltipValue[Automatic,symbol_,realValue_] :=
-    ToString@Unevaluated[symbol];
+tooltipValue[Automatic,heldSymbol_,realValue_] :=
+    ToString[heldSymbol];
 
-tooltipValue[tooltipValue_,_,_] :=
-    tooltipValue;
+tooltipValue[tvalue_,_,_] :=
+    tvalue;
 
 
 (* ::Subsection:: *)
