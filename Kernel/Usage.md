@@ -1,23 +1,23 @@
-<!-- MFArgConvert.wl -->
+# Usage
+
+## MFArgConvert.wl
 
 * `#!wl MFArgConvert` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
 
-
-<!-- MFClear.wl -->
+## MFClear.wl
 
 * `#!wl MFClear` - clear format values and rules in $MFAssoc of the symbol, or all symbols under the context.
 
+## MFMakeBox.wl
 
-<!-- MFMakeBox.wl -->
+* `#!wl MFMakeBox` - MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value.
 
-* `#!wl MFMakeBox` - MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value. Default["Tooltip"]: False.
+    * Default["Tooltip"]: False.
 
-
-<!-- MFString.wl -->
+## MFString.wl
 
 * `#!wl MFString` - refine the string from TeXForm.
 
-
-<!-- MF.wl -->
+## MF.wl
 
 * `#!wl MF` - show the LaTeX of the expression.
