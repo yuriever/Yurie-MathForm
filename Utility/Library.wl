@@ -43,7 +43,7 @@ prepareLibrary::texfmtfailed =
 
 prepareLibrary["tex-fmt"] :=
     WithCleanup[
-        If[ !DirectoryQ[$thisLibraryDir],
+        If[!DirectoryQ[$thisLibraryDir],
             CreateDirectory[$thisLibraryDir]
         ],
         (**)
@@ -54,7 +54,7 @@ prepareLibrary["tex-fmt"] :=
         ];
         ,
         (**)
-        If[ !FileExistsQ@FileNameJoin[$thisLibraryDir,"tex-fmt"],
+        If[!FileExistsQ@FileNameJoin[$thisLibraryDir,"tex-fmt"],
             Message[prepareLibrary::texfmtfailed]
         ]
     ];

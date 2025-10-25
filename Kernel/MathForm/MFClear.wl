@@ -75,7 +75,7 @@ MFClearKernel[symbolName_String] :=
     );
 
 MFClearKernel[symbol_Symbol] :=
-    With[ {symbolName = Function[Null,ToString[Unevaluated[#],InputForm],HoldAllComplete]@symbol},
+    With[{symbolName = Function[Null,ToString[Unevaluated[#],InputForm],HoldAllComplete]@symbol},
         MFClearKernel[symbolName];
     ];
 

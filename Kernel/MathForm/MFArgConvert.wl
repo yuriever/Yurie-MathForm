@@ -109,7 +109,7 @@ MFArgConvertKernel[args___] :=
 
 
 MFArgConvertKernel[{fun_Symbol,funString_String}] :=
-    With[ {funPlaceholder = ToString[fun]},
+    With[{funPlaceholder = ToString[fun]},
         clearFormat[fun,fun];
         fun/:MakeBoxes[fun,TraditionalForm] :=
             funPlaceholder;
@@ -126,7 +126,7 @@ MFArgConvertKernel[{fun_Symbol,funString_String}] :=
 
 
 MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:"{",right_String:"}"] :=
-    With[ {
+    With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter
@@ -160,7 +160,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:
 
 
 MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},left_String:"{",right_String:"}"] :=
-    With[ {
+    With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter
@@ -194,7 +194,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},
 
 
 MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
-    With[ {
+    With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter,
@@ -230,7 +230,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
 
 
 MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
-    With[ {
+    With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
             funRight = ToString[fun]<>$macroRightDelimiter,
@@ -292,13 +292,13 @@ clearFormat//Attributes =
     {HoldAllComplete};
 
 clearFormat[fun_Symbol,pattern_] :=
-    Module[ {notFromMFArgConvert},
+    Module[{notFromMFArgConvert},
         notFromMFArgConvert =
             DeleteCases[
                 FormatValues@fun,
                 Verbatim[HoldPattern[MakeBoxes[pattern,TraditionalForm]]]:>_
             ];
-        If[ notFromMFArgConvert=!={},
+        If[notFromMFArgConvert=!={},
             Message[MFArgConvert::clearformat,fun]
         ];
         FormatValues[fun] = {};

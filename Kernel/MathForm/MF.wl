@@ -71,22 +71,22 @@ MF::PDFFailed =
 
 
 MF[expr_,opts:OptionsPattern[]] :=
-    Module[ {string,fopts1,fopts2},
+    Module[{string,fopts1,fopts2},
         fopts1 =
             FilterRules[{opts,Options@MF},Options@MFKernel];
         fopts2 =
             FilterRules[{opts,Options@MF},Options@MFStringKernel];
         string =
             MFStringKernel[expr,fopts2];
-        If[ OptionValue["CopyToClipboard"],
+        If[OptionValue["CopyToClipboard"],
             string//MFFormatKernel//CopyToClipboard
         ];
-        If[ OptionValue["ClearCache"],
+        If[OptionValue["ClearCache"],
             Quiet@DeleteDirectory[$temporaryDir,DeleteContents->True]
         ];
-        (*If the expression is a list, and the option Listable is True, then LaTeXify each element of the list separately.*)
-        (*Otherwise, treat the list head as part of the LaTeX.*)
-        If[ OptionValue["Listable"]&&Head[expr]===List,
+        (* If the expression is a list, and the option Listable is True, then LaTeXify each element of the list separately. *)
+        (* Otherwise, treat the list head as part of the LaTeX. *)
+        If[OptionValue["Listable"]&&Head[expr]===List,
             MFKernel[
                 Map[MFStringKernel[#,fopts2]&,expr],
                 fopts1
@@ -98,7 +98,7 @@ MF[expr_,opts:OptionsPattern[]] :=
 
 
 MFKernel[string_String,OptionsPattern[]] :=
-    Module[ {id,texData},
+    Module[{id,texData},
         texData = {
             string,
             OptionValue["Preamble"],
@@ -110,8 +110,8 @@ MFKernel[string_String,OptionsPattern[]] :=
             ToString@Hash[texData],
             "Single"
         }//StringRiffle[#,"-"]&;
-        (*look up cache.*)
-        If[ Not@FileExistsQ@FileNameJoin[$temporaryDir,id<>".pdf"],
+        (* Look up cache. *)
+        If[Not@FileExistsQ@FileNameJoin[$temporaryDir,id<>".pdf"],
             exportTexFile[id,False]@@texData;
             generatePDF[id]
         ];
@@ -119,7 +119,7 @@ MFKernel[string_String,OptionsPattern[]] :=
     ];
 
 MFKernel[stringList:{__String},OptionsPattern[]] :=
-    Module[ {id,texData},
+    Module[{id,texData},
         texData = {
             stringList,
             OptionValue["Preamble"],
@@ -131,7 +131,7 @@ MFKernel[stringList:{__String},OptionsPattern[]] :=
             ToString@Hash[texData],
             "Multiple"
         }//StringRiffle[#,"-"]&;
-        If[ Not@FileExistsQ@FileNameJoin[$temporaryDir,id<>".pdf"],
+        If[Not@FileExistsQ@FileNameJoin[$temporaryDir,id<>".pdf"],
             exportTexFile[id,True]@@texData;
             generatePDF[id]
         ];
@@ -152,7 +152,7 @@ exportTexFile[id_String,listable_?BooleanQ][stringOrItsList_,preambleList_List,f
         $texTemplate@<|
             "Preamble"->StringRiffle[preambleList,"\n"],
             "Document"->
-                If[ listable,
+                If[listable,
                     StringRiffle[Map[StringTemplate["\\YurieMathForm{``}"],stringOrItsList],"\n"],
                     (*Else*)
                     StringTemplate["\\YurieMathForm{``}"][stringOrItsList]
@@ -166,7 +166,7 @@ exportTexFile[id_String,listable_?BooleanQ][stringOrItsList_,preambleList_List,f
 
 
 generatePDF[id_] :=
-    Module[ {info},
+    Module[{info},
         info =
             RunProcess[
                 {
@@ -177,7 +177,7 @@ generatePDF[id_] :=
                 },
                 ProcessDirectory->$temporaryDir
             ];
-        If[ info["ExitCode"]===1,
+        If[info["ExitCode"]===1,
             Message[MF::LaTeXFailed];
             Throw@File@FileNameJoin[$temporaryDir,id<>".tex"]
         ]
@@ -185,10 +185,10 @@ generatePDF[id_] :=
 
 
 importPDF[id_] :=
-    Module[ {pdf},
+    Module[{pdf},
         pdf = Quiet@Import[FileNameJoin[$temporaryDir,id<>".pdf"],"PageGraphics"];
         (* pdf = Quiet@Import[FileNameJoin[$temporaryDir,id<>".pdf"],"PageImages",ImageResolution->1024]; *)
-        If[ FailureQ[pdf],
+        If[FailureQ[pdf],
             Message[MF::PDFFailed];
             Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],
             (*Else*)

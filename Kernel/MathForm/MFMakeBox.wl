@@ -44,7 +44,7 @@ MFMakeBox//Options = {
 };
 
 MFMakeBox[args___List,opts:OptionsPattern[]] :=
-    With[ {
+    With[{
             tooltip = OptionValue["Tooltip"],
             precedence = OptionValue["SyntaxForm"]
         },
@@ -60,7 +60,7 @@ MFMakeBoxKernel//Attributes = {
 };
 
 MFMakeBoxKernel[{pattern_,format_},tooltip_,precedence_] :=
-    With[ {
+    With[{
             heldSymbol = getHeadFromPattern[pattern,Unevaluated],
             realValue = stripPattern[pattern,Unevaluated]
         },
@@ -68,7 +68,7 @@ MFMakeBoxKernel[{pattern_,format_},tooltip_,precedence_] :=
     ];
 
 MFMakeBoxKernel[{pattern_,format_,realValue_},tooltip_,precedence_] :=
-    With[ {heldSymbol = getHeadFromPattern[pattern,Unevaluated]},
+    With[{heldSymbol = getHeadFromPattern[pattern,Unevaluated]},
         MFMakeBoxKernel2[{heldSymbol,pattern,format,realValue},tooltip,precedence]
     ];
 
@@ -81,7 +81,7 @@ MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},None,Automatic] :=
     HoldComplete[
         heldSymbol,
         MakeBoxes[pattern,_],
-        With[ {
+        With[{
                 fvalue = format
             },
             InterpretationBox[fvalue,realValue]
@@ -92,7 +92,7 @@ MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},tooltip_,precedence_]
     HoldComplete[
         heldSymbol,
         MakeBoxes[pattern,_],
-        With[ {
+        With[{
                 fvalue = format,
                 tvalue = tooltipValue[tooltip,heldSymbol,realValue]
             },
@@ -124,12 +124,12 @@ getHeadFromPattern[Verbatim[HoldPattern][expr_Symbol],hold_] :=
     hold[expr];
 
 getHeadFromPattern[expr_,hold_] :=
-    With[ {head = Head@Unevaluated@expr},
+    With[{head = Head@Unevaluated@expr},
         hold[head]
     ];
 
 getHeadFromPattern[Verbatim[HoldPattern][expr_],hold_] :=
-    With[ {head = Head@Unevaluated@expr},
+    With[{head = Head@Unevaluated@expr},
         hold[head]
     ];
 

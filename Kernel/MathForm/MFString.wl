@@ -131,7 +131,7 @@ bracketPairQ[__] :=
 
 
 bracketBalancedQ[string_String,left:$leftBracketP] :=
-    With[ {
+    With[{
             leftPos = StringPosition[string,left][[All,2]],
             rightPos = StringPosition[string,bracketPartner[left]][[All,2]]
         },
@@ -139,7 +139,7 @@ bracketBalancedQ[string_String,left:$leftBracketP] :=
     ];
 
 bracketBalancedQ[string_String,right:$rightBracketP] :=
-    With[ {
+    With[{
             rightPos = StringPosition[string,right][[All,2]],
             leftPos = StringPosition[string,bracketPartner[right]][[All,2]]
         },
@@ -181,7 +181,7 @@ MFStringKernel[string_String,OptionsPattern[]] :=
     string;
 
 MFStringKernel[expr_,OptionsPattern[]] :=
-    With[ {
+    With[{
             ifLinebreak = OptionValue["Linebreak"],
             linebreakThreshold = OptionValue["LinebreakThreshold"],
             linebreakIgnoredP = getLinebreakIgnoreP@OptionValue["LinebreakIgnore"]
@@ -191,7 +191,7 @@ MFStringKernel[expr_,OptionsPattern[]] :=
             (* Convert to LaTeX format. *)
             TeXForm//ToString//
             (* Remove pairs of brackets before calling $MFRule. *)
-            If[ OptionValue["RemoveLeftRightPair"],
+            If[OptionValue["RemoveLeftRightPair"],
                 bracketLRRemove[#],
                 (* Else *)
                 #
@@ -208,9 +208,9 @@ MFStringKernel[expr_,OptionsPattern[]] :=
 
 
 MFFormatKernel[string_String] :=
-    Module[ {res},
+    Module[{res},
         res = RunProcess[{$texfmt,"--nowrap","--tabsize","4","--stdin"},"StandardOutput",string];
-        If[ Head[res]=!=String,
+        If[Head[res]=!=String,
             Throw[res],
             (*Else*)
             res//StringTrim
@@ -282,13 +282,13 @@ linebreakInsert[expr_,True,threshold_,ignoredP_] :=
                     LBHold[head,args],
                     {
                         arg:_Plus|LBHold[Plus,__]/;leafCount[arg,ignoredP]>=threshold:>
-                            RuleCondition@If[ head===Times,
+                            RuleCondition@If[head===Times,
                                 LBNodePlusInTimes[arg],
                                 (* Else *)
                                 LBNode[arg]
                             ],
                         arg:Power[base_,exponent_]/;leafCount[arg,ignoredP]>=threshold:>
-                            RuleCondition@If[ Negative[exponent]===True,
+                            RuleCondition@If[Negative[exponent]===True,
                                 Power[LBNode[base],exponent],
                                 (* Else *)
                                 LBNode[arg]
