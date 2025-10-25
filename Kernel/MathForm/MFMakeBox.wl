@@ -17,7 +17,7 @@ Needs["Yurie`MathForm`"];
 MFMakeBox::usage =
     "MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value."<>
     "\n"<>
-    "Default[\"Tooltip\"]: False.";
+    "Value[\"Tooltip\"]: None, Automatic, Full, _.";
 
 
 (* ::Section:: *)
@@ -59,17 +59,19 @@ MFMakeBoxKernel//Attributes = {
     HoldAllComplete
 };
 
-MFMakeBoxKernel[{pattern_,format_},tooltip_,precedence_] :=
+MFMakeBoxKernel[{pattern_,formatValue_},tooltip_,precedence_] :=
     With[{
-            heldSymbol = getHeadFromPattern[pattern,Unevaluated],
-            realValue = stripPattern[pattern,Unevaluated]
+            heldSymbol = getHeadFromPattern[pattern],
+            heldRealValue = stripPattern[pattern]
         },
-        MFMakeBoxKernel2[{heldSymbol,pattern,format,realValue},tooltip,precedence]
+        MFMakeBoxKernel2[heldSymbol,pattern,formatValue,heldRealValue,tooltip,precedence]
     ];
 
-MFMakeBoxKernel[{pattern_,format_,realValue_},tooltip_,precedence_] :=
-    With[{heldSymbol = getHeadFromPattern[pattern,Unevaluated]},
-        MFMakeBoxKernel2[{heldSymbol,pattern,format,realValue},tooltip,precedence]
+MFMakeBoxKernel[{pattern_,formatValue_,realValue_},tooltip_,precedence_] :=
+    With[{
+            heldSymbol = getHeadFromPattern[pattern]
+        },
+        MFMakeBoxKernel2[heldSymbol,pattern,formatValue,HoldComplete[realValue],tooltip,precedence]
     ];
 
 
@@ -77,24 +79,24 @@ MFMakeBoxKernel2//Attributes = {
     HoldAllComplete
 };
 
-MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},None,Automatic] :=
+MFMakeBoxKernel2[HoldComplete[symbol_],pattern_,formatValue_,HoldComplete[realValue_],None,Automatic] :=
     HoldComplete[
-        heldSymbol,
+        symbol,
         MakeBoxes[pattern,_],
         With[{
-                fvalue = format
+                fvalue = formatValue
             },
             InterpretationBox[fvalue,realValue]
         ]
     ]//ReplaceAll[HoldComplete[args__]:>TagSetDelayed[args]];
 
-MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},tooltip_,precedence_] :=
+MFMakeBoxKernel2[HoldComplete[symbol_],pattern_,formatValue_,HoldComplete[realValue_],tooltip_,precedence_] :=
     HoldComplete[
-        heldSymbol,
+        symbol,
         MakeBoxes[pattern,_],
         With[{
-                fvalue = format,
-                tvalue = tooltipValue[tooltip,heldSymbol,realValue]
+                fvalue = formatValue,
+                tvalue = tooltipValue[tooltip,symbol,realValue]
             },
             InterpretationBox[TooltipBox[fvalue,tvalue],realValue,SyntaxForm->precedence]
         ]
@@ -108,41 +110,30 @@ MFMakeBoxKernel2[{heldSymbol_,pattern_,format_,realValue_},tooltip_,precedence_]
 stripPattern//Attributes =
     {HoldAllComplete};
 
-stripPattern[expr_,hold_] :=
-    hold[expr]//ReplaceRepeated[
-        (Verbatim[Pattern]|Verbatim[Optional]|Verbatim[PatternTest]|Verbatim[Condition])[pattern_,_]:>pattern
-    ];
+stripPattern[expr_] :=
+    HoldComplete[expr]//
+        ReplaceRepeated[{
+            (Pattern|Optional|PatternTest|Condition)[pattern_,_]:>pattern,
+            (HoldPattern|Verbatim)[pattern_]:>pattern
+        }];
 
 
 getHeadFromPattern//Attributes =
     {HoldAllComplete};
 
-getHeadFromPattern[expr_Symbol,hold_] :=
-    hold[expr];
-
-getHeadFromPattern[Verbatim[HoldPattern][expr_Symbol],hold_] :=
-    hold[expr];
-
-getHeadFromPattern[expr_,hold_] :=
-    With[{head = Head@Unevaluated@expr},
-        hold[head]
-    ];
-
-getHeadFromPattern[Verbatim[HoldPattern][expr_],hold_] :=
-    With[{head = Head@Unevaluated@expr},
-        hold[head]
-    ];
+getHeadFromPattern[head_Symbol|head_Symbol[___]|head_Symbol[___][___]] :=
+    HoldComplete[head];
 
 
 tooltipValue//Attributes = {
     HoldAllComplete
 };
 
-tooltipValue[Full,heldSymbol_,realValue_] :=
+tooltipValue[Full,symbol_,realValue_] :=
     ToString[realValue];
 
-tooltipValue[Automatic,heldSymbol_,realValue_] :=
-    ToString[heldSymbol];
+tooltipValue[Automatic,symbol_,realValue_] :=
+    ToString@Unevaluated[symbol];
 
 tooltipValue[tvalue_,_,_] :=
     tvalue;
