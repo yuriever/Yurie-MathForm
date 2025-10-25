@@ -121,8 +121,22 @@ stripPattern[expr_] :=
 getHeadFromPattern//Attributes =
     {HoldAllComplete};
 
-getHeadFromPattern[head_Symbol|head_Symbol[___]|head_Symbol[___][___]] :=
+getHeadFromPattern[expr_] :=
+    With[{
+            heldExpr = stripPattern[expr]
+        },
+        getHeadFromPattern1[heldExpr]
+    ];
+
+
+getHeadFromPattern1//Attributes =
+    {HoldAllComplete};
+
+getHeadFromPattern1[HoldComplete[head_Symbol]] :=
     HoldComplete[head];
+
+getHeadFromPattern1[HoldComplete[head_[___]]] :=
+    getHeadFromPattern1[HoldComplete[head]];
 
 
 tooltipValue//Attributes = {
