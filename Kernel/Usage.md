@@ -12,7 +12,7 @@
 
 * `#!wl MFMakeBox` - MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value.
 
-    * Default["Tooltip"]: False.
+    * Value["Tooltip"]: None, Automatic, Full, \_.
 
 ## MFString.wl
 

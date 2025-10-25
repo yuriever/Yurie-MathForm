@@ -44,33 +44,33 @@ VerificationTest[
 ]
 
 VerificationTest[
-    test[x, Hold]
+    test[x]
     ,
-    Hold[x]
+    HoldComplete[x]
     ,
     TestID->"[5] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    test[HoldPattern[x], Hold]
+    test[f[x_]]
     ,
-    Hold[x]
+    HoldComplete[f]
     ,
     TestID->"[6] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    test[f[x_], Hold]
+    test[f[x_][y_]]
     ,
-    Hold[f]
+    HoldComplete[f]
     ,
     TestID->"[7] MFMakeBox.nb"
 ]
 
 VerificationTest[
-    test[HoldPattern[f[x_]], Hold]
+    test[HoldPattern[f[x_]]]
     ,
-    Hold[f]
+    HoldComplete[f]
     ,
     TestID->"[8] MFMakeBox.nb"
 ]
@@ -210,6 +210,7 @@ VerificationTest[
 ]
 
 VerificationTest[
+    MFClear[f, g]; 
     MFMakeBox[{f[x_], MakeBoxes[Subscript[f, x]]}, {g[x_], MakeBoxes[Subscript[g, x]], h[x]}]
     ,
     Null
@@ -239,6 +240,33 @@ VerificationTest[
     FullForm[InterpretationBox[SubscriptBox["g", "a"], h[a]]]
     ,
     TestID->"[28] MFMakeBox.nb"
+]
+
+VerificationTest[
+    MFClear[f]; 
+    ClearAll[f]
+    ,
+    Null
+    ,
+    TestID->"[29] MFMakeBox.nb"
+]
+
+VerificationTest[
+    f = 1; 
+    MFMakeBox[{f[a_], MakeBoxes[Subscript[f, a]]}]; 
+    MFMakeBox[{f[a_][b_], MakeBoxes[Subscript[f, a, b]]}]
+    ,
+    Null
+    ,
+    TestID->"[30] MFMakeBox.nb"
+]
+
+VerificationTest[
+    display[Hold[f[x], f[x][y]]]
+    ,
+    FullForm[RowBox[{"Hold", "[", RowBox[{InterpretationBox[SubscriptBox["f", "x"], f[x]], ",", InterpretationBox[SubscriptBox["f", RowBox[{"x", ",", "y"}]], f[x][y]]}], "]"}]]
+    ,
+    TestID->"[31] MFMakeBox.nb"
 ]
 
 VerificationTest[

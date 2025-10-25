@@ -25,7 +25,7 @@ MFClear::usage =
 
 
 MFMakeBox::usage =
-    StringJoin["MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value.", "\n", "Default[\"Tooltip\"]: False."];
+    StringJoin["MFMakeBox[{pattern, format}..., opts]: automatically inject interpretation (and tooltip) into format value.", "\n", "Value[\"Tooltip\"]: None, Automatic, Full, _."];
 
 
 (* ::Subsubsection:: *)
