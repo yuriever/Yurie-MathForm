@@ -113,7 +113,7 @@ stripPattern//Attributes =
 stripPattern[expr_] :=
     HoldComplete[expr]//
         ReplaceRepeated[{
-            (Pattern|Optional|PatternTest|Condition)[pattern_,_]:>pattern,
+            (Pattern|Optional|PatternTest|Condition)[pattern_,___]:>pattern,
             (HoldPattern|Verbatim)[pattern_]:>pattern
         }];
 
