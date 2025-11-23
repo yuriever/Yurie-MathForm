@@ -187,9 +187,7 @@ MFStringKernel[string_String,OptionsPattern[]] :=
 MFStringKernel[list_List,opts:OptionsPattern[]] :=
     With[{
             ifLinebreak = OptionValue["Linebreak"],
-            linebreakThreshold = OptionValue["LinebreakThreshold"]
-        },
-        {
+            linebreakThreshold = OptionValue["LinebreakThreshold"],
             stringList = Map[MFStringKernel[#,opts]&,list]
         },
         {
@@ -242,7 +240,7 @@ MFFormatKernel[string_String] :=
 MFFormatKernel[other_] :=
     (
         Message[MFString::NotString];
-        Failure[
+        Throw@Failure[
             "NotString",
             <|
                 "MessageTemplate"->MFString::NotString,
