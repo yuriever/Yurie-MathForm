@@ -168,6 +168,10 @@ MFString//Options =
     Options@MFStringKernel;
 
 
+MFString::NotString =
+    "MFStringKernel does not return a string.";
+
+
 (* ::Subsection:: *)
 (*Main*)
 
@@ -179,6 +183,24 @@ MFString[expr_,opts:OptionsPattern[]] :=
 
 MFStringKernel[string_String,OptionsPattern[]] :=
     string;
+
+MFStringKernel[list_List,opts:OptionsPattern[]] :=
+    With[{
+            ifLinebreak = OptionValue["Linebreak"],
+            linebreakThreshold = OptionValue["LinebreakThreshold"]
+        },
+        {
+            stringList = Map[MFStringKernel[#,opts]&,list]
+        },
+        {
+            ifLinebreakList = Map[StringLength[#]>=linebreakThreshold&,stringList]
+        },
+        If[ifLinebreak===True&&AnyTrue[ifLinebreakList,TrueQ],
+            formatList[stringList,ifLinebreakList],
+            (* Else *)
+            StringRiffle[stringList,{"(",", ",")"}]
+        ]
+    ];
 
 MFStringKernel[expr_,OptionsPattern[]] :=
     With[{
@@ -215,6 +237,41 @@ MFFormatKernel[string_String] :=
             (*Else*)
             res//StringTrim
         ]
+    ];
+
+MFFormatKernel[other_] :=
+    (
+        Message[MFString::NotString];
+        Failure[
+            "NotString",
+            <|
+                "MessageTemplate"->MFString::NotString,
+                "Result"->other
+            |>
+        ]
+    );
+
+
+(* ::Subsection:: *)
+(*Helper: List*)
+
+
+formatList[stringList_,ifLinebreakList_] :=
+    With[{
+            spacedStringList =
+                MapThread[
+                    If[#1===True,
+                        #2<>",\n",
+                        (* Else *)
+                        #2<>", "
+                    ]&,
+                    {
+                        Most[ifLinebreakList],
+                        Most[stringList]
+                    }
+                ]
+        },
+        "(\n\t"<>StringJoin[spacedStringList]<>Last[stringList]<>"\n)"
     ];
 
 
