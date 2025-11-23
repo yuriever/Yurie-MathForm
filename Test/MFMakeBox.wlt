@@ -221,7 +221,7 @@ VerificationTest[
 VerificationTest[
     MFString[{f[a], g[a]}]
     ,
-    "\\{f_a,g_a\\}"
+    "(f_a, g_a)"
     ,
     TestID->"[26] MFMakeBox.nb"
 ]

@@ -28,27 +28,35 @@ VerificationTest[
 ]
 
 VerificationTest[
-    expr = {a, b}
+    Null
     ,
-    {a, b}
+    Null
     ,
     TestID->"[3] MF.nb"
 ]
 
 VerificationTest[
-    MFString[expr]
+    expr = {a, b}
     ,
-    "\\{a,b\\}"
+    {a, b}
     ,
     TestID->"[4] MF.nb"
 ]
 
 VerificationTest[
-    string = MFString[expr]
+    MFString[expr]
     ,
-    "\\{a,b\\}"
+    "(a, b)"
     ,
     TestID->"[5] MF.nb"
+]
+
+VerificationTest[
+    string = MFString[expr]
+    ,
+    "(a, b)"
+    ,
+    TestID->"[6] MF.nb"
 ]
 
 VerificationTest[
@@ -56,15 +64,15 @@ VerificationTest[
     ,
     "8829776013302237911-Multiple"
     ,
-    TestID->"[6] MF.nb"
+    TestID->"[7] MF.nb"
 ]
 
 VerificationTest[
     MFBlockGraphics[string]
     ,
-    "4477692086360724138-Single"
+    "3157679636659493011-Single"
     ,
-    TestID->"[7] MF.nb"
+    TestID->"[8] MF.nb"
 ]
 
 VerificationTest[
@@ -72,7 +80,7 @@ VerificationTest[
     ,
     "143570300399556146-Single"
     ,
-    TestID->"[8] MF.nb"
+    TestID->"[9] MF.nb"
 ]
 
 VerificationTest[
@@ -80,15 +88,15 @@ VerificationTest[
     ,
     {}
     ,
-    TestID->"[9] MF.nb"
+    TestID->"[10] MF.nb"
 ]
 
 VerificationTest[
     MFBlockGraphics[{}, "Listable" -> False]
     ,
-    "6847048074156736154-Single"
+    "2812765363706704525-Single"
     ,
-    TestID->"[10] MF.nb"
+    TestID->"[11] MF.nb"
 ]
 
 VerificationTest[
@@ -96,39 +104,39 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[11] MF.nb"
+    TestID->"[12] MF.nb"
 ]
 
 VerificationTest[
     MFBlockGraphics[expr]
     ,
-    "4477692086360724138-Single"
-    ,
-    TestID->"[12] MF.nb"
-]
-
-VerificationTest[
-    MFBlockGraphics[string]
-    ,
-    "4477692086360724138-Single"
+    "3157679636659493011-Single"
     ,
     TestID->"[13] MF.nb"
 ]
 
 VerificationTest[
-    SetOptions[MF, "FontSize" -> 10]; 
+    MFBlockGraphics[string]
     ,
-    Null
+    "3157679636659493011-Single"
     ,
     TestID->"[14] MF.nb"
 ]
 
 VerificationTest[
-    MFBlockGraphics[a]
+    SetOptions[MF, "FontSize" -> 16]; 
     ,
-    "5395043549295889034-Single"
+    Null
     ,
     TestID->"[15] MF.nb"
+]
+
+VerificationTest[
+    MFBlockGraphics[a]
+    ,
+    "204892333196205843-Single"
+    ,
+    TestID->"[16] MF.nb"
 ]
 
 VerificationTest[
