@@ -5,13 +5,9 @@
 
 A Mathematica paclet for improving math layout.
 
-* The LaTeX template file `Source/template` is from [MaTeX](http://szhorvat.net/mathematica/MaTeX).
-
-* The exported LaTeX strings will be formatted by [tex-fmt](https://github.com/WGUNDERWOOD/tex-fmt).
-
+* The exported LaTeX strings are formatted by [tex-fmt](https://github.com/WGUNDERWOOD/tex-fmt).
 
 ## [Documentation](https://yuriever.github.io/symbolic/Yurie-MathForm/doc/)
-
 
 ## Usage
 
@@ -35,13 +31,11 @@ A Mathematica paclet for improving math layout.
     Needs["Yurie`MathForm`"]
     ```
 
-
 ### Uninstallation
 
 ```wl
 PacletUninstall["Yurie/MathForm"]
 ```
-
 
 ### Installation checking
 

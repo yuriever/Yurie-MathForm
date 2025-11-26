@@ -1,20 +1,22 @@
-% This template file comes from http://szhorvat.net/mathematica/MaTeX.
-% Thanks to David Carlisle and Tom Hejda for their help with the LaTeX code here.
-\documentclass[12pt,border=2pt,multi]{standalone}
+\documentclass[12pt,border=4pt,multi]{standalone}
+
 \newenvironment{yuriemathform}{\ignorespaces}{\ignorespacesafterend}
 \standaloneenv{yuriemathform}
-\newbox\YurieMathFormbox
-\newcommand{\YurieMathForm}[1]{
+
+\newcommand{\YurieMathForm}[1]{%
     \begin{yuriemathform}
-        \setbox\YurieMathFormbox\hbox{\(\displaystyle #1 \)}%
-        \typeout{YurieMathFormSizeBegin,\the\dp\YurieMathFormbox,\the\ht\YurieMathFormbox,\the\wd\YurieMathFormbox,YurieMathFormSizeEnd}%
-        \unhbox\YurieMathFormbox%
+        $\displaystyle #1$%
     \end{yuriemathform}
 }
-% \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb}
+
+\usepackage{amsmath,amssymb,mathtools}
+
 `Preamble`
+
 \begin{document}
+
 \fontsize{`FontSize`pt}{`SkipSize`pt}\selectfont
+
 `Document`
+
 \end{document}
