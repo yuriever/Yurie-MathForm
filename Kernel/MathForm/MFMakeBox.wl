@@ -144,10 +144,10 @@ tooltipValue//Attributes = {
 };
 
 tooltipValue[Full,symbol_,realValue_] :=
-    ToString[realValue];
+    ToString[realValue,InputForm];
 
 tooltipValue[Automatic,symbol_,realValue_] :=
-    ToString@Unevaluated[symbol];
+    ToString[Unevaluated@symbol];
 
 tooltipValue[tvalue_,_,_] :=
     tvalue;
