@@ -232,7 +232,7 @@ MFFormatKernel[string_String] :=
         res = RunProcess[{$texfmt,"--nowrap","--tabsize","4","--stdin"},"StandardOutput",string];
         If[Head[res]=!=String,
             Throw[res],
-            (*Else*)
+            (* Else *)
             res//StringTrim
         ]
     ];

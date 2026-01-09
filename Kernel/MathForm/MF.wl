@@ -91,7 +91,7 @@ MF[expr_,opts:OptionsPattern[]] :=
                 Map[MFStringKernel[#,fopts2]&,expr],
                 fopts1
             ],
-            (*Else*)
+            (* Else *)
             MFKernel[string,fopts1]
         ]
     ]//Catch;
@@ -154,7 +154,7 @@ exportTexFile[id_String,listable_?BooleanQ][stringOrItsList_,preambleList_List,f
             "Document"->
                 If[listable,
                     StringRiffle[Map[StringTemplate["\\YurieMathForm{``}"],stringOrItsList],"\n"],
-                    (*Else*)
+                    (* Else *)
                     StringTemplate["\\YurieMathForm{``}"][stringOrItsList]
                 ],
             "FontSize"->fontsize,
@@ -190,7 +190,7 @@ importPDF[id_] :=
         If[FailureQ[pdf],
             Message[MF::PDFFailed];
             Throw@File@FileNameJoin[$temporaryDir,id<>".tex"],
-            (*Else*)
+            (* Else *)
             pdf
         ]
     ];
