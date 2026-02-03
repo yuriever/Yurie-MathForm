@@ -19,7 +19,15 @@ Needs["Yurie`MathForm`Variable`"];
 
 
 MFArgConvert::usage =
-    "define LaTeX macro for the symbol and store the rule into $MFAssoc.";
+    "MFArgConvert[left, right, sep][f->\"f\", ...]: define LaTeX macro for the symbol."<>
+    "\n"<>
+    "f[x]->\\f{x}"<>
+    "\n"<>
+    "f[x, y, ...]->\\f{x}{y}..."<>
+    "\n"<>
+    "f[{x, y, ...}]->\\f{x, y, ...}"<>
+    "\n"<>
+    "f[{x, ...}, {y, ...}, ...]->\\f{x, ...}{y, ...}...";
 
 
 (* ::Section:: *)
@@ -68,11 +76,17 @@ arg$;
 (*Message*)
 
 
-MFArgConvert::notsupported =
-    "the pattern `` is not supported.";
+MFArgConvert::InvalidInput =
+    "The input `` is invalid.";
 
-MFArgConvert::clearformat =
-    "the existing format values of the symbol `` are cleared.";
+MFArgConvert::FunPatternUnsupported =
+    "The function pattern `` is not supported.";
+
+MFArgConvert::FunNameIndetermined =
+    "The function name cannot be determined by the pattern ``.";
+
+MFArgConvert::FormatCleared =
+    "The existing format values of the symbol `` are cleared.";
 
 
 (* ::Subsection:: *)
@@ -86,36 +100,86 @@ MFArgConvert[args___][arg_] :=
     MFArgConvertKernel2[args][arg]//Catch;
 
 
-MFArgConvertKernel2[args___][Verbatim[Rule][funPattern_,funString_String]] :=
-    MFArgConvertKernel[{funPattern,funString},args];
+MFArgConvertKernel2[args___][Rule[funp_,funstr_String]] :=
+    MFArgConvertKernel[{funp,funstr},args];
 
-MFArgConvertKernel2[args___][funPattern_] :=
-    MFArgConvertKernel[{funPattern,stripFunPattern[funPattern]},args];
+MFArgConvertKernel2[args___][funp_] :=
+    MFArgConvertKernel2[args][Rule[funp,stripFunPattern[funp]]];
 
 
 (* ::Subsubsection:: *)
-(*MFArgConvertKernel*)
+(*Default delimiter*)
 
+
+(* ::Text:: *)
+(*f[x]->\f{x}*)
+
+
+MFArgConvertKernel2[][Rule[funp:_Symbol[Verbatim[Blank][]],funstr_String]] :=
+    MFArgConvertKernel[{funp,funstr},"{","}"];
+
+
+(* ::Text:: *)
+(*f[x,y,...]->f{x}{y}...*)
+
+
+MFArgConvertKernel2[][Rule[funp:_Symbol[Verbatim[BlankNullSequence][]],funstr_String]] :=
+    MFArgConvertKernel[{funp,funstr},"{","}"];
+
+
+(* ::Text:: *)
+(*f[{x,y,...}]->f{x,y,...}*)
+
+
+MFArgConvertKernel2[][Rule[funp:_Symbol[Verbatim[Blank][List]],funstr_String]] :=
+    MFArgConvertKernel[{funp,funstr},"{\n\t","\n}",",\n\t"];
+
+
+(* ::Text:: *)
+(*f[{x,...},{y,...},...]->f{x,...}{y,...}...*)
+
+
+MFArgConvertKernel2[][Rule[funp:_Symbol[Verbatim[BlankNullSequence][List]],funstr_String]] :=
+    MFArgConvertKernel[{funp,funstr},"{\n\t","\n}",",\n\t"];
+
+
+(* ::Subsection:: *)
+(*Kernel*)
+
+
+(* ::Subsubsection:: *)
+(*Exception*)
+
+
+MFArgConvertKernel[{fun_,funstr_},___] :=
+    (
+        Message[MFArgConvert::FunPatternUnsupported,Rule[fun,funstr]];
+        Throw[Null];
+    );
 
 MFArgConvertKernel[args___] :=
     (
-        Message[MFArgConvert::notsupported,{args}[[1,1]]];
+        Message[MFArgConvert::InvalidInput,{args}];
         Throw[Null];
     );
+
+
+(* ::Subsubsection:: *)
+(*Kernel*)
 
 
 (* ::Text:: *)
 (*f->\f*)
 
 
-MFArgConvertKernel[{fun_Symbol,funString_String}] :=
+MFArgConvertKernel[{fun_Symbol,funstr_String}] :=
     With[{funPlaceholder = ToString[fun]},
         clearFormat[fun,fun];
         fun/:MakeBoxes[fun,TraditionalForm] :=
             funPlaceholder;
         updateMFData[
             funPlaceholder->{
-                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString
+                "\\text{"<>funPlaceholder<>"}"->prependSlash[funstr]
             }
         ]
     ];
@@ -125,7 +189,7 @@ MFArgConvertKernel[{fun_Symbol,funString_String}] :=
 (*f[x]->\f{x}*)
 
 
-MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:"{",right_String:"}"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funstr_String},left_String,right_String] :=
     With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -145,7 +209,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:
             };
         updateMFData[
             funPlaceholder->{
-                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funPlaceholder<>"}"->prependSlash[funstr],
                 "\\left(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"}\\right)"->right,
                 "(\\text{"<>funLeft<>"}"->left,
@@ -159,7 +223,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][]],funString_String},left_String:
 (*f[x,y,...]->f{x}{y}...*)
 
 
-MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},left_String:"{",right_String:"}"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funstr_String},left_String,right_String] :=
     With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -178,7 +242,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},
             };
         updateMFData[
             funPlaceholder->{
-                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funPlaceholder<>"}"->prependSlash[funstr],
                 "\\text{"<>funRight<>"}\\text{"<>funLeft<>"}"->right<>left,
                 "\\left(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"}\\right)"->right,
@@ -193,7 +257,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][]],funString_String},
 (*f[{x,y,...}]->f{x,y,...}*)
 
 
-MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funstr_String},left_String,right_String,delimiter_String] :=
     With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -214,7 +278,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
             };
         updateMFData[
             funPlaceholder->{
-                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funPlaceholder<>"}"->prependSlash[funstr],
                 "\\left(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"}\\right)"->right,
                 "(\\text{"<>funLeft<>"}"->left,
@@ -229,7 +293,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[Blank][List]],funString_String},left_Str
 (*f[{x,...},{y,...},...]->f{x,...}{y,...}...*)
 
 
-MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_String},left_String:"{\n\t",right_String:"\n}",delimiter_String:",\n\t"] :=
+MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funstr_String},left_String,right_String,delimiter_String] :=
     With[{
             funPlaceholder = ToString[fun],
             funLeft = ToString[fun]<>$macroLeftDelimiter,
@@ -253,7 +317,7 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_Stri
             };
         updateMFData[
             funPlaceholder->{
-                "\\text{"<>funPlaceholder<>"}"->"\\"<>funString,
+                "\\text{"<>funPlaceholder<>"}"->prependSlash[funstr],
                 "\\text{"<>funRight<>"}\\text{"<>funLeft<>"}"->right<>left,
                 "\\left(\\text{"<>funLeft<>"}"->left,
                 "\\text{"<>funRight<>"}\\right)"->right,
@@ -269,6 +333,15 @@ MFArgConvertKernel[{fun_Symbol[Verbatim[BlankNullSequence][List]],funString_Stri
 (*Helper*)
 
 
+prependSlash[str_String] :=
+    If[StringStartsQ[str,"\\"],
+        (* Then *)
+        str,
+        (* Else *)
+        "\\"<>str
+    ];
+
+
 stripFunPattern[
     fun_Symbol|
     fun_Symbol[Verbatim[Blank][]]|
@@ -277,6 +350,12 @@ stripFunPattern[
     fun_Symbol[Verbatim[BlankNullSequence][List]]
 ] :=
     ToString[fun];
+
+stripFunPattern[other_] :=
+    (
+        Message[MFArgConvert::FunNameIndetermined,other];
+        Throw[Null];
+    );
 
 
 updateMFData[data_] :=
@@ -299,7 +378,7 @@ clearFormat[fun_Symbol,pattern_] :=
                 Verbatim[HoldPattern[MakeBoxes[pattern,TraditionalForm]]]:>_
             ];
         If[notFromMFArgConvert=!={},
-            Message[MFArgConvert::clearformat,fun]
+            Message[MFArgConvert::FormatCleared,fun]
         ];
         FormatValues[fun] = {};
     ];
