@@ -21,13 +21,13 @@ Needs["Yurie`MathForm`Variable`"];
 MFArgConvert::usage =
     "MFArgConvert[left, right, sep][f->\"f\", ...]: define LaTeX macro for the symbol."<>
     "\n"<>
-    "f[x]->\\f{x}"<>
+    "f[x] \[LongRightArrow] \\f{x} \[LongRightArrow] {, }"<>
     "\n"<>
-    "f[x, y, ...]->\\f{x}{y}..."<>
+    "f[x, y, ...] \[LongRightArrow] \\f{x}{y}... \[LongRightArrow] {, }"<>
     "\n"<>
-    "f[{x, y, ...}]->\\f{x, y, ...}"<>
+    "f[{x, y, ...}] \[LongRightArrow] \\f{x, y, ...} \[LongRightArrow] {\\n\\t, \\n}, \\n\\t"<>
     "\n"<>
-    "f[{x, ...}, {y, ...}, ...]->\\f{x, ...}{y, ...}...";
+    "f[{x, ...}, {y, ...}, ...] \[LongRightArrow] \\f{x, ...}{y, ...}... \[LongRightArrow] {\\n\\t, \\n}, \\n\\t";
 
 
 (* ::Section:: *)

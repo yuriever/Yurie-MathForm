@@ -9,7 +9,7 @@
 
 
 MFArgConvert::usage =
-    "define LaTeX macro for the symbol and store the rule into $MFAssoc.";
+    StringJoin["MFArgConvert[left, right, sep][f->\"f\", ...]: define LaTeX macro for the symbol.", "\n", "f[x] \[LongRightArrow] \\f{x} \[LongRightArrow] {, }", "\n", "f[x, y, ...] \[LongRightArrow] \\f{x}{y}... \[LongRightArrow] {, }", "\n", "f[{x, y, ...}] \[LongRightArrow] \\f{x, y, ...} \[LongRightArrow] {\\n\\t, \\n}, \\n\\t", "\n", "f[{x, ...}, {y, ...}, ...] \[LongRightArrow] \\f{x, ...}{y, ...}... \[LongRightArrow] {\\n\\t, \\n}, \\n\\t"];
 
 
 (* ::Subsubsection:: *)

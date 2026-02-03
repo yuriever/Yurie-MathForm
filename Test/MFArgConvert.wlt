@@ -68,12 +68,22 @@ VerificationTest[
 ]
 
 VerificationTest[
+    Catch[Yurie`MathForm`MFArgConvert`Private`stripFunPattern[f[a]]]
+    ,
+    Null
+    ,
+    {Yurie`MathForm`MFArgConvert::FunNameIndetermined}
+    ,
+    TestID->"[8] MFArgConvert.nb"
+]
+
+VerificationTest[
     MFArgConvert[][{head}]; 
     MFString[head]
     ,
     "\\head"
     ,
-    TestID->"[8] MFArgConvert.nb"
+    TestID->"[9] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -82,7 +92,7 @@ VerificationTest[
     ,
     "\\fun{a}"
     ,
-    TestID->"[9] MFArgConvert.nb"
+    TestID->"[10] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -91,7 +101,7 @@ VerificationTest[
     ,
     "\\funWithMultiArg{a}{b}"
     ,
-    TestID->"[10] MFArgConvert.nb"
+    TestID->"[11] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -100,7 +110,7 @@ VerificationTest[
     ,
     "\\funWithListArg{\n    a,\n    b\n}"
     ,
-    TestID->"[11] MFArgConvert.nb"
+    TestID->"[12] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -109,7 +119,7 @@ VerificationTest[
     ,
     "\\funWithMultiListArg{\n    a,\n    b\n}{\n    c,\n    d\n}"
     ,
-    TestID->"[12] MFArgConvert.nb"
+    TestID->"[13] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -118,7 +128,7 @@ VerificationTest[
     ,
     "\\fun\\left{a\\right}"
     ,
-    TestID->"[13] MFArgConvert.nb"
+    TestID->"[14] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -127,7 +137,7 @@ VerificationTest[
     ,
     "\\funWithMultiArg\\left{a\\right}\\left{b\\right}"
     ,
-    TestID->"[14] MFArgConvert.nb"
+    TestID->"[15] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -136,7 +146,7 @@ VerificationTest[
     ,
     "\\funWithListArg{a;b}"
     ,
-    TestID->"[15] MFArgConvert.nb"
+    TestID->"[16] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -145,7 +155,7 @@ VerificationTest[
     ,
     "\\funWithMultiListArg{a;b}{c;d}"
     ,
-    TestID->"[16] MFArgConvert.nb"
+    TestID->"[17] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -153,7 +163,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[17] MFArgConvert.nb"
+    TestID->"[18] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -161,7 +171,7 @@ VerificationTest[
     ,
     "\\funWithListArg{\n    \\fun{a},\n    \\fun{b}\n}"
     ,
-    TestID->"[18] MFArgConvert.nb"
+    TestID->"[19] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -169,7 +179,7 @@ VerificationTest[
     ,
     "\\funWithMultiListArg{\n    \\fun{a},\n    \\fun{b}\n}{\n    \\funWithMultiArg{c}{d}\n}"
     ,
-    TestID->"[19] MFArgConvert.nb"
+    TestID->"[20] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -177,7 +187,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[20] MFArgConvert.nb"
+    TestID->"[21] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -185,7 +195,7 @@ VerificationTest[
     ,
     "\\h{\n    \\f{a},\n    \\f{b}\n}"
     ,
-    TestID->"[21] MFArgConvert.nb"
+    TestID->"[22] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -193,7 +203,7 @@ VerificationTest[
     ,
     "\\k{\n    \\f{a},\n    \\f{b}\n}{\n    \\g{c}{d}\n}"
     ,
-    TestID->"[22] MFArgConvert.nb"
+    TestID->"[23] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -201,7 +211,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[23] MFArgConvert.nb"
+    TestID->"[24] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -209,7 +219,7 @@ VerificationTest[
     ,
     "2\n\\h{\n    2 \\f{a},\n    2 \\f{b}\n}"
     ,
-    TestID->"[24] MFArgConvert.nb"
+    TestID->"[25] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -217,7 +227,7 @@ VerificationTest[
     ,
     "2\n\\k{\n    2 \\f{a},\n    2 \\f{b}\n}{\n    2 \\g{c}{d}\n}"
     ,
-    TestID->"[25] MFArgConvert.nb"
+    TestID->"[26] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -225,7 +235,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[26] MFArgConvert.nb"
+    TestID->"[27] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -233,9 +243,9 @@ VerificationTest[
     ,
     Null
     ,
-    {Yurie`MathForm`MFArgConvert::clearformat}
+    {Yurie`MathForm`MFArgConvert::FormatCleared}
     ,
-    TestID->"[27] MFArgConvert.nb"
+    TestID->"[28] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -243,9 +253,9 @@ VerificationTest[
     ,
     Null
     ,
-    {Yurie`MathForm`MFArgConvert::notsupported}
+    {Yurie`MathForm`MFArgConvert::FunNameIndetermined}
     ,
-    TestID->"[28] MFArgConvert.nb"
+    TestID->"[29] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -253,7 +263,7 @@ VerificationTest[
     ,
     "g{\n    a,\n    b\n}"
     ,
-    TestID->"[29] MFArgConvert.nb"
+    TestID->"[30] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -261,7 +271,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[30] MFArgConvert.nb"
+    TestID->"[31] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -269,7 +279,7 @@ VerificationTest[
     ,
     "\\h{\n    \\text{fun}(a),\n    \\text{fun}(b)\n}"
     ,
-    TestID->"[31] MFArgConvert.nb"
+    TestID->"[32] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -277,7 +287,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[32] MFArgConvert.nb"
+    TestID->"[33] MFArgConvert.nb"
 ]
 
 VerificationTest[
@@ -285,7 +295,15 @@ VerificationTest[
     ,
     "\\text{fun}"
     ,
-    TestID->"[33] MFArgConvert.nb"
+    TestID->"[34] MFArgConvert.nb"
+]
+
+VerificationTest[
+    MFClear[]
+    ,
+    Null
+    ,
+    TestID->"[35] MFArgConvert.nb"
 ]
 
 VerificationTest[

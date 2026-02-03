@@ -2,7 +2,15 @@
 
 ## MFArgConvert.wl
 
-* `#!wl MFArgConvert` - define LaTeX macro for the symbol and store the rule into $MFAssoc.
+* `#!wl MFArgConvert` - MFArgConvert[left, right, sep][f->"f", ...]: define LaTeX macro for the symbol.
+
+    * f[x] ⟶ \f{x} ⟶ {, }
+
+    * f[x, y, ...] ⟶ \f{x}{y}... ⟶ {, }
+
+    * f[{x, y, ...}] ⟶ \f{x, y, ...} ⟶ {\n\t, \n}, \n\t
+
+    * f[{x, ...}, {y, ...}, ...] ⟶ \f{x, ...}{y, ...}... ⟶ {\n\t, \n}, \n\t
 
 ## MFClear.wl
 
