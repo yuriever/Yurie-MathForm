@@ -28,9 +28,9 @@ VerificationTest[
 ]
 
 VerificationTest[
-    SetOptions[MFString, "LinebreakThreshold" -> 2, "RemoveLeftRightPair" -> False, "Method" -> "Legacy"]
+    SetOptions[MFString, "LinebreakThreshold" -> 2, "RemoveLeftRightPair" -> False, "Method" -> "V2"]
     ,
-    {"RemoveLeftRightPair" -> False, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}, "Method" -> "Legacy"}
+    {"RemoveLeftRightPair" -> False, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}, "Method" -> "V2"}
     ,
     TestID->"[3] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -38,7 +38,7 @@ VerificationTest[
 VerificationTest[
     MFString[-1 - (1/3)*s*t*f[a]]
     ,
-    "-\\frac{1}{3} s t\nf(a)\n-1"
+    "-1\n+-\\frac{1}{3} s t f(a)"
     ,
     TestID->"[4] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -46,7 +46,7 @@ VerificationTest[
 VerificationTest[
     MFString[(x + z^2)^Δ]
     ,
-    "\\left(\n    z^2\n    +x\n\\right)^{\\Delta }"
+    "(\n    x\n    +z^2\n)^{\\Delta}"
     ,
     TestID->"[5] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -54,7 +54,7 @@ VerificationTest[
 VerificationTest[
     MFString[((x - y) . (x - y) + z[1]^2)^Δ]
     ,
-    "\\left(\n    (x-y).(x-y)\n    +z(1)^2\n\\right)^{\\Delta }"
+    "(\n    (x-y).(x-y)\n    +z(1)^2\n)^{\\Delta}"
     ,
     TestID->"[6] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -62,7 +62,7 @@ VerificationTest[
 VerificationTest[
     MFString[Subscript[y, 1]^(-1 - d + Subscript[Δ, 1])/(Abs[Subscript[x, 2]]^2 + Subscript[y, 1]^2)^Subscript[Δ, 1]]
     ,
-    "y_1^{\n    -d\n    +\\Delta_1\n    -1\n}\n\\left(\n    \\left| x_2\\right| {}^2\n    +y_1^2\n\\right){}^{\n    -\\Delta_1\n}"
+    "y_1^{-d+\\Delta_1-1}\n(\n    \\left| x_2\\right|^2\n    +y_1^2\n)^{-\\Delta_1}"
     ,
     TestID->"[7] MFString-option-RemoveLeftRightPair.nb"
 ]
