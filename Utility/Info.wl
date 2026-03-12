@@ -23,6 +23,9 @@ $thisSourceDir::usage =
 $thisTestDir::usage =
     "directory of unit test.";
 
+$thisTest2Dir::usage =
+    "directory of AI-generated test.";
+
 $thisTestSourceDir::usage =
     "directory of source notebook for unit test.";
 
@@ -62,6 +65,9 @@ $thisSourceDir =
 
 $thisTestDir =
     $thisPaclet["AssetLocation","Test"];
+
+$thisTest2Dir =
+    $thisPaclet["AssetLocation","Test2"];
 
 $thisTestSourceDir =
     $thisPaclet["AssetLocation","TestSource"];

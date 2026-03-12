@@ -7,6 +7,9 @@
 reportWLT[$thisTestDir]
 
 
+reportWLT[$thisTest2Dir]
+
+
 (* ::Text:: *)
 (*Test source*)
 

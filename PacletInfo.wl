@@ -40,6 +40,7 @@ PacletObject[
           {"Library", "Library"},
           {"Source", "Source"},
           {"Test", "Test"},
+          {"Test2", "Test2"},
           {"TestSource", "TestSource"}
         }
       }
