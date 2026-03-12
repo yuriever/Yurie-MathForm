@@ -39,7 +39,122 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
-(*Bracket*)
+(*Option*)
+
+
+MFStringKernel//Options = {
+    "RemoveLeftRightPair"->True,
+    "Linebreak"->True,
+    "LinebreakThreshold"->6,
+    "LinebreakIgnore"->{},
+    "Method"->"V2"
+};
+
+MFString//Options =
+    Options@MFStringKernel;
+
+
+(* ::Subsection:: *)
+(*Exception*)
+
+
+MFString::NotStringInput =
+    "MFFormatKernel only accepts string input.";
+
+MFString::UnknownMethod =
+    "Unknown method `1` specified for MFString.";
+
+
+MFFormatException["NotStringInput",expr_] :=
+    (
+        Message[MFString::NotStringInput];
+        Throw@Failure[
+            "NotStringInput",
+            <|
+                "MessageTemplate"->MFString::NotStringInput,
+                "Result"->expr
+            |>
+        ]
+    );
+
+MFStringException["UnknownMethod",optValue_,expr_] :=
+    (
+        Message[MFString::UnknownMethod,optValue];
+        Throw@Failure[
+            "UnknownMethod",
+            <|
+                "MessageTemplate"->MFString::UnknownMethod,
+                "OptionValue"->optValue,
+                "Expression"->expr
+            |>
+        ]
+    );
+
+
+(* ::Subsection:: *)
+(*Main*)
+
+
+MFString[expr_,opts:OptionsPattern[]] :=
+    MFStringKernel[expr,FilterRules[{opts,Options@MFString},Options@MFStringKernel]]//
+        MFFormatKernel//Catch;
+
+
+MFStringKernel[string_String,OptionsPattern[]] :=
+    string;
+
+MFStringKernel[list_List,opts:OptionsPattern[]] :=
+    Switch[OptionValue["Method"],
+        "V2",
+            MFStringKernelV2[list,opts],
+        "Legacy",
+            MFStringKernelV1[list,opts],
+        _,
+            MFStringException["UnknownMethod",OptionValue["Method"],list]
+    ];
+
+MFStringKernel[expr_,opts:OptionsPattern[]] :=
+    Switch[OptionValue["Method"],
+        "V2",
+            MFStringKernelV2[expr,opts],
+        "Legacy",
+            MFStringKernelV1[expr,opts],
+        _,
+            MFStringException["UnknownMethod",OptionValue["Method"],expr]
+    ];
+
+
+MFFormatKernel[string_String] :=
+    Module[{res},
+        res = RunProcess[{$texfmt,"--nowrap","--tabsize","4","--stdin"},"StandardOutput",string];
+        If[Head[res]=!=String,
+            (* Then *)
+            Throw[res],
+            (* Else *)
+            res//StringTrim
+        ]
+    ];
+
+MFFormatKernel[other_] :=
+    MFFormatException["NotStringInput",other];
+
+
+(* ::Subsection:: *)
+(*Helper - Cleanup*)
+
+
+deleteBlankBeforeScript[string_String] :=
+    string//StringReplace[{
+        " _"->"_"," ^"->"^"
+    }];
+
+
+trimEmptyLine[string_String] :=
+    string//StringReplace[RegularExpression["(?m)^\\s*$\\n?"]->""]//StringTrim;
+
+
+(* ::Subsection:: *)
+(*Helper - Bracket*)
 
 
 (* ::Text:: *)
@@ -154,41 +269,17 @@ bracketLRRemove[string_String] :=
 
 
 (* ::Subsection:: *)
-(*Option*)
+(*V1: Main*)
 
 
-MFStringKernel//Options = {
-    "RemoveLeftRightPair"->True,
-    "Linebreak"->True,
-    "LinebreakThreshold"->6,
-    "LinebreakIgnore"->{}
-};
-
-MFString//Options =
-    Options@MFStringKernel;
-
-
-MFString::NotString =
-    "MFStringKernel does not return a string.";
-
-
-(* ::Subsection:: *)
-(*Main*)
-
-
-MFString[expr_,opts:OptionsPattern[]] :=
-    MFStringKernel[expr,FilterRules[{opts,Options@MFString},Options@MFStringKernel]]//
-        MFFormatKernel//Catch;
-
-
-MFStringKernel[string_String,OptionsPattern[]] :=
+MFStringKernelV1[string_String,OptionsPattern[MFStringKernel]] :=
     string;
 
-MFStringKernel[list_List,opts:OptionsPattern[]] :=
+MFStringKernelV1[list_List,opts:OptionsPattern[MFStringKernel]] :=
     With[{
             ifLinebreak = OptionValue["Linebreak"],
             linebreakThreshold = OptionValue["LinebreakThreshold"],
-            stringList = Map[MFStringKernel[#,opts]&,list]
+            stringList = Map[MFStringKernelV1[#,opts]&,list]
         },
         {
             ifLinebreakList = Map[StringLength[#]>=linebreakThreshold&,stringList]
@@ -200,7 +291,7 @@ MFStringKernel[list_List,opts:OptionsPattern[]] :=
         ]
     ];
 
-MFStringKernel[expr_,OptionsPattern[]] :=
+MFStringKernelV1[expr_,OptionsPattern[MFStringKernel]] :=
     With[{
             ifLinebreak = OptionValue["Linebreak"],
             linebreakThreshold = OptionValue["LinebreakThreshold"],
@@ -227,31 +318,8 @@ MFStringKernel[expr_,OptionsPattern[]] :=
     ];
 
 
-MFFormatKernel[string_String] :=
-    Module[{res},
-        res = RunProcess[{$texfmt,"--nowrap","--tabsize","4","--stdin"},"StandardOutput",string];
-        If[Head[res]=!=String,
-            Throw[res],
-            (* Else *)
-            res//StringTrim
-        ]
-    ];
-
-MFFormatKernel[other_] :=
-    (
-        Message[MFString::NotString];
-        Throw@Failure[
-            "NotString",
-            <|
-                "MessageTemplate"->MFString::NotString,
-                "Result"->other
-            |>
-        ]
-    );
-
-
 (* ::Subsection:: *)
-(*Helper: List*)
+(*V1: Helper - List*)
 
 
 formatList[stringList_,ifLinebreakList_] :=
@@ -274,7 +342,7 @@ formatList[stringList_,ifLinebreakList_] :=
 
 
 (* ::Subsection:: *)
-(*Helper: Linebreak*)
+(*V1: Helper - Linebreak*)
 
 
 LBHold//Attributes = {
@@ -452,17 +520,412 @@ lineBreakClean[False][string_String] :=
 
 
 (* ::Subsection:: *)
-(*Helper: Cleanup*)
+(*V2: Main*)
 
 
-deleteBlankBeforeScript[string_String] :=
+MFStringKernelV2[string_String,OptionsPattern[MFStringKernel]] :=
+    string;
+
+MFStringKernelV2[list_List,opts:OptionsPattern[MFStringKernel]] :=
+    With[{
+            ifLinebreak = OptionValue["Linebreak"],
+            linebreakThreshold = OptionValue["LinebreakThreshold"],
+            stringList = Map[MFStringKernelV2[#,opts]&,list]
+        },
+        {
+            ifLinebreakList = Map[StringLength[#]>=linebreakThreshold&,stringList]
+        },
+        If[ifLinebreak===True&&AnyTrue[ifLinebreakList,TrueQ],
+            formatListV2[stringList,ifLinebreakList],
+            (* Else *)
+            StringRiffle[stringList,{"(",", ",")"}]
+        ]
+    ];
+
+MFStringKernelV2[expr_,opts:OptionsPattern[MFStringKernel]] :=
+    With[{
+            ifLinebreak = OptionValue["Linebreak"],
+            linebreakThreshold = OptionValue["LinebreakThreshold"],
+            linebreakIgnoredP = getLinebreakIgnorePV2@OptionValue["LinebreakIgnore"],
+            removeLeftRight = OptionValue["RemoveLeftRightPair"]
+        },
+        If[ifLinebreak===True,
+            renderNodeV2[expr,linebreakThreshold,linebreakIgnoredP,"top",removeLeftRight],
+            (* Else *)
+            renderLeafV2[expr,"top",removeLeftRight]
+        ]//deleteBlankBeforeScript//trimEmptyLine
+    ];
+
+
+(* ::Subsection:: *)
+(*V2: Leaf count*)
+
+
+leafCountV2//Attributes =
+    {HoldFirst};
+
+leafCountV2[_?Developer`HoldAtomQ,_] :=
+    1;
+
+leafCountV2[Verbatim[Times][-1,rest__],ignoredP_] :=
+    leafCountV2[Times[rest],ignoredP]-1;
+
+leafCountV2[HoldPattern[Power[base_,-1]],ignoredP_] :=
+    leafCountV2[base,ignoredP];
+
+leafCountV2[HoldPattern[Times[1,Power[base_,-1]]],ignoredP_] :=
+    leafCountV2[base,ignoredP];
+
+leafCountV2[expr_,ignoredP_]/;MatchQ[Unevaluated[expr],ignoredP] :=
+    1;
+
+leafCountV2[head_[arg_],ignoredP_] :=
+    leafCountV2[head,ignoredP]+leafCountV2[arg,ignoredP];
+
+leafCountV2[head_[args__],ignoredP_] :=
+    leafCountV2[head,ignoredP]+Plus@@Map[Function[Null,leafCountV2[#,ignoredP],HoldAll],Hold[args]];
+
+
+(* insertQV2: check whether any direct argument of a Plus or Times has leafCount >= threshold. *)
+
+insertQV2//Attributes =
+    {HoldFirst};
+
+insertQV2[held_,threshold_,ignoredP_] :=
+    AnyTrue[held,Function[Null,leafCountV2[#,ignoredP]>=threshold,HoldAll]];
+
+
+(* ::Subsection:: *)
+(*V2: Analysis helper*)
+
+
+getLinebreakIgnorePV2//Attributes = {
+    HoldAll
+};
+
+getLinebreakIgnorePV2[ignored_List] :=
+    Alternatives@@Map[HoldPattern,ignored];
+
+getLinebreakIgnorePV2[ignored_] :=
+    HoldPattern[ignored];
+
+
+bracketLRRemoveV2[string_String] :=
     string//StringReplace[{
-        " _"->"_"," ^"->"^"
+        "\\left"~~left:"("|"["|"|"|"\\{":>left,
+        "\\right"~~right:")"|"]"|"|"|"\\}":>right
     }];
 
 
-trimEmptyLine[string_String] :=
-    string//StringReplace[RegularExpression["(?m)^\\s*$\\n?"]->""]//StringTrim;
+formatListV2[stringList_,ifLinebreakList_] :=
+    With[{
+            spacedStringList =
+                MapThread[
+                    If[#1===True,
+                        #2<>",\n",
+                        (* Else *)
+                        #2<>", "
+                    ]&,
+                    {
+                        Most[ifLinebreakList],
+                        Most[stringList]
+                    }
+                ]
+        },
+        "(\n\t"<>StringJoin[spacedStringList]<>Last[stringList]<>"\n)"
+    ];
+
+
+(* splitSummandsV2: split Plus into list of {sign, held-term} pairs. *)
+
+splitSummandsV2//Attributes =
+    {HoldAll};
+
+splitSummandsV2[HoldPattern[Plus[args__]]] :=
+    Map[
+        Function[Null,extractSignV2[#],HoldAll],
+        Hold[args]
+    ]//Apply[List];
+
+extractSignV2//Attributes =
+    {HoldAll};
+
+extractSignV2[Verbatim[Times][-1,rest__]] :=
+    {"-",HoldComplete[Times[rest]]};
+
+extractSignV2[expr_] :=
+    {"+",HoldComplete[expr]};
+
+
+(* splitFractionV2: split Times into {sign, numFactors, denomFactors}. *)
+(* numFactors and denomFactors are lists of HoldComplete[factor]. *)
+(* denomFactors are bases extracted from Power[base, neg-exp]. *)
+
+splitFractionV2//Attributes =
+    {HoldAll};
+
+splitFractionV2[HoldPattern[Times[args__]]] :=
+    Module[{sign = "+",numFactors = {},denomFactors = {}},
+        Map[
+            Function[Null,
+                Which[
+                    MatchQ[Unevaluated[#],-1],
+                        sign = If[sign==="+","-","+"],
+                    MatchQ[Unevaluated[#],HoldPattern[Power[_,-1]]],
+                        With[{base = Extract[HoldComplete[#],{1,1},HoldComplete]},
+                            AppendTo[denomFactors,base]
+                        ],
+                    MatchQ[Unevaluated[#],HoldPattern[Power[_,_?negativeExponentQ]]],
+                        With[{
+                                base = Extract[HoldComplete[#],{1,1},HoldComplete],
+                                exp = Extract[HoldComplete[#],{1,2},HoldComplete]
+                            },
+                            AppendTo[denomFactors,base];
+                            AppendTo[numFactors,mapHeldPowerV2[base,negateHeldV2[exp]]]
+                        ],
+                    True,
+                        AppendTo[numFactors,HoldComplete[#]]
+                ],
+            HoldAll],
+            Hold[args]
+        ]//Apply[List];
+        {sign,numFactors,denomFactors}
+    ];
+
+negativeExponentQ[-1] := False;
+negativeExponentQ[n_?NumberQ] := Negative[n];
+negativeExponentQ[_] := False;
+
+negateHeldV2[HoldComplete[n_Integer]] :=
+    HoldComplete[-n];
+
+negateHeldV2[HoldComplete[n_Rational]] :=
+    HoldComplete[-n];
+
+negateHeldV2[HoldComplete[expr_]] :=
+    HoldComplete[Times[-1,expr]];
+
+mapHeldPowerV2[HoldComplete[base_],HoldComplete[1]] :=
+    HoldComplete[base];
+
+mapHeldPowerV2[HoldComplete[base_],HoldComplete[exp_]] :=
+    HoldComplete[Power[base,exp]];
+
+
+(* ::Subsection:: *)
+(*V2: Rendering*)
+
+
+(* renderLeafV2: render an expression as a single TeX string via TeXForm. *)
+(* ctx controls whether to add outer parentheses. *)
+
+renderLeafV2//Attributes =
+    {HoldFirst};
+
+renderLeafV2[expr_,ctx_,removeLeftRight_] :=
+    With[{raw = ToString[TeXForm[expr]]},
+        {
+            cleaned =
+                raw//If[removeLeftRight===True,bracketLRRemoveV2[#],#]&//
+                    StringReplace[$MFRule]
+        },
+        wrapContextV2[cleaned,Unevaluated[expr],ctx]
+    ];
+
+
+(* wrapContextV2: add parens when a Plus/fraction appears in factor or power-base context. *)
+
+wrapContextV2//Attributes =
+    {HoldRest};
+
+wrapContextV2[str_String,expr_,ctx_] :=
+    Which[
+        (* Plus in factor/power-base context needs parens. *)
+        MemberQ[{"factor","power-base"},ctx]&&MatchQ[Unevaluated[expr],_Plus],
+            "("<>str<>")",
+        (* Signed or multi-factor Times in power-base context needs parens. *)
+        ctx==="power-base"&&MatchQ[Unevaluated[expr],HoldPattern[Times[__]]],
+            "("<>str<>")",
+        True,
+            str
+    ];
+
+
+(* renderNodeV2: main dispatch. Decides whether to break or render as leaf. *)
+
+renderNodeV2//Attributes =
+    {HoldFirst};
+
+renderNodeV2[expr_,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    Which[
+        leafCountV2[expr,ignoredP]<threshold,
+            renderLeafV2[expr,ctx,removeLeftRight],
+        MatchQ[Unevaluated[expr],HoldPattern[(Plus|Times)[args__]]]&&
+            insertQV2[Replace[HoldComplete[expr],HoldComplete[_[args___]]:>Hold[args]],threshold,ignoredP],
+            Which[
+                MatchQ[Unevaluated[expr],_Plus],
+                    renderPlusV2[expr,threshold,ignoredP,ctx,removeLeftRight],
+                True,
+                    renderTimesV2[expr,threshold,ignoredP,ctx,removeLeftRight]
+            ],
+        MatchQ[Unevaluated[expr],_Power],
+            renderPowerV2[expr,threshold,ignoredP,ctx,removeLeftRight],
+        True,
+            renderLeafV2[expr,ctx,removeLeftRight]
+    ];
+
+
+(* renderPlusV2: split summands, render each, join with linebreak signs. *)
+
+renderPlusV2//Attributes =
+    {HoldFirst};
+
+renderPlusV2[expr_Plus,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    With[{summands = splitSummandsV2[expr]},
+        {
+            rendered =
+                Map[
+                    With[{sign = #[[1]],held = #[[2]]},
+                        {sign,renderHeldNodeV2[held,threshold,ignoredP,"summand",removeLeftRight]}
+                    ]&,
+                    summands
+                ]
+        },
+        {
+            lines =
+                MapIndexed[
+                    With[{sign = #1[[1]],str = #1[[2]],idx = #2[[1]]},
+                        If[idx===1,
+                            If[sign==="-","-"<>str,str],
+                            (* Else *)
+                            sign<>str
+                        ]
+                    ]&,
+                    rendered
+                ]
+        },
+        wrapPlusResultV2[StringRiffle[lines,"\n"],ctx]
+    ];
+
+wrapPlusResultV2[str_String,ctx_String] :=
+    If[MemberQ[{"factor","power-base"},ctx],
+        "(\n"<>str<>"\n)",
+        (* Contexts "top", "summand", "frac-part", "power-exp" etc: no wrapping *)
+        str
+    ];
+
+
+(* renderTimesV2: detect fraction, render numerator and denominator. *)
+
+renderTimesV2//Attributes =
+    {HoldFirst};
+
+renderTimesV2[expr_Times,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    With[{split = splitFractionV2[expr]},
+        {
+            sign = split[[1]],
+            numFactors = split[[2]],
+            denomFactors = split[[3]]
+        },
+        renderTimesBodyV2[sign,numFactors,denomFactors,threshold,ignoredP,ctx,removeLeftRight]
+    ];
+
+renderTimesBodyV2[sign_,numFactors_,denomFactors_,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    Module[{numStr,denomStr,result},
+        If[denomFactors==={},
+            (* No denominator: just factors with line breaks. *)
+            numStr = renderFactorListV2[numFactors,threshold,ignoredP,removeLeftRight];
+            result = numStr;
+            If[sign==="-",
+                result = "-"<>result
+            ];
+            (* In power-base context, a product needs parens. *)
+            If[ctx==="power-base"&&(sign==="-"||Length[numFactors]>1),
+                result = "("<>result<>")"
+            ];
+            result,
+            (* Has denominator: render as \frac. *)
+            numStr = renderFracPartV2[numFactors,threshold,ignoredP,removeLeftRight];
+            denomStr = renderFracPartV2[denomFactors,threshold,ignoredP,removeLeftRight];
+            result = "\\frac{"<>numStr<>"}{"<>denomStr<>"}";
+            If[sign==="-",
+                result = "-"<>result
+            ];
+            result
+        ]
+    ];
+
+renderFracPartV2[{single_},threshold_,ignoredP_,removeLeftRight_] :=
+    renderHeldNodeV2[single,threshold,ignoredP,"frac-part",removeLeftRight];
+
+renderFracPartV2[factors_List,threshold_,ignoredP_,removeLeftRight_] :=
+    renderFactorListV2[factors,threshold,ignoredP,removeLeftRight];
+
+renderFactorListV2[factors_List,threshold_,ignoredP_,removeLeftRight_] :=
+    With[{
+            rendered =
+                Map[
+                    renderHeldNodeV2[#,threshold,ignoredP,"factor",removeLeftRight]&,
+                    factors
+                ]
+        },
+        {
+            hasLinebreak = Map[StringContainsQ[#,"\n"]&,rendered]
+        },
+        If[Length[rendered]===0,
+            "1",
+            (* If any factor is already multiline, use linebreak separators for all. *)
+            (* Otherwise use space separators (same line). *)
+            If[AnyTrue[hasLinebreak,TrueQ],
+                StringRiffle[rendered,"\n"],
+                (* Else *)
+                StringJoin@Riffle[rendered," "]
+            ]
+        ]
+    ];
+
+
+(* renderPowerV2: render base and exponent, combining as base^{exp}. *)
+(* Special case: Power[base, -1] renders as \frac{1}{baseStr}. *)
+(* Special case: Power[base, -n] renders as \frac{1}{baseStr^{n}}. *)
+
+renderPowerV2//Attributes =
+    {HoldFirst};
+
+renderPowerV2[HoldPattern[Power[base_,-1]],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    With[{baseStr = renderNodeV2[base,threshold,ignoredP,"frac-part",removeLeftRight]},
+        "\\frac{1}{"<>baseStr<>"}"
+    ];
+
+renderPowerV2[HoldPattern[Power[base_,exp_?Negative]],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    With[{
+            baseStr = renderNodeV2[base,threshold,ignoredP,"power-base",removeLeftRight],
+            posExpStr = renderLeafV2[-exp,"power-exp",removeLeftRight]
+        },
+        If[StringLength[posExpStr]<=1,
+            "\\frac{1}{"<>baseStr<>"^"<>posExpStr<>"}",
+            (* Else *)
+            "\\frac{1}{"<>baseStr<>"^{"<>posExpStr<>"}}"
+        ]
+    ];
+
+renderPowerV2[HoldPattern[Power[base_,exp_]],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    With[{
+            baseStr = renderNodeV2[base,threshold,ignoredP,"power-base",removeLeftRight],
+            expStr = renderLeafV2[exp,"power-exp",removeLeftRight]
+        },
+        If[StringLength[expStr]<=1,
+            baseStr<>"^"<>expStr,
+            (* Else *)
+            baseStr<>"^{"<>expStr<>"}"
+        ]
+    ];
+
+
+(* renderHeldNodeV2: unwrap HoldComplete and call renderNodeV2. *)
+
+renderHeldNodeV2[HoldComplete[expr_],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
+    renderNodeV2[expr,threshold,ignoredP,ctx,removeLeftRight];
 
 
 (* ::Subsection:: *)
