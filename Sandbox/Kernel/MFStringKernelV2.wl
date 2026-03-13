@@ -517,6 +517,20 @@ renderHeldNodeV2[HoldComplete[expr_],threshold_,ignoredP_,ctx_,removeLeftRight_]
 
 
 (* ::Subsection:: *)
+(*Helper - Cleanup*)
+
+
+deleteBlankBeforeScript[string_String] :=
+    string//StringReplace[{
+        " _"->"_"," ^"->"^"
+    }];
+
+
+trimEmptyLine[string_String] :=
+    string//StringReplace[RegularExpression["(?m)^\\s*$\\n?"]->""]//StringTrim;
+
+
+(* ::Subsection:: *)
 (*End*)
 
 
