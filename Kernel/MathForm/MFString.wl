@@ -47,7 +47,7 @@ MFStringKernel//Options = {
     "Linebreak"->True,
     "LinebreakThreshold"->6,
     "LinebreakIgnore"->{},
-    "Method"->"V2"
+    "Method"->"Legacy"
 };
 
 MFString//Options =

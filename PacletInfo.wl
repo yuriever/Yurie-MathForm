@@ -28,6 +28,13 @@ PacletObject[
         }
       },
       {
+        "Kernel",
+        "Root" -> "Sandbox/Kernel",
+        "Context" -> {
+          "Yurie`MathForm`"
+        }
+      },
+      {
         "AutoCompletionData",
         "Root" -> "AutoCompletionData"
       },
@@ -40,7 +47,7 @@ PacletObject[
           {"Library", "Library"},
           {"Source", "Source"},
           {"Test", "Test"},
-          {"Test2", "Test2"},
+          {"Sandbox", "Sandbox"},
           {"TestSource", "TestSource"}
         }
       }
