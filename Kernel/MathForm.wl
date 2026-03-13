@@ -26,6 +26,9 @@ Get["Yurie`MathForm`MFMakeBox`"];
 Get["Yurie`MathForm`MFClear`"];
 
 
+Get["Yurie`MathForm`MFStringKernelV2`"];
+
+
 Get["Yurie`MathForm`Deprecation`"];
 
 
