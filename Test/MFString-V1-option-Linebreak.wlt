@@ -1,6 +1,6 @@
 
 
-(* MFStringV1-option-Linebreak.nb *)
+(* MFString-V1-option-Linebreak.nb *)
 
 VerificationTest[
     Begin["Global`"];
@@ -8,7 +8,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[0] MFStringV1-option-Linebreak.nb"
+    TestID->"[0] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -16,15 +16,15 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[1] MFStringV1-option-Linebreak.nb"
+    TestID->"[1] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
-    SetOptions[MFString, "LinebreakThreshold" -> 2, "Method" -> "Legacy"]
+    SetOptions[MFString, "LinebreakThreshold" -> 2, "Method" -> "V1"]
     ,
-    {"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}, "Method" -> "Legacy"}
+    {"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}, "Method" -> "V1"}
     ,
-    TestID->"[2] MFStringV1-option-Linebreak.nb"
+    TestID->"[2] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -32,7 +32,7 @@ VerificationTest[
     ,
     "-a"
     ,
-    TestID->"[3] MFStringV1-option-Linebreak.nb"
+    TestID->"[3] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -40,7 +40,7 @@ VerificationTest[
     ,
     "a-b+c"
     ,
-    TestID->"[4] MFStringV1-option-Linebreak.nb"
+    TestID->"[4] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -48,7 +48,7 @@ VerificationTest[
     ,
     "-a-b"
     ,
-    TestID->"[5] MFStringV1-option-Linebreak.nb"
+    TestID->"[5] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -56,7 +56,7 @@ VerificationTest[
     ,
     "-a b\n+1"
     ,
-    TestID->"[6] MFStringV1-option-Linebreak.nb"
+    TestID->"[6] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -64,7 +64,7 @@ VerificationTest[
     ,
     "\\frac{1}{2}\n(b-a)"
     ,
-    TestID->"[7] MFStringV1-option-Linebreak.nb"
+    TestID->"[7] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -72,7 +72,7 @@ VerificationTest[
     ,
     "\\frac{\n    b-a\n}{\n    c+d\n}"
     ,
-    TestID->"[8] MFStringV1-option-Linebreak.nb"
+    TestID->"[8] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -80,7 +80,7 @@ VerificationTest[
     ,
     "(-a b)^n"
     ,
-    TestID->"[9] MFStringV1-option-Linebreak.nb"
+    TestID->"[9] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -88,7 +88,7 @@ VerificationTest[
     ,
     "-(c d)^n\n(a+b+c+d+e+f+g)^2\n+e f\n+h"
     ,
-    TestID->"[10] MFStringV1-option-Linebreak.nb"
+    TestID->"[10] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -96,7 +96,7 @@ VerificationTest[
     ,
     "-\\frac{\n    b^2\n    a(x,y)\n}{\n    m(1)\n    m(2)\n}"
     ,
-    TestID->"[11] MFStringV1-option-Linebreak.nb"
+    TestID->"[11] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -104,7 +104,7 @@ VerificationTest[
     ,
     "\\frac{\n    a^n\n    b^n\n    (c d)^n\n}{e f}"
     ,
-    TestID->"[12] MFStringV1-option-Linebreak.nb"
+    TestID->"[12] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -112,7 +112,7 @@ VerificationTest[
     ,
     "\\frac{\n    a\n    +b c\n    +d\n}{\n    a\n    +b c\n    +d+1\n}"
     ,
-    TestID->"[13] MFStringV1-option-Linebreak.nb"
+    TestID->"[13] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -120,7 +120,7 @@ VerificationTest[
     ,
     "a d\n(b+c)"
     ,
-    TestID->"[14] MFStringV1-option-Linebreak.nb"
+    TestID->"[14] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -128,7 +128,7 @@ VerificationTest[
     ,
     "a d\n(b+c)"
     ,
-    TestID->"[15] MFStringV1-option-Linebreak.nb"
+    TestID->"[15] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -136,7 +136,7 @@ VerificationTest[
     ,
     "-s t\nf(a b c)\n-s u\nf(a c d)"
     ,
-    TestID->"[16] MFStringV1-option-Linebreak.nb"
+    TestID->"[16] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -144,7 +144,7 @@ VerificationTest[
     ,
     "-s t\nf(a b c)\n-2 s u\nf(a c d)"
     ,
-    TestID->"[17] MFStringV1-option-Linebreak.nb"
+    TestID->"[17] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -152,7 +152,7 @@ VerificationTest[
     ,
     "s t (\n    -(-1)^a\n)\nf(a b c d)\n+1"
     ,
-    TestID->"[18] MFStringV1-option-Linebreak.nb"
+    TestID->"[18] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -160,15 +160,15 @@ VerificationTest[
     ,
     "\\frac{1}{2} s t u\nf(a c d,2)\n-\\frac{1}{2} s u\nf(a c d,2)\n+s t (\n    -(-1)^a\n)\nf(a b c d)\n+s\n(-1)^a\nf(a b c d)\n-\\frac{1}{3} a s t\nf(a b c)\n-2 s u\nf(a c d)\n-s u\nf(a)\n-1"
     ,
-    TestID->"[19] MFStringV1-option-Linebreak.nb"
+    TestID->"[19] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
-    SetOptions[MFString, "LinebreakThreshold" -> 6, "Method" -> "Legacy"]
+    SetOptions[MFString, "LinebreakThreshold" -> 6, "Method" -> "V1"]
     ,
-    {"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 6, "LinebreakIgnore" -> {}, "Method" -> "Legacy"}
+    {"RemoveLeftRightPair" -> True, "Linebreak" -> True, "LinebreakThreshold" -> 6, "LinebreakIgnore" -> {}, "Method" -> "V1"}
     ,
-    TestID->"[20] MFStringV1-option-Linebreak.nb"
+    TestID->"[20] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -176,7 +176,7 @@ VerificationTest[
     ,
     "a^{1-\\Delta (1)}"
     ,
-    TestID->"[21] MFStringV1-option-Linebreak.nb"
+    TestID->"[21] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -184,7 +184,7 @@ VerificationTest[
     ,
     "y_1^{-d+\\Delta_1-1}\n(\n    | x_2| {}^2\n    +y_1^2\n){}^{1-\\Delta_1}"
     ,
-    TestID->"[22] MFStringV1-option-Linebreak.nb"
+    TestID->"[22] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -192,7 +192,7 @@ VerificationTest[
     ,
     "\\chi\n2^{-h_1-h_2-h_3-h_4+1}\n\\omega_0^{h_1+h_2+h_3+h_4-4}\ne^{\\frac{i \\upsilon  \\omega_0}{\\sqrt{\\chi -1} \\chi }}\n\\text{cT}(\\omega_0^2,-\\frac{\\omega_0^2}{\\chi })\n(\\chi -1)^{\n    \\frac{1}{2}\n    (h_1-h_2-h_3+h_4-1)\n}"
     ,
-    TestID->"[23] MFStringV1-option-Linebreak.nb"
+    TestID->"[23] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -200,7 +200,7 @@ VerificationTest[
     ,
     "2^{h-1}\n\\exp (\\frac{\n        \\upsilon\n        (\n            \\chi\n            (\\xi_{34}-\\xi_{12})\n            +2 \\sqrt{\\alpha } \\xi_0\n        )\n    }{2 (1-\\chi ) \\chi }\n)"
     ,
-    TestID->"[24] MFStringV1-option-Linebreak.nb"
+    TestID->"[24] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -208,7 +208,7 @@ VerificationTest[
     ,
     "\\sqrt{\n    -\\chi\n    (\n        \\frac{\\xi_{12} \\xi_{34}}{\\xi_0^2}\n        +1\n    )\n    +\\frac{\n        \\chi^2\n        (\\xi_{12}+\\xi_{34}){}^2\n    }{4 \\xi_0^2}\n    +1\n}"
     ,
-    TestID->"[25] MFStringV1-option-Linebreak.nb"
+    TestID->"[25] MFString-V1-option-Linebreak.nb"
 ]
 
 VerificationTest[
@@ -217,5 +217,5 @@ VerificationTest[
     ,
     "Global`"
     ,
-    TestID->"[∞] MFStringV1-option-Linebreak.nb"
+    TestID->"[∞] MFString-V1-option-Linebreak.nb"
 ]

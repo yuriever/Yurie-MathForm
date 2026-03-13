@@ -1,6 +1,6 @@
 
 
-(* MFStringV1-option-RemoveLeftRightPair.nb *)
+(* MFString-V1-option-RemoveLeftRightPair.nb *)
 
 VerificationTest[
     Begin["Global`"];
@@ -8,7 +8,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[0] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[0] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -16,7 +16,7 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[1] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[1] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -24,15 +24,15 @@ VerificationTest[
     ,
     Null
     ,
-    TestID->"[2] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[2] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
-    SetOptions[MFString, "LinebreakThreshold" -> 2, "RemoveLeftRightPair" -> False, "Method" -> "Legacy"]
+    SetOptions[MFString, "LinebreakThreshold" -> 2, "RemoveLeftRightPair" -> False, "Method" -> "V1"]
     ,
-    {"RemoveLeftRightPair" -> False, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}, "Method" -> "Legacy"}
+    {"RemoveLeftRightPair" -> False, "Linebreak" -> True, "LinebreakThreshold" -> 2, "LinebreakIgnore" -> {}, "Method" -> "V1"}
     ,
-    TestID->"[3] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[3] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -40,7 +40,7 @@ VerificationTest[
     ,
     "-\\frac{1}{3} s t\nf(a)\n-1"
     ,
-    TestID->"[4] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[4] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -48,7 +48,7 @@ VerificationTest[
     ,
     "\\left(\n    z^2\n    +x\n\\right)^{\\Delta }"
     ,
-    TestID->"[5] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[5] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -56,7 +56,7 @@ VerificationTest[
     ,
     "\\left(\n    (x-y).(x-y)\n    +z(1)^2\n\\right)^{\\Delta }"
     ,
-    TestID->"[6] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[6] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -64,7 +64,7 @@ VerificationTest[
     ,
     "y_1^{\n    -d\n    +\\Delta_1\n    -1\n}\n\\left(\n    \\left| x_2\\right| {}^2\n    +y_1^2\n\\right){}^{\n    -\\Delta_1\n}"
     ,
-    TestID->"[7] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[7] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
 
 VerificationTest[
@@ -73,5 +73,5 @@ VerificationTest[
     ,
     "Global`"
     ,
-    TestID->"[∞] MFStringV1-option-RemoveLeftRightPair.nb"
+    TestID->"[∞] MFString-V1-option-RemoveLeftRightPair.nb"
 ]
