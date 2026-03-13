@@ -653,6 +653,18 @@ extractSignV2//Attributes =
 extractSignV2[Verbatim[Times][-1,rest__]] :=
     {"-",HoldComplete[Times[rest]]};
 
+extractSignV2[Verbatim[Times][n_Integer?Negative,rest__]]/;n=!=-1 :=
+    {"-",HoldComplete[Times[-n,rest]]};
+
+extractSignV2[Verbatim[Times][n_Rational?Negative,rest__]] :=
+    {"-",HoldComplete[Times[-n,rest]]};
+
+extractSignV2[n_Integer?Negative] :=
+    {"-",HoldComplete[-n]};
+
+extractSignV2[n_Rational?Negative] :=
+    {"-",HoldComplete[-n]};
+
 extractSignV2[expr_] :=
     {"+",HoldComplete[expr]};
 
@@ -729,7 +741,7 @@ renderLeafV2[expr_,ctx_,removeLeftRight_] :=
                 raw//If[removeLeftRight===True,bracketLRRemoveV2[#],#]&//
                     StringReplace[$MFRule]
         },
-        wrapContextV2[cleaned,Unevaluated[expr],ctx]
+        wrapContextV2[cleaned,Unevaluated[expr],ctx,removeLeftRight]
     ];
 
 
@@ -738,16 +750,19 @@ renderLeafV2[expr_,ctx_,removeLeftRight_] :=
 wrapContextV2//Attributes =
     {HoldRest};
 
-wrapContextV2[str_String,expr_,ctx_] :=
-    Which[
-        (* Plus in factor/power-base context needs parens. *)
-        MemberQ[{"factor","power-base"},ctx]&&MatchQ[Unevaluated[expr],_Plus],
-            "("<>str<>")",
-        (* Signed or multi-factor Times in power-base context needs parens. *)
-        ctx==="power-base"&&MatchQ[Unevaluated[expr],HoldPattern[Times[__]]],
-            "("<>str<>")",
-        True,
-            str
+wrapContextV2[str_String,expr_,ctx_,removeLeftRight_:True] :=
+    Module[{lp,rp},
+        {lp,rp} = If[removeLeftRight===False,{"\\left(","\\right)"},{"(",")"}];
+        Which[
+            (* Plus in factor/power-base context needs parens. *)
+            MemberQ[{"factor","power-base"},ctx]&&MatchQ[Unevaluated[expr],_Plus],
+                lp<>str<>rp,
+            (* Signed or multi-factor Times in power-base context needs parens. *)
+            ctx==="power-base"&&MatchQ[Unevaluated[expr],HoldPattern[Times[__]]],
+                lp<>str<>rp,
+            True,
+                str
+        ]
     ];
 
 
@@ -764,7 +779,11 @@ renderNodeV2[expr_,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
             insertQV2[Replace[HoldComplete[expr],HoldComplete[_[args___]]:>Hold[args]],threshold,ignoredP],
             Which[
                 MatchQ[Unevaluated[expr],_Plus],
-                    renderPlusV2[expr,threshold,ignoredP,ctx,removeLeftRight],
+                    (* Don't break Plus in power-exp context; exponents should stay compact. *)
+                    If[ctx==="power-exp",
+                        renderLeafV2[expr,ctx,removeLeftRight],
+                        renderPlusV2[expr,threshold,ignoredP,ctx,removeLeftRight]
+                    ],
                 True,
                     renderTimesV2[expr,threshold,ignoredP,ctx,removeLeftRight]
             ],
@@ -804,14 +823,24 @@ renderPlusV2[expr_Plus,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
                     rendered
                 ]
         },
-        wrapPlusResultV2[StringRiffle[lines,"\n"],ctx]
+        wrapPlusResultV2[StringRiffle[lines,"\n"]//cleanSignV2,ctx,removeLeftRight]
     ];
 
-wrapPlusResultV2[str_String,ctx_String] :=
-    If[MemberQ[{"factor","power-base"},ctx],
-        "(\n"<>str<>"\n)",
-        (* Contexts "top", "summand", "frac-part", "power-exp" etc: no wrapping *)
-        str
+(* cleanSignV2: fix double-sign artifacts like +- and -- *)
+cleanSignV2[str_String] :=
+    str//StringReplace[{
+        StartOfLine~~"+"~~WhitespaceCharacter...~~"-":>"-",
+        StartOfLine~~"-"~~WhitespaceCharacter...~~"-":>"+"
+    }];
+
+wrapPlusResultV2[str_String,ctx_String,removeLeftRight_:True] :=
+    Module[{lp,rp},
+        {lp,rp} = If[removeLeftRight===False,{"\\left(","\\right)"},{"(",")"}];
+        If[MemberQ[{"factor","power-base"},ctx],
+            lp<>"\n"<>str<>"\n"<>rp,
+            (* Contexts "top", "summand", "frac-part", "power-exp" etc: no wrapping *)
+            str
+        ]
     ];
 
 
@@ -827,11 +856,16 @@ renderTimesV2[expr_Times,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
             numFactors = split[[2]],
             denomFactors = split[[3]]
         },
-        renderTimesBodyV2[sign,numFactors,denomFactors,threshold,ignoredP,ctx,removeLeftRight]
+        (* In power-exp context, only break fractions; non-fraction products stay compact. *)
+        If[ctx==="power-exp"&&denomFactors==={},
+            renderLeafV2[expr,ctx,removeLeftRight],
+            renderTimesBodyV2[sign,numFactors,denomFactors,threshold,ignoredP,ctx,removeLeftRight]
+        ]
     ];
 
 renderTimesBodyV2[sign_,numFactors_,denomFactors_,threshold_,ignoredP_,ctx_,removeLeftRight_] :=
-    Module[{numStr,denomStr,result},
+    Module[{numStr,denomStr,result,lp,rp},
+        {lp,rp} = If[removeLeftRight===False,{"\\left(","\\right)"},{"(",")"}];
         If[denomFactors==={},
             (* No denominator: just factors with line breaks. *)
             numStr = renderFactorListV2[numFactors,threshold,ignoredP,removeLeftRight];
@@ -841,18 +875,29 @@ renderTimesBodyV2[sign_,numFactors_,denomFactors_,threshold_,ignoredP_,ctx_,remo
             ];
             (* In power-base context, a product needs parens. *)
             If[ctx==="power-base"&&(sign==="-"||Length[numFactors]>1),
-                result = "("<>result<>")"
+                result = lp<>result<>rp
             ];
             result,
             (* Has denominator: render as \frac. *)
             numStr = renderFracPartV2[numFactors,threshold,ignoredP,removeLeftRight];
             denomStr = renderFracPartV2[denomFactors,threshold,ignoredP,removeLeftRight];
-            result = "\\frac{"<>numStr<>"}{"<>denomStr<>"}";
+            result = wrapFracV2[numStr,denomStr];
             If[sign==="-",
                 result = "-"<>result
             ];
             result
         ]
+    ];
+
+wrapFracV2[numStr_String,denomStr_String] :=
+    Module[{num = numStr,denom = denomStr},
+        If[StringContainsQ[num,"\n"],
+            num = "\n"<>num<>"\n"
+        ];
+        If[StringContainsQ[denom,"\n"],
+            denom = "\n"<>denom<>"\n"
+        ];
+        "\\frac{"<>num<>"}{"<>denom<>"}"
     ];
 
 renderFracPartV2[{single_},threshold_,ignoredP_,removeLeftRight_] :=
@@ -867,21 +912,41 @@ renderFactorListV2[factors_List,threshold_,ignoredP_,removeLeftRight_] :=
                 Map[
                     renderHeldNodeV2[#,threshold,ignoredP,"factor",removeLeftRight]&,
                     factors
+                ],
+            leafCounts =
+                Map[
+                    Function[held,
+                        Replace[held,HoldComplete[e_]:>leafCountV2[e,ignoredP]]
+                    ],
+                    factors
                 ]
-        },
-        {
-            hasLinebreak = Map[StringContainsQ[#,"\n"]&,rendered]
         },
         If[Length[rendered]===0,
             "1",
-            (* If any factor is already multiline, use linebreak separators for all. *)
-            (* Otherwise use space separators (same line). *)
-            If[AnyTrue[hasLinebreak,TrueQ],
-                StringRiffle[rendered,"\n"],
-                (* Else *)
-                StringJoin@Riffle[rendered," "]
-            ]
+            (* Group consecutive small factors (leafCount < threshold) on the same line. *)
+            (* Start a new line before factors with leafCount >= threshold or multiline content. *)
+            groupFactorsV2[rendered,leafCounts,threshold]
         ]
+    ];
+
+groupFactorsV2[rendered_List,leafCounts_List,threshold_] :=
+    Module[{groups = {},currentGroup = {}},
+        Do[
+            If[StringContainsQ[rendered[[i]],"\n"]||leafCounts[[i]]>=threshold,
+                (* This factor is large: flush current group, start new group. *)
+                If[currentGroup=!={},
+                    AppendTo[groups,StringJoin@Riffle[currentGroup," "]]
+                ];
+                currentGroup = {rendered[[i]]},
+                (* Small single-line factor: add to current group. *)
+                AppendTo[currentGroup,rendered[[i]]]
+            ],
+            {i,Length[rendered]}
+        ];
+        If[currentGroup=!={},
+            AppendTo[groups,StringJoin@Riffle[currentGroup," "]]
+        ];
+        StringRiffle[groups,"\n"]
     ];
 
 
@@ -894,30 +959,38 @@ renderPowerV2//Attributes =
 
 renderPowerV2[HoldPattern[Power[base_,-1]],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
     With[{baseStr = renderNodeV2[base,threshold,ignoredP,"frac-part",removeLeftRight]},
-        "\\frac{1}{"<>baseStr<>"}"
+        wrapFracV2["1",baseStr]
     ];
 
 renderPowerV2[HoldPattern[Power[base_,exp_?Negative]],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
     With[{
             baseStr = renderNodeV2[base,threshold,ignoredP,"power-base",removeLeftRight],
-            posExpStr = renderLeafV2[-exp,"power-exp",removeLeftRight]
+            posExpStr = renderNodeV2[-exp,threshold,ignoredP,"power-exp",removeLeftRight]
         },
         If[StringLength[posExpStr]<=1,
-            "\\frac{1}{"<>baseStr<>"^"<>posExpStr<>"}",
+            wrapFracV2["1",baseStr<>"^"<>posExpStr],
             (* Else *)
-            "\\frac{1}{"<>baseStr<>"^{"<>posExpStr<>"}}"
+            wrapFracV2["1",baseStr<>"^{"<>posExpStr<>"}"]
         ]
     ];
 
 renderPowerV2[HoldPattern[Power[base_,exp_]],threshold_,ignoredP_,ctx_,removeLeftRight_] :=
     With[{
             baseStr = renderNodeV2[base,threshold,ignoredP,"power-base",removeLeftRight],
-            expStr = renderLeafV2[exp,"power-exp",removeLeftRight]
+            expStr = renderNodeV2[exp,threshold,ignoredP,"power-exp",removeLeftRight]
+        },
+        {
+            (* Wrap negative numeric base in parens if not already wrapped. *)
+            safeBaseStr =
+                If[StringMatchQ[baseStr,"-"~~__]&&!StringMatchQ[baseStr,"("~~___~~")"],
+                    "("<>baseStr<>")",
+                    baseStr
+                ]
         },
         If[StringLength[expStr]<=1,
-            baseStr<>"^"<>expStr,
+            safeBaseStr<>"^"<>expStr,
             (* Else *)
-            baseStr<>"^{"<>expStr<>"}"
+            safeBaseStr<>"^{"<>expStr<>"}"
         ]
     ];
 

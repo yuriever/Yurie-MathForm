@@ -38,7 +38,7 @@ VerificationTest[
 VerificationTest[
     MFString[-1 - (1/3)*s*t*f[a]]
     ,
-    "-1\n+-\\frac{1}{3} s t f(a)"
+    "-1\n-\\frac{1}{3} s t\nf(a)"
     ,
     TestID->"[4] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -46,7 +46,7 @@ VerificationTest[
 VerificationTest[
     MFString[(x + z^2)^Δ]
     ,
-    "(\n    x\n    +z^2\n)^{\\Delta}"
+    "\\left(\n    x\n    +z^2\n\\right)^{\\Delta}"
     ,
     TestID->"[5] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -54,7 +54,7 @@ VerificationTest[
 VerificationTest[
     MFString[((x - y) . (x - y) + z[1]^2)^Δ]
     ,
-    "(\n    (x-y).(x-y)\n    +z(1)^2\n)^{\\Delta}"
+    "\\left(\n    (x-y).(x-y)\n    +z(1)^2\n\\right)^{\\Delta}"
     ,
     TestID->"[6] MFString-option-RemoveLeftRightPair.nb"
 ]
@@ -62,7 +62,7 @@ VerificationTest[
 VerificationTest[
     MFString[Subscript[y, 1]^(-1 - d + Subscript[Δ, 1])/(Abs[Subscript[x, 2]]^2 + Subscript[y, 1]^2)^Subscript[Δ, 1]]
     ,
-    "y_1^{-d+\\Delta_1-1}\n(\n    \\left| x_2\\right|^2\n    +y_1^2\n)^{-\\Delta_1}"
+    "y_1^{-d+\\Delta_1-1}\n\\left(\n    \\left| x_2\\right|^2\n    +y_1^2\n\\right)^{-\\Delta_1}"
     ,
     TestID->"[7] MFString-option-RemoveLeftRightPair.nb"
 ]

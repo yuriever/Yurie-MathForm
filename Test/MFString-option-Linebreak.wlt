@@ -62,7 +62,7 @@ VerificationTest[
 VerificationTest[
     MFString[(-a + b)/2]
     ,
-    "\\frac{1}{2} (b-a)"
+    "\\frac{1}{2}\n(b-a)"
     ,
     TestID->"[7] MFString-option-Linebreak.nb"
 ]
@@ -86,7 +86,7 @@ VerificationTest[
 VerificationTest[
     MFString[(-(a + b + c + d + e + f + g)^2)*(c*d)^n + e*f + h]
     ,
-    "e f\n-(c d)^n (a+b+c+d+e+f+g)^2\n+h"
+    "e f\n-(c d)^n\n(a+b+c+d+e+f+g)^2\n+h"
     ,
     TestID->"[10] MFString-option-Linebreak.nb"
 ]
@@ -94,7 +94,7 @@ VerificationTest[
 VerificationTest[
     MFString[((-b^2)*a[x, y])/(m[1]*m[2])]
     ,
-    "-\\frac{b^2 a(x,y)}{m(1) m(2)}"
+    "-\\frac{\n    b^2\n    a(x,y)\n}{\n    m(1)\n    m(2)\n}"
     ,
     TestID->"[11] MFString-option-Linebreak.nb"
 ]
@@ -102,7 +102,7 @@ VerificationTest[
 VerificationTest[
     MFString[a^n*b^n*((c*d)^n/(e*f))]
     ,
-    "\\frac{a^n b^n (c d)^n}{e f}"
+    "\\frac{\n    a^n\n    b^n\n    (c d)^n\n}{e f}"
     ,
     TestID->"[12] MFString-option-Linebreak.nb"
 ]
@@ -110,7 +110,7 @@ VerificationTest[
 VerificationTest[
     MFString[(a + b*c + d)/(a + b*c + d + 1)]
     ,
-    "\\frac{a\n    +b c\n+d}{1\n    +a\n    +b c\n+d}"
+    "\\frac{\n    a\n    +b c\n    +d\n}{\n    1\n    +a\n    +b c\n    +d\n}"
     ,
     TestID->"[13] MFString-option-Linebreak.nb"
 ]
@@ -118,7 +118,7 @@ VerificationTest[
 VerificationTest[
     MFString[a*(b + c)*d, "LinebreakIgnore" -> {HoldPattern[Plus[___]]}]
     ,
-    "a (b+c) d"
+    "a\n(b+c) d"
     ,
     TestID->"[14] MFString-option-Linebreak.nb"
 ]
@@ -126,7 +126,7 @@ VerificationTest[
 VerificationTest[
     MFString[a*(b + c)*d, "LinebreakIgnore" :> {HoldPattern[Times[___]]}]
     ,
-    "a (b+c) d"
+    "a\n(b+c) d"
     ,
     TestID->"[15] MFString-option-Linebreak.nb"
 ]
@@ -134,7 +134,7 @@ VerificationTest[
 VerificationTest[
     MFString[(-s)*t*f[a*b*c] - s*u*f[a*c*d]]
     ,
-    "-s t f(a b c)\n-s u f(a c d)"
+    "-s t\nf(a b c)\n-s u\nf(a c d)"
     ,
     TestID->"[16] MFString-option-Linebreak.nb"
 ]
@@ -142,7 +142,7 @@ VerificationTest[
 VerificationTest[
     MFString[(-s)*t*f[a*b*c] - 2*s*u*f[a*c*d]]
     ,
-    "-s t f(a b c)\n+-2 s u f(a c d)"
+    "-s t\nf(a b c)\n-2 s u\nf(a c d)"
     ,
     TestID->"[17] MFString-option-Linebreak.nb"
 ]
@@ -150,7 +150,7 @@ VerificationTest[
 VerificationTest[
     MFString[1 - (-1)^a*s*t*f[a*b*c*d]]
     ,
-    "1\n--1^a s t f(a b c d)"
+    "1\n-(-1)^a s t\nf(a b c d)"
     ,
     TestID->"[18] MFString-option-Linebreak.nb"
 ]
@@ -158,7 +158,7 @@ VerificationTest[
 VerificationTest[
     MFString[-1 - (1/3)*a*s*t*f[a*b*c] - 2*s*u*f[a*c*d] - (-1)^a*s*t*f[a*b*c*d] - (1/2)*s*u*f[a*c*d, 2] + (-1)^a*s*f[a*b*c*d] + (1/2)*s*u*t*f[a*c*d, 2] - s*u*f[a]]
     ,
-    "-1\n-s u f(a)\n+-\\frac{1}{3} a s t f(a b c)\n+-2 s u f(a c d)\n+-1^a s f(a b c d)\n--1^a s t f(a b c d)\n+-\\frac{1}{2} s u f(a c d,2)\n+\\frac{1}{2} s t u f(a c d,2)"
+    "-1\n-s u\nf(a)\n-\\frac{1}{3} a s t\nf(a b c)\n-2 s u\nf(a c d)\n+(-1)^a s\nf(a b c d)\n-(-1)^a s t\nf(a b c d)\n-\\frac{1}{2} s u\nf(a c d,2)\n+\\frac{1}{2} s t u\nf(a c d,2)"
     ,
     TestID->"[19] MFString-option-Linebreak.nb"
 ]
@@ -190,7 +190,7 @@ VerificationTest[
 VerificationTest[
     MFString[2^(1 - Subscript[h, 1] - Subscript[h, 2] - Subscript[h, 3] - Subscript[h, 4])*E^((I*υ*Subscript[ω, 0])/(Sqrt[-1 + χ]*χ))*(-1 + χ)^((1/2)*(-1 + Subscript[h, 1] - Subscript[h, 2] - Subscript[h, 3] + Subscript[h, 4]))*χ*cT[Subscript[ω, 0]^2, -(Subscript[ω, 0]^2/χ)]*Subscript[ω, 0]^(-4 + Subscript[h, 1] + Subscript[h, 2] + Subscript[h, 3] + Subscript[h, 4])]
     ,
-    "2^{-h_1-h_2-h_3-h_4+1} e^{\\frac{i \\upsilon  \\omega_0}{\\sqrt{\\chi -1} \\chi }} (\\chi -1)^{\\frac{1}{2} (h_1-h_2-h_3+h_4-1)} \\chi \\text{cT}(\\omega_0^2,-\\frac{\\omega_0^2}{\\chi }) \\omega_0^{h_1+h_2+h_3+h_4-4}"
+    "2^{-h_1-h_2-h_3-h_4+1}\ne^{\\frac{i \\upsilon  \\omega_0}{\\sqrt{\\chi -1} \\chi }}\n(\\chi -1)^{\\frac{1}{2} (h_1-h_2-h_3+h_4-1)} \\chi\n\\text{cT}(\\omega_0^2,-\\frac{\\omega_0^2}{\\chi })\n\\omega_0^{h_1+h_2+h_3+h_4-4}"
     ,
     TestID->"[23] MFString-option-Linebreak.nb"
 ]
@@ -198,7 +198,7 @@ VerificationTest[
 VerificationTest[
     MFString[2^(-1 + h)*E^((υ*(2*Sqrt[α]*Subscript[ξ, 0] + χ*(-Subscript[ξ, 12] + Subscript[ξ, 34])))/(2*(1 - χ)*χ))]
     ,
-    "2^{h-1} e^{\\frac{\\upsilon  (2 \\sqrt{\\alpha } \\xi_0+(\\xi_{34}-\\xi_{12}) \\chi )}{2 (1-\\chi ) \\chi }}"
+    "2^{h-1}\ne^{\\frac{\n        \\frac{1}{2} \\upsilon\n        (\n            2 \\sqrt{\\alpha } \\xi_0\n            +\\chi\n            (\\xi_{34}-\\xi_{12})\n        )\n}{(1-\\chi) \\chi}}"
     ,
     TestID->"[24] MFString-option-Linebreak.nb"
 ]
@@ -206,7 +206,7 @@ VerificationTest[
 VerificationTest[
     MFString[Sqrt[1 + (χ^2*(Subscript[ξ, 12] + Subscript[ξ, 34])^2)/(4*Subscript[ξ, 0]^2) - χ*(1 + (Subscript[ξ, 12]*Subscript[ξ, 34])/Subscript[ξ, 0]^2)]]
     ,
-    "(\n    1\n    +\\frac{\\frac{1}{4} \\chi^2 \\xi_0^2 (\\xi_{12}+\\xi_{34})^2}{\\xi_0}\n    -\\chi\n    (\n        1\n        +\\frac{\\xi_{12} \\xi_{34}}{\\xi_0^2}\n    )\n)^{\\frac{1}{2}}"
+    "(\n    1\n    +\\frac{\n        \\frac{1}{4} \\chi^2 \\xi_0^2\n        (\\xi_{12}+\\xi_{34})^2\n    }{\\xi_0}\n    -\\chi\n    (\n        1\n        +\\frac{\\xi_{12} \\xi_{34}}{\\xi_0^2}\n    )\n)^{\\frac{1}{2}}"
     ,
     TestID->"[25] MFString-option-Linebreak.nb"
 ]
