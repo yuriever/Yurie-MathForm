@@ -1,7 +1,8 @@
 {"MFString" -> {0, {"RemoveLeftRightPair", "Linebreak", "LinebreakThreshold", 
-    "LinebreakIgnore"}}, "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", 
-    "Magnification", "RemoveLeftRightPair", "Linebreak", 
-    "LinebreakThreshold", "LinebreakIgnore", "CopyToClipboard", "ClearCache", 
+    "LinebreakIgnore", "Method"}}, 
+ "MF" -> {0, {"Preamble", "FontSize", "LineSpacing", "Magnification", 
+    "RemoveLeftRightPair", "Linebreak", "LinebreakThreshold", 
+    "LinebreakIgnore", "Method", "CopyToClipboard", "ClearCache", 
     "Listable"}}, "MFMakeBox" -> {0, {"Tooltip", "SyntaxForm"}, 
    {"Tooltip", "SyntaxForm"}, {"Tooltip", "SyntaxForm"}, 
    {"Tooltip", "SyntaxForm"}}}
