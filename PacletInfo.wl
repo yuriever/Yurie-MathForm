@@ -24,6 +24,7 @@ PacletObject[
         "Root" -> "Utility",
         "Context" -> {
           "Yurie`MathForm`Info`",
+          "Yurie`MathForm`TestUtility`",
           "Yurie`MathForm`Library`"
         }
       },
