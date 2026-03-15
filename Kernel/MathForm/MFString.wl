@@ -400,7 +400,18 @@ linebreakInsert[expr_,True,threshold_,ignoredP_] :=
                             ],
                         arg:Power[base_,exponent_]/;leafCount[arg,ignoredP]>=threshold:>
                             RuleCondition@If[Negative[exponent]===True,
-                                Power[LBNode[base],exponent],
+                                Which[
+                                    head===Times&&MatchQ[Unevaluated[base],_Plus]&&leafCount[base,ignoredP]>=threshold,
+                                        Power[LBNodePlusInTimes[base],exponent],
+                                    True,
+                                        Power[
+                                            Replace[
+                                                linebreakInsert[base,True,threshold,ignoredP],
+                                                HoldComplete[inner_]:>inner
+                                            ],
+                                            exponent
+                                        ]
+                                ],
                                 (* Else *)
                                 LBNode[arg]
                             ],
