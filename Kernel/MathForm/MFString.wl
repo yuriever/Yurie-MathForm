@@ -48,7 +48,7 @@ MFStringKernel//Options = {
     "RemoveLeftRightPair"->True,
     "Linebreak"->True,
     "LinebreakThreshold"->6,
-    "LinebreakIgnore"->{},
+    "LinebreakIgnore"->Null,
     "Method"->Automatic
 };
 
@@ -168,7 +168,7 @@ MFStringKernelV1[expr_,OptionsPattern[MFStringKernel]] :=
     With[{
             ifLinebreak = OptionValue["Linebreak"],
             linebreakThreshold = OptionValue["LinebreakThreshold"],
-            linebreakIgnoredP = getLinebreakIgnoreP@OptionValue["LinebreakIgnore"]
+            linebreakIgnoredP = OptionValue["LinebreakIgnore"]
         },
         (* Insert linebreak tags according to the options. *)
         linebreakInsert[expr,ifLinebreak,linebreakThreshold,linebreakIgnoredP]//
@@ -370,17 +370,6 @@ LBNodePlusInTimes/:MakeBoxes[LBNodePlusInTimes[arg_],TraditionalForm] :=
     };
 
 
-getLinebreakIgnoreP//Attributes = {
-    HoldAll
-};
-
-getLinebreakIgnoreP[ignored_List] :=
-    Alternatives@@Map[HoldPattern,ignored];
-
-getLinebreakIgnoreP[ignored_] :=
-    HoldPattern[ignored];
-
-
 linebreakInsert//Attributes = {
     HoldFirst
 };
@@ -394,23 +383,19 @@ linebreakInsert[expr_,True,threshold_,ignoredP_] :=
                     {
                         arg:_Plus|LBHold[Plus,__]/;leafCount[arg,ignoredP]>=threshold:>
                             RuleCondition@If[head===Times,
+                                (* Then *)
                                 LBNodePlusInTimes[arg],
                                 (* Else *)
                                 LBNode[arg]
                             ],
                         arg:Power[base_,exponent_]/;leafCount[arg,ignoredP]>=threshold:>
                             RuleCondition@If[Negative[exponent]===True,
-                                Which[
-                                    head===Times&&MatchQ[Unevaluated[base],_Plus]&&leafCount[base,ignoredP]>=threshold,
-                                        Power[LBNodePlusInTimes[base],exponent],
-                                    True,
-                                        Power[
-                                            Replace[
-                                                linebreakInsert[base,True,threshold,ignoredP],
-                                                HoldComplete[inner_]:>inner
-                                            ],
-                                            exponent
-                                        ]
+                                (* Then *)
+                                If[head===Times&&Head@Unevaluated[base]===Plus,
+                                    (* Then *)
+                                    Power[LBNodePlusInTimes[base],exponent],
+                                    (* Else *)
+                                    Power[LBNode[base],exponent]
                                 ],
                                 (* Else *)
                                 LBNode[arg]
@@ -461,29 +446,38 @@ insertQ[held_,threshold_,ignoredP_] :=
 leafCount//Attributes =
     {HoldFirst};
 
-leafCount[_?Developer`HoldAtomQ,ignoredP_] :=
+leafCount[expr_,ignoredP_] :=
+    leafCount[expr,ignoredP] =
+        leafCountKernel[expr,ignoredP];
+
+
+leafCountKernel//Attributes =
+    {HoldFirst};
+
+
+leafCountKernel[_?Developer`HoldAtomQ,ignoredP_] :=
     1;
 
-leafCount[Verbatim[Times][-1,rest__],ignoredP_] :=
-    leafCount[Times[rest],ignoredP]-1;
+leafCountKernel[Verbatim[Times][-1,rest__],ignoredP_] :=
+    leafCountKernel[Times[rest],ignoredP]-1;
 
-leafCount[HoldPattern[Power[base_,-1]],ignoredP_] :=
-    leafCount[base,ignoredP];
+leafCountKernel[HoldPattern[Power[base_,-1]],ignoredP_] :=
+    leafCountKernel[base,ignoredP];
 
-leafCount[HoldPattern[Times[1,Power[base_,-1]]],ignoredP_] :=
-    leafCount[base,ignoredP];
+leafCountKernel[HoldPattern[Times[1,Power[base_,-1]]],ignoredP_] :=
+    leafCountKernel[base,ignoredP];
 
-leafCount[LBHold[head_,_,rest__,_],ignoredP_] :=
-    leafCount[head[rest],ignoredP];
+leafCountKernel[LBHold[head_,_,rest__,_],ignoredP_] :=
+    leafCountKernel[head[rest],ignoredP];
 
-leafCount[expr_,ignoredP_]/;MatchQ[Unevaluated[expr],ignoredP] :=
+leafCountKernel[expr_,ignoredP_]/;MatchQ[Unevaluated[expr],ignoredP] :=
     1;
 
-leafCount[head_[arg_],ignoredP_] :=
-    leafCount[head,ignoredP]+leafCount[arg,ignoredP];
+leafCountKernel[head_[arg_],ignoredP_] :=
+    leafCountKernel[head,ignoredP]+leafCountKernel[arg,ignoredP];
 
-leafCount[head_[args__],ignoredP_] :=
-    leafCount[head,ignoredP]+Plus@@Map[Function[Null,leafCount[#,ignoredP],HoldAll],Hold[args]];
+leafCountKernel[head_[args__],ignoredP_] :=
+    leafCountKernel[head,ignoredP]+Plus@@Map[Function[Null,leafCountKernel[#,ignoredP],HoldAll],Hold[args]];
 
 
 lineBreakClean[True][string_String] :=
