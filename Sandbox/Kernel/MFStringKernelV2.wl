@@ -61,7 +61,7 @@ MFStringKernelV2[expr_,opts:OptionsPattern[MFStringKernel]] :=
     With[{
             ifLinebreak = OptionValue["Linebreak"],
             linebreakThreshold = OptionValue["LinebreakThreshold"],
-            linebreakIgnoredP = getLinebreakIgnorePV2@OptionValue["LinebreakIgnore"],
+            linebreakIgnoredP = OptionValue["LinebreakIgnore"],
             removeLeftRight = OptionValue["RemoveLeftRightPair"]
         },
         If[ifLinebreak===True,
@@ -112,17 +112,6 @@ insertQV2[held_,threshold_,ignoredP_] :=
 
 (* ::Subsection:: *)
 (*Helper - Analysis helper*)
-
-
-getLinebreakIgnorePV2//Attributes = {
-    HoldAll
-};
-
-getLinebreakIgnorePV2[ignored_List] :=
-    Alternatives@@Map[HoldPattern,ignored];
-
-getLinebreakIgnorePV2[ignored_] :=
-    HoldPattern[ignored];
 
 
 bracketLRRemoveV2[string_String] :=
@@ -219,9 +208,16 @@ splitFractionV2[HoldPattern[Times[args__]]] :=
         {sign,numFactors,denomFactors}
     ];
 
-negativeExponentQ[-1] := False;
-negativeExponentQ[n_?NumberQ] := Negative[n];
-negativeExponentQ[_] := False;
+
+negativeExponentQ[-1] :=
+    False;
+
+negativeExponentQ[n_?NumberQ] :=
+    Negative[n];
+
+negativeExponentQ[_] :=
+    False;
+
 
 negateHeldV2[HoldComplete[n_Integer]] :=
     HoldComplete[-n];
@@ -231,6 +227,7 @@ negateHeldV2[HoldComplete[n_Rational]] :=
 
 negateHeldV2[HoldComplete[expr_]] :=
     HoldComplete[Times[-1,expr]];
+
 
 mapHeldPowerV2[HoldComplete[base_],HoldComplete[1]] :=
     HoldComplete[base];
