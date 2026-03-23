@@ -152,7 +152,7 @@ VerificationTest[
 
 VerificationTest[
     MFClear[dot]; 
-    MFMakeBox[{dot[x_, y_], MakeBoxes[x · y]}, "Tooltip" -> Dot]
+    MFMakeBox[{dot[x_, y_], MakeBoxes[x · y]}, "Tooltip" -> "Dot"]
     ,
     Null
     ,
@@ -170,7 +170,7 @@ VerificationTest[
 VerificationTest[
     display[dot[a, b]]
     ,
-    FullForm[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], Dot], dot[a, b], SyntaxForm -> Automatic]]
+    FullForm[InterpretationBox[TooltipBox[RowBox[{"a", "·", "b"}], "Dot"], dot[a, b], SyntaxForm -> Automatic]]
     ,
     TestID->"[20] MFMakeBox.nb"
 ]

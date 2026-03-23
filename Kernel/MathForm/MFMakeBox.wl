@@ -149,8 +149,11 @@ tooltipValue[Full,symbol_,realValue_] :=
 tooltipValue[Automatic,symbol_,realValue_] :=
     ToString[Unevaluated@symbol];
 
-tooltipValue[tvalue_,_,_] :=
+tooltipValue[tvalue_String,_,_] :=
     tvalue;
+
+tooltipValue[tfunction_,symbol_,realValue_] :=
+    tfunction[symbol,realValue];
 
 
 (* ::Subsection:: *)
