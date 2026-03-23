@@ -139,6 +139,9 @@ getHeadFromPattern1[HoldComplete[head_[___]]] :=
     getHeadFromPattern1[HoldComplete[head]];
 
 
+
+(* tooltipValue should return _String. Maybe we should add a guard for this. *)
+
 tooltipValue//Attributes = {
     HoldAllComplete
 };
