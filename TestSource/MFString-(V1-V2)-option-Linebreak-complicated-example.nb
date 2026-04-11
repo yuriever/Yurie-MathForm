@@ -1,0 +1,568 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     19526,        560]
+NotebookOptionsPosition[     16384,        497]
+NotebookOutlinePosition[     16946,        516]
+CellTagsIndexPosition[     16903,        513]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"<<", "Yurie`MathForm`"}]], "Code",
+ CellLabel->"In[84]:=",ExpressionUUID->"2bb711a3-e00d-4c1c-9dfa-f28675b0dd25"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetOptions", "[", 
+   RowBox[{"MFString", ",", 
+    RowBox[{"\"\<LinebreakThreshold\>\"", "->", "6"}]}], "]"}], ";"}]], "Code",\
+
+ CellLabel->"In[85]:=",ExpressionUUID->"4149f00d-7da8-483d-8aeb-dbd73ae5fac1"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"{", "\n", "    ", 
+    RowBox[{
+     SuperscriptBox["a", 
+      RowBox[{"1", "-", 
+       RowBox[{"\[CapitalDelta]", "[", "1", "]"}]}]], ",", "\n", "    ", 
+     RowBox[{
+      SubsuperscriptBox["y", "1", 
+       RowBox[{
+        RowBox[{"-", "1"}], "-", "d", "+", 
+        SubscriptBox["\[CapitalDelta]", "1"]}]], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"Abs", "[", 
+           SubscriptBox["x", "2"], "]"}], "2"], "+", 
+         SubsuperscriptBox["y", "1", "2"]}], ")"}], 
+       RowBox[{"1", "-", 
+        SubscriptBox["\[CapitalDelta]", "1"]}]]}], ",", "\n", "    ", 
+     RowBox[{
+      SuperscriptBox["2", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", "h"}]], " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       FractionBox[
+        RowBox[{"\[Upsilon]", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", " ", 
+            SqrtBox["\[Alpha]"], " ", 
+            SubscriptBox["\[Xi]", "0"]}], "+", 
+           RowBox[{"\[Chi]", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", 
+               SubscriptBox["\[Xi]", "12"]}], "+", 
+              SubscriptBox["\[Xi]", "34"]}], ")"}]}]}], ")"}]}], 
+        RowBox[{"2", " ", 
+         RowBox[{"(", 
+          RowBox[{"1", "-", "\[Chi]"}], ")"}], " ", "\[Chi]"}]]]}], ",", "\n",
+      "    ", 
+     SqrtBox[
+      RowBox[{"1", "+", 
+       FractionBox[
+        RowBox[{
+         SuperscriptBox["\[Chi]", "2"], " ", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{
+            SubscriptBox["\[Xi]", "12"], "+", 
+            SubscriptBox["\[Xi]", "34"]}], ")"}], "2"]}], 
+        RowBox[{"4", " ", 
+         SubsuperscriptBox["\[Xi]", "0", "2"]}]], "-", 
+       RowBox[{"\[Chi]", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          FractionBox[
+           RowBox[{
+            SubscriptBox["\[Xi]", "12"], " ", 
+            SubscriptBox["\[Xi]", "34"]}], 
+           SubsuperscriptBox["\[Xi]", "0", "2"]]}], ")"}]}]}]], ",", "\n", 
+     "    ", 
+     RowBox[{
+      SuperscriptBox["2", 
+       RowBox[{"1", "-", 
+        SubscriptBox["h", "1"], "-", 
+        SubscriptBox["h", "2"], "-", 
+        SubscriptBox["h", "3"], "-", 
+        SubscriptBox["h", "4"]}]], " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "\[Upsilon]", " ", 
+         SubscriptBox["\[Omega]", "0"]}], 
+        RowBox[{
+         SqrtBox[
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "\[Chi]"}]], " ", "\[Chi]"}]]], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "1"}], "+", "\[Chi]"}], ")"}], 
+       RowBox[{
+        FractionBox["1", "2"], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "1"}], "+", 
+          SubscriptBox["h", "1"], "-", 
+          SubscriptBox["h", "2"], "-", 
+          SubscriptBox["h", "3"], "+", 
+          SubscriptBox["h", "4"]}], ")"}]}]], " ", "\[Chi]", " ", 
+      SubsuperscriptBox["\[Omega]", "0", 
+       RowBox[{
+        RowBox[{"-", "4"}], "+", 
+        SubscriptBox["h", "1"], "+", 
+        SubscriptBox["h", "2"], "+", 
+        SubscriptBox["h", "3"], "+", 
+        SubscriptBox["h", "4"]}]]}]}], "\n", "}"}]}], ";"}]], "Code",
+ CellLabel->"In[86]:=",ExpressionUUID->"d6d23057-aa6b-4992-af65-6ffe629d6041"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"<<", "Yurie`MathForm`TestUtility`"}], "\n", "\n", 
+   RowBox[{"expr", "//", "MFStringCompareVersion"}], "\n", "\n", 
+   RowBox[{"expr", "//", "MFStringGenerateTest"}]}], "*)"}]], "Code",
+ CellLabel->"In[87]:=",ExpressionUUID->"59728734-6a29-43a5-af9d-a60c118ab535"],
+
+Cell[CellGroupData[{
+
+Cell["Autogen test", "Subsection",
+ GeneratedCell->True,
+ CellAutoOverwrite->
+  True,ExpressionUUID->"28f40a23-144c-455b-b45d-370ee83515e0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   SuperscriptBox["a", 
+    RowBox[{"1", "-", 
+     RowBox[{"\[CapitalDelta]", "[", "1", "]"}]}]], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V1\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[88]:=",ExpressionUUID->"1f27b1bb-b32a-42aa-b8c6-488819620525"],
+
+Cell[BoxData["\<\"a^{1-\\\\Delta (1)}\"\>"], "Output",
+ CellLabel->"Out[88]=",ExpressionUUID->"919a2396-d1c0-47d0-9b22-e1a661b34015"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   RowBox[{
+    SubsuperscriptBox["y", "1", 
+     RowBox[{
+      RowBox[{"-", "1"}], "-", "d", "+", 
+      SubscriptBox["\[CapitalDelta]", "1"]}]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"Abs", "[", 
+         SubscriptBox["x", "2"], "]"}], "2"], "+", 
+       SubsuperscriptBox["y", "1", "2"]}], ")"}], 
+     RowBox[{"1", "-", 
+      SubscriptBox["\[CapitalDelta]", "1"]}]]}], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V1\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[89]:=",ExpressionUUID->"a36e5502-6717-4e10-9f57-3d8ed7c1364f"],
+
+Cell[BoxData["\<\"y_1^{-d+\\\\Delta_1-1}\\n(\\n    | x_2| {}^2\\n    \
++y_1^2\\n){}^{1-\\\\Delta_1}\"\>"], "Output",
+ CellLabel->"Out[89]=",ExpressionUUID->"48b1552f-8838-4e90-943e-0c7c9d086bba"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", "h"}]], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     FractionBox[
+      RowBox[{"\[Upsilon]", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"2", " ", 
+          SqrtBox["\[Alpha]"], " ", 
+          SubscriptBox["\[Xi]", "0"]}], "+", 
+         RowBox[{"\[Chi]", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", 
+             SubscriptBox["\[Xi]", "12"]}], "+", 
+            SubscriptBox["\[Xi]", "34"]}], ")"}]}]}], ")"}]}], 
+      RowBox[{"2", " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", "\[Chi]"}], ")"}], " ", "\[Chi]"}]]]}], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V1\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[90]:=",ExpressionUUID->"8efb9e64-2a67-4844-875b-1560b3c17e1e"],
+
+Cell[BoxData["\<\"2^{h-1}\\n\\\\exp (\\\\frac{\\n        \\\\upsilon\\n       \
+ (\\n            \\\\chi\\n            (\\\\xi_{34}-\\\\xi_{12})\\n           \
+ +2 \\\\sqrt{\\\\alpha } \\\\xi_0\\n        )\\n    }{2 (1-\\\\chi ) \\\\chi \
+}\\n)\"\>"], "Output",
+ CellLabel->"Out[90]=",ExpressionUUID->"42c4cafb-1891-426d-86b1-769cd7cc2e8b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   SqrtBox[
+    RowBox[{"1", "+", 
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["\[Chi]", "2"], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          SubscriptBox["\[Xi]", "12"], "+", 
+          SubscriptBox["\[Xi]", "34"]}], ")"}], "2"]}], 
+      RowBox[{"4", " ", 
+       SubsuperscriptBox["\[Xi]", "0", "2"]}]], "-", 
+     RowBox[{"\[Chi]", " ", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", 
+        FractionBox[
+         RowBox[{
+          SubscriptBox["\[Xi]", "12"], " ", 
+          SubscriptBox["\[Xi]", "34"]}], 
+         SubsuperscriptBox["\[Xi]", "0", "2"]]}], ")"}]}]}]], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V1\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[91]:=",ExpressionUUID->"3763c3cc-f2ea-42c5-af39-3bd38adb7620"],
+
+Cell[BoxData["\<\"\\\\sqrt{\\n    -\\\\chi\\n    (\\n        \
+\\\\frac{\\\\xi_{12} \\\\xi_{34}}{\\\\xi_0^2}\\n        +1\\n    )\\n    \
++\\\\frac{\\n        \\\\chi^2\\n        (\\\\xi_{12}+\\\\xi_{34}){}^2\\n    \
+}{4 \\\\xi_0^2}\\n    +1\\n}\"\>"], "Output",
+ CellLabel->"Out[91]=",ExpressionUUID->"30031d08-1680-4f02-b1a3-04a5bdac99ae"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{"1", "-", 
+      SubscriptBox["h", "1"], "-", 
+      SubscriptBox["h", "2"], "-", 
+      SubscriptBox["h", "3"], "-", 
+      SubscriptBox["h", "4"]}]], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "\[Upsilon]", " ", 
+       SubscriptBox["\[Omega]", "0"]}], 
+      RowBox[{
+       SqrtBox[
+        RowBox[{
+         RowBox[{"-", "1"}], "+", "\[Chi]"}]], " ", "\[Chi]"}]]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", "\[Chi]"}], ")"}], 
+     RowBox[{
+      FractionBox["1", "2"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SubscriptBox["h", "1"], "-", 
+        SubscriptBox["h", "2"], "-", 
+        SubscriptBox["h", "3"], "+", 
+        SubscriptBox["h", "4"]}], ")"}]}]], " ", "\[Chi]", " ", 
+    SubsuperscriptBox["\[Omega]", "0", 
+     RowBox[{
+      RowBox[{"-", "4"}], "+", 
+      SubscriptBox["h", "1"], "+", 
+      SubscriptBox["h", "2"], "+", 
+      SubscriptBox["h", "3"], "+", 
+      SubscriptBox["h", "4"]}]]}], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V1\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[92]:=",ExpressionUUID->"ecd99733-b5d4-42c2-9bba-eb2d9b41fed5"],
+
+Cell[BoxData["\<\"\\\\chi\\n2^{-h_1-h_2-h_3-h_4+1}\\n\\\\omega_0^{h_1+h_2+h_3+\
+h_4-4}\\ne^{\\\\frac{i \\\\upsilon  \\\\omega_0}{\\\\sqrt{\\\\chi -1} \\\\chi \
+}}\\n(\\\\chi -1)^{\\n    \\\\frac{1}{2}\\n    (h_1-h_2-h_3+h_4-1)\\n}\"\>"], \
+"Output",
+ CellLabel->"Out[92]=",ExpressionUUID->"7cc7d83a-b2f3-4a52-881f-3e940f31cfa8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   SuperscriptBox["a", 
+    RowBox[{"1", "-", 
+     RowBox[{"\[CapitalDelta]", "[", "1", "]"}]}]], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V2\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[93]:=",ExpressionUUID->"2ce512b6-b6d2-4610-969e-dec84ed903c7"],
+
+Cell[BoxData["\<\"a^{1-\\\\Delta (1)}\"\>"], "Output",
+ CellLabel->"Out[93]=",ExpressionUUID->"669a5b8b-e31f-431b-84c1-3130bc24aad2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   RowBox[{
+    SubsuperscriptBox["y", "1", 
+     RowBox[{
+      RowBox[{"-", "1"}], "-", "d", "+", 
+      SubscriptBox["\[CapitalDelta]", "1"]}]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"Abs", "[", 
+         SubscriptBox["x", "2"], "]"}], "2"], "+", 
+       SubsuperscriptBox["y", "1", "2"]}], ")"}], 
+     RowBox[{"1", "-", 
+      SubscriptBox["\[CapitalDelta]", "1"]}]]}], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V2\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[94]:=",ExpressionUUID->"9c1cba10-dcb4-4064-8354-f8e8906173b1"],
+
+Cell[BoxData["\<\"y_1^{-d+\\\\Delta_1-1}\\n(\\n    | x_2|^2\\n    \
++y_1^2\\n)^{1-\\\\Delta_1}\"\>"], "Output",
+ CellLabel->"Out[94]=",ExpressionUUID->"12f394ec-c334-4f46-8c71-5a741a71786c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", "h"}]], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     FractionBox[
+      RowBox[{"\[Upsilon]", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"2", " ", 
+          SqrtBox["\[Alpha]"], " ", 
+          SubscriptBox["\[Xi]", "0"]}], "+", 
+         RowBox[{"\[Chi]", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", 
+             SubscriptBox["\[Xi]", "12"]}], "+", 
+            SubscriptBox["\[Xi]", "34"]}], ")"}]}]}], ")"}]}], 
+      RowBox[{"2", " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", "\[Chi]"}], ")"}], " ", "\[Chi]"}]]]}], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V2\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[95]:=",ExpressionUUID->"cdd7ae44-82fd-4626-92e6-b964753af3a0"],
+
+Cell[BoxData["\<\"2^{h-1}\\ne^{\\\\frac{\\n        \\\\frac{1}{2} \\\\upsilon\
+\\n        (\\n            2 \\\\sqrt{\\\\alpha } \\\\xi_0\\n            \
++\\\\chi\\n            (\\\\xi_{34}-\\\\xi_{12})\\n        )\\n}{(1-\\\\chi) \
+\\\\chi}}\"\>"], "Output",
+ CellLabel->"Out[95]=",ExpressionUUID->"0a6682b7-a3c2-4ee6-902e-856713abd23e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   SqrtBox[
+    RowBox[{"1", "+", 
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["\[Chi]", "2"], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          SubscriptBox["\[Xi]", "12"], "+", 
+          SubscriptBox["\[Xi]", "34"]}], ")"}], "2"]}], 
+      RowBox[{"4", " ", 
+       SubsuperscriptBox["\[Xi]", "0", "2"]}]], "-", 
+     RowBox[{"\[Chi]", " ", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", 
+        FractionBox[
+         RowBox[{
+          SubscriptBox["\[Xi]", "12"], " ", 
+          SubscriptBox["\[Xi]", "34"]}], 
+         SubsuperscriptBox["\[Xi]", "0", "2"]]}], ")"}]}]}]], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V2\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[96]:=",ExpressionUUID->"601a0e85-243c-4eb3-a89b-d60172eea7ee"],
+
+Cell[BoxData["\<\"(\\n    1\\n    +\\\\frac{\\n        \\\\frac{1}{4} \
+\\\\chi^2 \\\\xi_0^2\\n        (\\\\xi_{12}+\\\\xi_{34})^2\\n    \
+}{\\\\xi_0}\\n    -\\\\chi\\n    (\\n        1\\n        \
++\\\\frac{\\\\xi_{12} \\\\xi_{34}}{\\\\xi_0^2}\\n    )\\n)^{\\\\frac{1}{2}}\"\
+\>"], "Output",
+ CellLabel->"Out[96]=",ExpressionUUID->"3d2b7a34-f60c-4292-a79f-d087c7cf3271"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MFString", "[", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{"1", "-", 
+      SubscriptBox["h", "1"], "-", 
+      SubscriptBox["h", "2"], "-", 
+      SubscriptBox["h", "3"], "-", 
+      SubscriptBox["h", "4"]}]], " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "\[Upsilon]", " ", 
+       SubscriptBox["\[Omega]", "0"]}], 
+      RowBox[{
+       SqrtBox[
+        RowBox[{
+         RowBox[{"-", "1"}], "+", "\[Chi]"}]], " ", "\[Chi]"}]]], " ", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", "\[Chi]"}], ")"}], 
+     RowBox[{
+      FractionBox["1", "2"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SubscriptBox["h", "1"], "-", 
+        SubscriptBox["h", "2"], "-", 
+        SubscriptBox["h", "3"], "+", 
+        SubscriptBox["h", "4"]}], ")"}]}]], " ", "\[Chi]", " ", 
+    SubsuperscriptBox["\[Omega]", "0", 
+     RowBox[{
+      RowBox[{"-", "4"}], "+", 
+      SubscriptBox["h", "1"], "+", 
+      SubscriptBox["h", "2"], "+", 
+      SubscriptBox["h", "3"], "+", 
+      SubscriptBox["h", "4"]}]]}], ",", 
+   RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<V2\>\""}]}], "]"}]], "Code",
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellLabel->"In[97]:=",ExpressionUUID->"f6562580-151c-4fbc-9617-7eacab1ca4b7"],
+
+Cell[BoxData["\<\"2^{-h_1-h_2-h_3-h_4+1}\\ne^{\\\\frac{i \\\\upsilon  \
+\\\\omega_0}{\\\\sqrt{\\\\chi -1} \\\\chi }}\\n(\\\\chi -1)^{\\\\frac{1}{2} \
+(h_1-h_2-h_3+h_4-1)} \\\\chi\\n\\\\omega_0^{h_1+h_2+h_3+h_4-4}\"\>"], "Output",\
+
+ CellLabel->"Out[97]=",ExpressionUUID->"a0031126-4c68-4a31-acac-41736fcb8af0"]
+}, Open  ]]
+}, Open  ]]
+},
+Editable->True,
+WindowSize->{1280, 1382},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{$RootDirectory, "Users", "Reiko", 
+   "Library", "Wolfram", "SystemFiles", "FrontEnd", "StyleSheets"}, 
+  "Yurie.nb", CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"61fa34a5-7d45-4325-a0a0-ed5462759a0b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 137, 2, 65, "Code",ExpressionUUID->"2bb711a3-e00d-4c1c-9dfa-f28675b0dd25"],
+Cell[694, 24, 243, 6, 65, "Code",ExpressionUUID->"4149f00d-7da8-483d-8aeb-dbd73ae5fac1"],
+Cell[940, 32, 3415, 100, 305, "Code",ExpressionUUID->"d6d23057-aa6b-4992-af65-6ffe629d6041"],
+Cell[4358, 134, 318, 6, 160, "Code",ExpressionUUID->"59728734-6a29-43a5-af9d-a60c118ab535"],
+Cell[CellGroupData[{
+Cell[4701, 144, 140, 3, 66, "Subsection",ExpressionUUID->"28f40a23-144c-455b-b45d-370ee83515e0"],
+Cell[CellGroupData[{
+Cell[4866, 151, 357, 9, 68, "Code",ExpressionUUID->"1f27b1bb-b32a-42aa-b8c6-488819620525"],
+Cell[5226, 162, 133, 1, 41, "Output",ExpressionUUID->"919a2396-d1c0-47d0-9b22-e1a661b34015"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5396, 168, 694, 20, 72, "Code",ExpressionUUID->"a36e5502-6717-4e10-9f57-3d8ed7c1364f"],
+Cell[6093, 190, 195, 2, 143, "Output",ExpressionUUID->"48b1552f-8838-4e90-943e-0c7c9d086bba"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6325, 197, 923, 27, 86, "Code",ExpressionUUID->"8efb9e64-2a67-4844-875b-1560b3c17e1e"],
+Cell[7251, 226, 340, 4, 271, "Output",ExpressionUUID->"42c4cafb-1891-426d-86b1-769cd7cc2e8b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7628, 235, 877, 26, 99, "Code",ExpressionUUID->"3763c3cc-f2ea-42c5-af39-3bd38adb7620"],
+Cell[8508, 263, 341, 4, 322, "Output",ExpressionUUID->"30031d08-1680-4f02-b1a3-04a5bdac99ae"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8886, 272, 1373, 41, 85, "Code",ExpressionUUID->"ecd99733-b5d4-42c2-9bba-eb2d9b41fed5"],
+Cell[10262, 315, 328, 4, 220, "Output",ExpressionUUID->"7cc7d83a-b2f3-4a52-881f-3e940f31cfa8"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10627, 324, 357, 9, 68, "Code",ExpressionUUID->"2ce512b6-b6d2-4610-969e-dec84ed903c7"],
+Cell[10987, 335, 133, 1, 41, "Output",ExpressionUUID->"669a5b8b-e31f-431b-84c1-3130bc24aad2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11157, 341, 694, 20, 72, "Code",ExpressionUUID->"9c1cba10-dcb4-4064-8354-f8e8906173b1"],
+Cell[11854, 363, 190, 2, 143, "Output",ExpressionUUID->"12f394ec-c334-4f46-8c71-5a741a71786c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12081, 370, 923, 27, 86, "Code",ExpressionUUID->"cdd7ae44-82fd-4626-92e6-b964753af3a0"],
+Cell[13007, 399, 338, 4, 245, "Output",ExpressionUUID->"0a6682b7-a3c2-4ee6-902e-856713abd23e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13382, 408, 877, 26, 99, "Code",ExpressionUUID->"601a0e85-243c-4eb3-a89b-d60172eea7ee"],
+Cell[14262, 436, 371, 5, 322, "Output",ExpressionUUID->"3d2b7a34-f60c-4292-a79f-d087c7cf3271"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14670, 446, 1373, 41, 85, "Code",ExpressionUUID->"f6562580-151c-4fbc-9617-7eacab1ca4b7"],
+Cell[16046, 489, 310, 4, 118, "Output",ExpressionUUID->"a0031126-4c68-4a31-acac-41736fcb8af0"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

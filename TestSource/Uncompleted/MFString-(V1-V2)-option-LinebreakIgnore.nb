@@ -1,0 +1,95 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      2797,         87]
+NotebookOptionsPosition[      2006,         67]
+NotebookOutlinePosition[      2568,         86]
+CellTagsIndexPosition[      2525,         83]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"<<", "Yurie`MathForm`"}]], "Code",
+ CellLabel->
+  "In[216]:=",ExpressionUUID->"2bb711a3-e00d-4c1c-9dfa-f28675b0dd25"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetOptions", "[", 
+   RowBox[{"MFString", ",", 
+    RowBox[{"\"\<LinebreakThreshold\>\"", "->", "2"}], ",", 
+    RowBox[{"\"\<LinebreakIgnore\>\"", "->", 
+     RowBox[{"{", 
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Plus", "[", "___", "]"}], "]"}], "}"}]}]}], "]"}], 
+  ";"}]], "Code",
+ CellLabel->
+  "In[217]:=",ExpressionUUID->"4af6113c-c099-444d-931b-e74df80e838e"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"expr", "=", 
+    RowBox[{"{", "\n", "    ", 
+     RowBox[{
+      RowBox[{"a", "[", 
+       RowBox[{"x", ",", "y"}], "]"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"b", "[", 
+         RowBox[{"x", ",", "y"}], "]"}], "+", 
+        RowBox[{"c", "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}], ")"}], " ", 
+      RowBox[{"d", "[", 
+       RowBox[{"x", ",", "y"}], "]"}]}], "\n", "}"}]}], ";"}], "*)"}]], "Code",\
+
+ CellLabel->
+  "In[218]:=",ExpressionUUID->"db21517e-036f-4cfe-a643-dd2ee2117006"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"<<", "Yurie`MathForm`TestUtility`"}], "\n", "\n", 
+   RowBox[{"expr", "//", "MFStringCompareVersion"}], "\n", "\n", 
+   RowBox[{"expr", "//", "MFStringGenerateTest"}]}], "*)"}]], "Code",
+ CellLabel->
+  "In[219]:=",ExpressionUUID->"17cd8d67-f11c-48ab-a670-973a5ade3fce"]
+},
+Editable->True,
+WindowSize->{1280, 1382},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{$RootDirectory, "Users", "Reiko", 
+   "Library", "Wolfram", "SystemFiles", "FrontEnd", "StyleSheets"}, 
+  "Yurie.nb", CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"61fa34a5-7d45-4325-a0a0-ed5462759a0b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 141, 3, 65, "Code",ExpressionUUID->"2bb711a3-e00d-4c1c-9dfa-f28675b0dd25"],
+Cell[698, 25, 412, 11, 65, "Code",ExpressionUUID->"4af6113c-c099-444d-931b-e74df80e838e"],
+Cell[1113, 38, 564, 18, 112, "Code",ExpressionUUID->"db21517e-036f-4cfe-a643-dd2ee2117006"],
+Cell[1680, 58, 322, 7, 160, "Code",ExpressionUUID->"17cd8d67-f11c-48ab-a670-973a5ade3fce"]
+}
+]
+*)
+

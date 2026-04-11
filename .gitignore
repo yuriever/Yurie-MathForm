@@ -1,10 +1,6 @@
-# macOS system files
 .DS_Store
 
-# VSCode settings
 .vscode/
 .VSCodeCounter/
 
-# Developer workspace
 Workbench/
-TestSource/

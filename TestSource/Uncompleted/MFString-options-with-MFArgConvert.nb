@@ -1,0 +1,416 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     13975,        408]
+NotebookOptionsPosition[     10696,        342]
+NotebookOutlinePosition[     11306,        363]
+CellTagsIndexPosition[     11263,        360]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"<<", "Yurie`MathForm`"}]], "Code",
+ CellLabel->
+  "In[260]:=",ExpressionUUID->"2bb711a3-e00d-4c1c-9dfa-f28675b0dd25"],
+
+Cell[BoxData[
+ RowBox[{"MFClear", "[", "]"}]], "Code",
+ CellLabel->
+  "In[261]:=",ExpressionUUID->"d4c721ec-48b7-45dd-b33e-bc81b666daa1"],
+
+Cell[BoxData[
+ RowBox[{"Off", "[", 
+  RowBox[{"MFArgConvert", "::", "FormatCleared"}], "]"}]], "Code",
+ CellLabel->
+  "In[262]:=",ExpressionUUID->"be3d4616-665e-4a32-9bb8-d0e14009cca7"],
+
+Cell["\<\
+The options \
+\[OpenCurlyDoubleQuote]RemoveLeftRightPair\[CloseCurlyDoubleQuote] and \
+\[OpenCurlyDoubleQuote]Linebreak\[CloseCurlyDoubleQuote] should not influence \
+the left-right pairs from MFArgConvert.\
+\>", "Text",ExpressionUUID->"0a3a5094-3fe9-485e-bf0f-32c4f87d2cde"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"testOption", "[", "expr_", "]"}], ":=", "\n", "\t", 
+  RowBox[{"Outer", "[", "\n", "\t\t", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"MFString", "[", 
+      RowBox[{"expr", ",", 
+       RowBox[{"\"\<Linebreak\>\"", "->", "#1"}], ",", 
+       RowBox[{"\"\<RemoveLeftRightPair\>\"", "->", "#2"}]}], "]"}], "&"}], ",",
+     "\n", "\t\t", 
+    RowBox[{"{", 
+     RowBox[{"True", ",", "False"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"True", ",", "False"}], "}"}]}], "\n", "\t", "]"}]}]], "Code",
+ CellLabel->
+  "In[263]:=",ExpressionUUID->"cec89659-49b6-490b-90b0-9f4ff1e74a70"],
+
+Cell[CellGroupData[{
+
+Cell["MFArgConvert without left-right pair", "Subsection",ExpressionUUID->"ac263746-9b82-411a-852e-19a25194f6e3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<{\>\"", ",", "\"\<}\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "_", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{"1", "/", "z"}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[264]:=",ExpressionUUID->"cae534de-c4b3-47e7-80f2-101fff7d3ca8"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{z}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{z}}\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{z}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{z}}\"\>"}], "}"}]}], "}"}]], "Output",
+ CellLabel->
+  "Out[265]=",ExpressionUUID->"d193d934-90d6-47c5-8429-eb6809fdbfeb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<{\>\"", ",", "\"\<}\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "___", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{
+    RowBox[{"1", "/", "x"}], ",", 
+    RowBox[{"1", "/", "y"}]}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[266]:=",ExpressionUUID->"8b04b2e0-b361-4cdc-ad5c-a3aab280809f"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{x}}{\\\\frac{1}{y}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{x}}{\\\\frac{1}{y}}\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{x}}{\\\\frac{1}{y}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{x}}{\\\\frac{1}{y}}\"\>"}], "}"}]}], 
+  "}"}]], "Output",
+ CellLabel->
+  "Out[267]=",ExpressionUUID->"331407df-40bd-4b34-ae82-dc954e94bffe"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<{\>\"", ",", "\"\<}\>\"", ",", "\"\<,\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "_List", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"1", "/", "x"}], ",", 
+     RowBox[{"1", "/", "y"}]}], "}"}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[268]:=",ExpressionUUID->"12395704-ca9b-4d97-8e1d-b8383b24e5cd"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}\"\>"}], "}"}]}], 
+  "}"}]], "Output",
+ CellLabel->
+  "Out[269]=",ExpressionUUID->"41258488-f1f9-43ea-9af3-9075bb05097f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<{\>\"", ",", "\"\<}\>\"", ",", "\"\<,\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "___List", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"1", "/", "x"}], ",", 
+      RowBox[{"1", "/", "y"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"1", "/", "z"}], "}"}]}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[270]:=",ExpressionUUID->"316fcb71-7638-42b0-87b2-8b7fc723bd28"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}{\\\\frac{1}{z}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}{\\\\frac{1}{z}}\"\>"}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}{\\\\frac{1}{z}}\"\>", 
+     ",", "\<\"\\\\Fpq{\\\\frac{1}{x},\\\\frac{1}{y}}{\\\\frac{1}{z}}\"\>"}], 
+    "}"}]}], "}"}]], "Output",
+ CellLabel->
+  "Out[271]=",ExpressionUUID->"18639c73-13e7-4fba-97a5-47f721e0d68d"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["MFArgConvert with left-right pair", "Subsection",ExpressionUUID->"bab145d8-ded6-4bc3-b655-2a2922859692"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<\\\\left{\>\"", ",", "\"\<\\\\right}\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "_", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{"1", "/", "z"}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[272]:=",ExpressionUUID->"125c01e8-5092-48f8-ba82-bcddb04289e5"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{z}\\\\right}\"\>", 
+     ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{z}\\\\right}\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{z}\\\\right}\"\>", 
+     ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{z}\\\\right}\"\>"}], "}"}]}], 
+  "}"}]], "Output",
+ CellLabel->
+  "Out[273]=",ExpressionUUID->"4b5dc4d9-3203-44ed-b146-2bb994ffc6be"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<\\\\left{\>\"", ",", "\"\<\\\\right}\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "___", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{
+    RowBox[{"1", "/", "x"}], ",", 
+    RowBox[{"1", "/", "y"}]}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[274]:=",ExpressionUUID->"131741da-6c07-4905-8533-9ed0b54aaf6f"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{x}\\\\right}\\\\left{\\\\frac{1}{\
+y}\\\\right}\"\>", 
+     ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{x}\\\\right}\\\\left{\\\\frac{1}{y}\
+\\\\right}\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{x}\\\\right}\\\\left{\\\\frac{1}{\
+y}\\\\right}\"\>", 
+     ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{x}\\\\right}\\\\left{\\\\frac{1}{y}\
+\\\\right}\"\>"}], "}"}]}], "}"}]], "Output",
+ CellLabel->
+  "Out[275]=",ExpressionUUID->"6fb6f7c6-a386-4707-ba36-ccf469f38d10"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<\\\\left{\>\"", ",", "\"\<\\\\right}\>\"", 
+     ",", "\"\<,\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "_List", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"1", "/", "x"}], ",", 
+     RowBox[{"1", "/", "y"}]}], "}"}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[276]:=",ExpressionUUID->"124ce34b-31bf-4672-a85a-996497d20660"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\"\>",
+      ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\"\>"}]\
+, "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\"\>",
+      ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\"\>"}]\
+, "}"}]}], "}"}]], "Output",
+ CellLabel->
+  "Out[277]=",ExpressionUUID->"2fe67540-e414-4d84-bf77-a5c372c6b265"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MFArgConvert", "[", 
+    RowBox[{"\"\<\\\\left{\>\"", ",", "\"\<\\\\right}\>\"", 
+     ",", "\"\<,\>\""}], "]"}], "[", 
+   RowBox[{"Fpq", "[", "___List", "]"}], "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Fpq", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"1", "/", "x"}], ",", 
+      RowBox[{"1", "/", "y"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"1", "/", "z"}], "}"}]}], "]"}], "//", "testOption"}]}], "Code",
+ CellLabel->
+  "In[278]:=",ExpressionUUID->"df01a7fd-55cd-4055-ade6-d75ca37d32c3"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\\\\\
+left{\\\\frac{1}{z}\\\\right}\"\>", 
+     ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\\\\\
+left{\\\\frac{1}{z}\\\\right}\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\\\\\
+left{\\\\frac{1}{z}\\\\right}\"\>", 
+     ",", "\<\"\\\\Fpq\\\\left{\\\\frac{1}{x},\\\\frac{1}{y}\\\\right}\\\\\
+left{\\\\frac{1}{z}\\\\right}\"\>"}], "}"}]}], "}"}]], "Output",
+ CellLabel->
+  "Out[279]=",ExpressionUUID->"607af09a-5490-4f14-9538-6c0320c9d6a8"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Cleanup", "Subsection",ExpressionUUID->"73e5d1ef-c3c1-440b-a679-e7d133c56c8e"],
+
+Cell[BoxData[
+ RowBox[{"MFClear", "[", "]"}]], "Code",
+ CellLabel->
+  "In[280]:=",ExpressionUUID->"53d4b28d-b8e7-4317-ae0a-10c741395815"],
+
+Cell[BoxData[
+ RowBox[{"On", "[", 
+  RowBox[{"MFArgConvert", "::", "FormatCleared"}], "]"}]], "Code",
+ CellLabel->
+  "In[281]:=",ExpressionUUID->"b6775223-f3eb-4aab-ae20-d8b0b1b5293d"]
+}, Open  ]]
+},
+Editable->True,
+WindowSize->{1280, 1387},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->Notebook[{
+   Cell[
+    StyleData[StyleDefinitions -> "Yurie.nb"]]}, Visible -> False, 
+  FrontEndVersion -> "14.3 for Mac OS X ARM (64-bit) (July 8, 2025)", 
+  StyleDefinitions -> "PrivateStylesheetFormatting.nb"],
+ExpressionUUID->"61fa34a5-7d45-4325-a0a0-ed5462759a0b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 141, 3, 65, "Code",ExpressionUUID->"2bb711a3-e00d-4c1c-9dfa-f28675b0dd25"],
+Cell[698, 25, 137, 3, 65, "Code",ExpressionUUID->"d4c721ec-48b7-45dd-b33e-bc81b666daa1"],
+Cell[838, 30, 185, 4, 65, "Code",ExpressionUUID->"be3d4616-665e-4a32-9bb8-d0e14009cca7"],
+Cell[1026, 36, 285, 5, 60, "Text",ExpressionUUID->"0a3a5094-3fe9-485e-bf0f-32c4f87d2cde"],
+Cell[1314, 43, 612, 16, 160, "Code",ExpressionUUID->"cec89659-49b6-490b-90b0-9f4ff1e74a70"],
+Cell[CellGroupData[{
+Cell[1951, 63, 113, 0, 66, "Subsection",ExpressionUUID->"ac263746-9b82-411a-852e-19a25194f6e3"],
+Cell[CellGroupData[{
+Cell[2089, 67, 366, 10, 112, "Code",ExpressionUUID->"cae534de-c4b3-47e7-80f2-101fff7d3ca8"],
+Cell[2458, 79, 386, 10, 41, "Output",ExpressionUUID->"d193d934-90d6-47c5-8429-eb6809fdbfeb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2881, 94, 418, 12, 112, "Code",ExpressionUUID->"8b04b2e0-b361-4cdc-ad5c-a3aab280809f"],
+Cell[3302, 108, 453, 11, 67, "Output",ExpressionUUID->"331407df-40bd-4b34-ae82-dc954e94bffe"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3792, 124, 465, 13, 112, "Code",ExpressionUUID->"12395704-ca9b-4d97-8e1d-b8383b24e5cd"],
+Cell[4260, 139, 449, 11, 67, "Output",ExpressionUUID->"41258488-f1f9-43ea-9af3-9075bb05097f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4746, 155, 546, 16, 112, "Code",ExpressionUUID->"316fcb71-7638-42b0-87b2-8b7fc723bd28"],
+Cell[5295, 173, 520, 12, 67, "Output",ExpressionUUID->"18639c73-13e7-4fba-97a5-47f721e0d68d"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5864, 191, 110, 0, 66, "Subsection",ExpressionUUID->"bab145d8-ded6-4bc3-b655-2a2922859692"],
+Cell[CellGroupData[{
+Cell[5999, 195, 383, 10, 112, "Code",ExpressionUUID->"125c01e8-5092-48f8-ba82-bcddb04289e5"],
+Cell[6385, 207, 457, 11, 67, "Output",ExpressionUUID->"4b5dc4d9-3203-44ed-b146-2bb994ffc6be"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6879, 223, 435, 12, 112, "Code",ExpressionUUID->"131741da-6c07-4905-8533-9ed0b54aaf6f"],
+Cell[7317, 237, 594, 14, 67, "Output",ExpressionUUID->"6fb6f7c6-a386-4707-ba36-ccf469f38d10"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7948, 256, 488, 14, 112, "Code",ExpressionUUID->"124ce34b-31bf-4672-a85a-996497d20660"],
+Cell[8439, 272, 518, 12, 67, "Output",ExpressionUUID->"2fe67540-e414-4d84-bf77-a5c372c6b265"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8994, 289, 569, 17, 112, "Code",ExpressionUUID->"df01a7fd-55cd-4055-ade6-d75ca37d32c3"],
+Cell[9566, 308, 654, 14, 118, "Output",ExpressionUUID->"607af09a-5490-4f14-9538-6c0320c9d6a8"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10269, 328, 84, 0, 66, "Subsection",ExpressionUUID->"73e5d1ef-c3c1-440b-a679-e7d133c56c8e"],
+Cell[10356, 330, 137, 3, 65, "Code",ExpressionUUID->"53d4b28d-b8e7-4317-ae0a-10c741395815"],
+Cell[10496, 335, 184, 4, 65, "Code",ExpressionUUID->"b6775223-f3eb-4aab-ae20-d8b0b1b5293d"]
+}, Open  ]]
+}
+]
+*)
+
