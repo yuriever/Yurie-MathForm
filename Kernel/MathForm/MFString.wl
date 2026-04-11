@@ -102,19 +102,6 @@ MFString[expr_,opts:OptionsPattern[]] :=
         MFFormatKernel//Catch;
 
 
-MFStringKernel[string_String,OptionsPattern[]] :=
-    string;
-
-MFStringKernel[list_List,opts:OptionsPattern[]] :=
-    Switch[OptionValue["Method"],
-        "V1"|Automatic,
-            MFStringKernelV1[list,opts],
-        "V2",
-            MFStringKernelV2[list,opts],
-        _,
-            MFStringException["UnknownMethod",OptionValue["Method"],list]
-    ];
-
 MFStringKernel[expr_,opts:OptionsPattern[]] :=
     Switch[OptionValue["Method"],
         "V1"|Automatic,
